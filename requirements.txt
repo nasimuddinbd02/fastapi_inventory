@@ -1,0 +1,9 @@
+fastapi==0.127.0
+uvicorn[standard]==0.40.0
+pydantic[email]==2.12.5
+sqlalchemy==2.0.45
+aiosqlite==0.20.0
+alembic==1.14.1
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+httpx==0.25.2
