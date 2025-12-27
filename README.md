@@ -1,6 +1,6 @@
-# Cosmetics Inventory API
+# Cosmetics Inventory API with Agentic AI
 
-A modern, asynchronous FastAPI application for managing cosmetics inventory with clean n-tier architecture and ViewModel pattern.
+A modern, asynchronous FastAPI application for managing cosmetics inventory with clean n-tier architecture, ViewModel pattern, API versioning, and **intelligent agentic AI capabilities** for autonomous inventory management.
 
 ## 🚀 Features
 
@@ -9,10 +9,14 @@ A modern, asynchronous FastAPI application for managing cosmetics inventory with
 - **ViewModel Pattern**: Business validation and user input/output separation
 - **Dependency Injection**: Clean service layer with injectable dependencies
 - **Database**: SQLite with SQLAlchemy async ORM and aiosqlite
-- **Authentication**: Password hashing with bcrypt and user authentication
+- **Authentication**: Password hashing with bcrypt and JWT authentication
+- **API Versioning**: Support for both unversioned and v1 endpoints for backward compatibility
 - **Interactive Documentation**: Auto-generated Swagger UI at `/docs`
 - **Logging**: Comprehensive logging configuration
 - **Auto-migration**: Database tables created automatically on startup
+- **🤖 Agentic AI**: Intelligent agents powered by LangGraph and OpenAI GPT for inventory optimization, demand forecasting, and pricing optimization
+- **Centralized Error Handling**: Custom exceptions with standardized error responses
+- **Decision History**: Track and audit AI agent decisions and actions
 
 ## 🛠️ Technologies Used
 
@@ -21,10 +25,11 @@ A modern, asynchronous FastAPI application for managing cosmetics inventory with
 - **Database**: SQLite with aiosqlite driver
 - **Validation**: Pydantic for data models and validation
 - **Authentication**: Passlib with bcrypt for password hashing
-- **JWT**: Python-Jose for JSON Web Tokens
+- **JWT**: PyJWT for JSON Web Tokens
 - **Server**: Uvicorn ASGI server
 - **HTTP Client**: HTTPX for async HTTP requests
 - **Migration**: Alembic for database migrations
+- **AI Agents**: LangGraph framework with OpenAI GPT models for advanced agentic AI
 
 ## 📁 Project Structure
 
@@ -97,6 +102,55 @@ This application follows a clean n-tier architecture with the ViewModel pattern:
 - **Models**: SQLAlchemy ORM entities
 - **Schemas**: Internal DTOs for database operations
 
+## 🤖 Agentic AI System with LangGraph
+
+The application includes an intelligent agentic AI system built with **LangGraph** and **OpenAI GPT models** for autonomous inventory management. The system uses advanced AI workflows to analyze data, make decisions, and generate actionable recommendations.
+
+### AI Framework
+
+- **LangGraph**: Advanced graph-based workflow orchestration for complex AI decision-making
+- **OpenAI GPT**: Latest GPT models for intelligent analysis and reasoning
+- **Structured Outputs**: JSON-based responses for consistent, parseable results
+- **Multi-step Reasoning**: Sophisticated analysis workflows with context awareness
+
+### AI Agents Available
+
+- **Inventory Optimization Agent**: Uses AI to monitor stock levels, predict stockouts, calculate optimal reorder points, and suggest inventory adjustments
+- **Demand Forecasting Agent**: Leverages AI to analyze sales patterns, forecast future demand, identify seasonal trends, and detect demand anomalies
+- **Pricing Optimization Agent**: Applies AI to analyze pricing strategies, monitor competitors, optimize profit margins, and implement dynamic pricing
+
+### Agent Features
+
+- **Advanced AI Analysis**: GPT-powered context analysis and pattern recognition
+- **Intelligent Decision Making**: Multi-step reasoning workflows for complex decisions
+- **Actionable Recommendations**: AI-generated specific actions with parameters and priorities
+- **Confidence Scoring**: AI-assessed reliability scores for decisions
+- **Context-Aware Processing**: Comprehensive analysis of inventory, sales, and market data
+- **Structured Workflows**: LangGraph orchestrates complex analysis pipelines
+
+### Environment Configuration
+
+Create a `.env` file in the project root:
+
+```env
+# OpenAI API Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Optional: OpenAI Model Configuration
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_TEMPERATURE=0.1
+```
+
+### Agent API Endpoints
+
+- `GET /agents/capabilities` - List all available agents and their capabilities
+- `GET /agents/status` - Get current system status and agent counts
+- `POST /agents/context` - Gather context data for agent analysis
+- `POST /agents/analyze/{agent_type}` - Run analysis with a specific agent
+- `POST /agents/analyze/all` - Run analysis with all agents simultaneously
+- `POST /agents/execute-action` - Execute recommended agent actions
+- `GET /agents/history` - Retrieve decision history and audit trail
+
 ## 📦 Installation
 
 ### Prerequisites
@@ -148,46 +202,115 @@ This application follows a clean n-tier architecture with the ViewModel pattern:
    - Interactive Docs: `http://127.0.0.1:8000/docs`
    - Alternative Docs: `http://127.0.0.1:8000/redoc`
 
+## 🧪 Testing the Agentic AI System
+
+The application includes comprehensive testing scripts for the agentic AI functionality:
+
+### Quick Demo
+Run the comprehensive demo to test all agent features:
+```bash
+python full_demo.py
+```
+
+This will:
+- Start the server automatically
+- Test all agent endpoints
+- Demonstrate inventory optimization and demand forecasting
+- Show agent capabilities and system status
+
+### Individual Agent Testing
+Test specific agents with custom data:
+```bash
+python demo_agents.py
+```
+
+### Manual Testing
+Use the interactive API documentation at `http://127.0.0.1:8000/docs` to manually test agent endpoints.
+
+### Example Agent Requests
+
+**Get Agent Capabilities:**
+```bash
+GET /agents/capabilities
+```
+
+**Run Inventory Optimization:**
+```bash
+POST /agents/analyze/inventory_optimization
+Content-Type: application/json
+
+{
+  "context": {
+    "products": [
+      {
+        "id": 1,
+        "product_title": "Red Lipstick",
+        "stock_quantity": 15,
+        "reorder_point": 20,
+        "price": 15.99
+      }
+    ],
+    "sales_history": [
+      {"product_id": 1, "quantity": 8, "date": "2025-12-20"}
+    ]
+  }
+}
+```
+
 ## 📡 API Endpoints
 
+The API provides both unversioned (current stable) and versioned (v1) endpoints for all resources.
+
 ### Categories
-- `POST /categories` - Create a category
-- `GET /categories` - List categories (with pagination)
-- `GET /categories/{id}` - Get category by ID
-- `PUT /categories/{id}` - Update category
-- `DELETE /categories/{id}` - Delete category
+- `POST /categories` | `POST /v1/categories` - Create a category
+- `GET /categories` | `GET /v1/categories` - List categories (with pagination)
+- `GET /categories/{id}` | `GET /v1/categories/{id}` - Get category by ID
+- `PUT /categories/{id}` | `PUT /v1/categories/{id}` - Update category
+- `DELETE /categories/{id}` | `DELETE /v1/categories/{id}` - Delete category
 
 ### Suppliers
-- `POST /suppliers` - Create a supplier
-- `GET /suppliers` - List suppliers (with pagination)
-- `GET /suppliers/{id}` - Get supplier by ID
-- `PUT /suppliers/{id}` - Update supplier
-- `DELETE /suppliers/{id}` - Delete supplier
+- `POST /suppliers` | `POST /v1/suppliers` - Create a supplier
+- `GET /suppliers` | `GET /v1/suppliers` - List suppliers (with pagination)
+- `GET /suppliers/{id}` | `GET /v1/suppliers/{id}` - Get supplier by ID
+- `PUT /suppliers/{id}` | `PUT /v1/suppliers/{id}` - Update supplier
+- `DELETE /suppliers/{id}` | `DELETE /v1/suppliers/{id}` - Delete supplier
 
 ### Products
-- `POST /products` - Create a product
-- `GET /products` - List products (with pagination)
-- `GET /products/{id}` - Get product by ID
-- `PUT /products/{id}` - Update product
-- `DELETE /products/{id}` - Delete product
+- `POST /products` | `POST /v1/products` - Create a product
+- `GET /products` | `GET /v1/products` - List products (with pagination)
+- `GET /products/{id}` | `GET /v1/products/{id}` - Get product by ID
+- `PUT /products/{id}` | `PUT /v1/products/{id}` - Update product
+- `DELETE /products/{id}` | `DELETE /v1/products/{id}` - Delete product
 
 ### Inventory
-- `POST /inventory` - Create inventory entry
-- `GET /inventory` - List inventory entries (with pagination)
-- `GET /inventory/{id}` - Get inventory entry by ID
-- `PUT /inventory/{id}` - Update inventory entry
-- `DELETE /inventory/{id}` - Delete inventory entry
+- `POST /inventory` | `POST /v1/inventory` - Create inventory entry
+- `GET /inventory` | `GET /v1/inventory` - List inventory entries (with pagination)
+- `GET /inventory/{id}` | `GET /v1/inventory/{id}` - Get inventory entry by ID
+- `PUT /inventory/{id}` | `PUT /v1/inventory/{id}` - Update inventory entry
+- `DELETE /inventory/{id}` | `DELETE /v1/inventory/{id}` - Delete inventory entry
 
 ### Users
-- `POST /users` - Create a user
-- `GET /users` - List users (with pagination)
-- `GET /users/{id}` - Get user by ID
-- `PUT /users/{id}` - Update user
-- `DELETE /users/{id}` - Delete user
-- `POST /users/login` - Authenticate user
+- `POST /users/` | `POST /v1/users/` - Create a user (public)
+- `POST /users/login` | `POST /v1/users/login` - Authenticate user and get JWT token (public)
+- `GET /users/me` | `GET /v1/users/me` - Get current authenticated user info (protected)
+- `GET /users/` | `GET /v1/users/` - List users (protected, requires authentication)
+- `GET /users/{id}` | `GET /v1/users/{id}` - Get user by ID (public)
+- `PUT /users/{id}` | `PUT /v1/users/{id}` - Update user (protected)
+- `DELETE /users/{id}` | `DELETE /v1/users/{id}` - Delete user (protected)
+
+### 🤖 AI Agents
+- `GET /agents/capabilities` | `GET /v1/agents/capabilities` - List agent capabilities
+- `GET /agents/status` | `GET /v1/agents/status` - Get agent system status
+- `POST /agents/context` | `POST /v1/agents/context` - Gather context data
+- `POST /agents/analyze/inventory_optimization` | `POST /v1/agents/analyze/inventory_optimization` - Run inventory optimization
+- `POST /agents/analyze/demand_forecasting` | `POST /v1/agents/analyze/demand_forecasting` - Run demand forecasting
+- `POST /agents/analyze/pricing_optimization` | `POST /v1/agents/analyze/pricing_optimization` - Run pricing optimization
+- `POST /agents/analyze/all` | `POST /v1/agents/analyze/all` - Run all agents
+- `POST /agents/execute-action` | `POST /v1/agents/execute-action` - Execute agent action
+- `GET /agents/history` | `GET /v1/agents/history` - Get decision history
 
 ### Root
-- `GET /` - API information
+- `GET /` | `GET /v1/` - API information
 
 ## 📊 Database
 
@@ -196,35 +319,235 @@ This application follows a clean n-tier architecture with the ViewModel pattern:
 - **Driver**: aiosqlite for async operations
 - **Migration**: Tables created automatically on startup using SQLAlchemy metadata
 
-## 🔧 Configuration
+## � Authentication
 
-### Environment Variables
-The application uses the following configuration:
-- Database URL: `sqlite+aiosqlite:///./inventory.db`
+The API uses JWT (JSON Web Token) authentication for secure access to protected endpoints.
 
-### Logging
-- Configured in `app/logging_config.py`
-- Logs to console and file (`app.log`)
-- Log levels: DEBUG, INFO, WARNING, ERROR
+### Authentication Flow
+
+1. **Register**: Create a new user account
+2. **Login**: Obtain a JWT access token
+3. **Access**: Include the token in the `Authorization` header for protected requests
+
+### Login
+
+```bash
+POST /users/login
+Content-Type: application/json
+
+{
+  "login_name": "your_username",
+  "password": "your_password"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer"
+}
+```
+
+### Using the Token
+
+Include the token in the `Authorization` header:
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Protected Endpoints
+
+The following endpoints require authentication:
+- `GET /users/me` - Get current user info
+- `GET /users/` - List all users
+- `PUT /users/{id}` - Update user
+- `DELETE /users/{id}` - Delete user
+
+### Token Expiration
+
+- Access tokens expire after 30 minutes
+- Use the login endpoint to get a new token when expired
+
+## 🔄 API Versioning
+
+The API supports versioning to ensure backward compatibility while allowing for future enhancements.
+
+### Available Versions
+
+- **Unversioned** (`/api/*`): Current stable endpoints (recommended for new integrations)
+- **v1** (`/v1/api/*`): Version 1 endpoints with guaranteed stability
+
+### Endpoint Examples
+
+| Resource | Unversioned | Versioned (v1) |
+|----------|-------------|----------------|
+| Categories | `/categories` | `/v1/categories` |
+| Suppliers | `/suppliers` | `/v1/suppliers` |
+| Products | `/products` | `/v1/products` |
+| Inventory | `/inventory` | `/v1/inventory` |
+| Users | `/users` | `/v1/users` |
+| Root | `/` | `/v1/` |
+
+### Backward Compatibility
+
+- Unversioned endpoints are the current stable API
+- Versioned endpoints (`/v1/*`) provide long-term stability guarantees
+- Both endpoint types share the same functionality and authentication requirements
+
+## 🛡️ Error Handling
+
+The API implements centralized error handling with consistent error responses across all endpoints.
+
+### Error Response Format
+
+All errors return a standardized JSON response:
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Human-readable error message",
+    "code": "ERROR_CODE",
+    "status_code": 400,
+    "details": {
+      "field": "field_name",
+      "additional_info": "value"
+    }
+  },
+  "timestamp": "2025-12-26T10:30:00.000Z",
+  "request_id": "uuid-string",
+  "path": "/api/endpoint"
+}
+```
+
+### Error Types
+
+| Error Code | Status Code | Description |
+|------------|-------------|-------------|
+| `VALIDATION_ERROR` | 400 | Input validation failed |
+| `NOT_FOUND` | 404 | Resource not found |
+| `CONFLICT` | 409 | Resource conflict (duplicate, etc.) |
+| `AUTHENTICATION_ERROR` | 401 | Invalid or missing credentials |
+| `AUTHORIZATION_ERROR` | 403 | Insufficient permissions |
+| `BUSINESS_LOGIC_ERROR` | 400 | Business rule violation |
+| `DATABASE_ERROR` | 500 | Database operation failed |
+| `EXTERNAL_SERVICE_ERROR` | 502 | External service error |
+| `INTERNAL_SERVER_ERROR` | 500 | Unexpected server error |
+
+### Examples
+
+**Validation Error:**
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Stock quantity cannot be negative",
+    "code": "VALIDATION_ERROR",
+    "status_code": 400,
+    "details": {
+      "field": "stock_quantity",
+      "provided_value": -5
+    }
+  },
+  "timestamp": "2025-12-26T10:30:00.000Z",
+  "request_id": "123e4567-e89b-12d3-a456-426614174000",
+  "path": "/inventory/"
+}
+```
+
+**Not Found Error:**
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Inventory not found with ID: 999",
+    "code": "NOT_FOUND",
+    "status_code": 404,
+    "details": {
+      "resource": "Inventory",
+      "resource_id": 999
+    }
+  },
+  "timestamp": "2025-12-26T10:30:00.000Z",
+  "request_id": "123e4567-e89b-12d3-a456-426614174000",
+  "path": "/inventory/999"
+}
+```
 
 ## 🧪 Testing
 
 ### Using Postman
-1. Import the provided Postman collection: `Cosmetics_Inventory_API.postman_collection.json`
+1. Import the provided Postman collection: `postman_scripts.json`
 2. Update the `base_url` variable to `http://127.0.0.1:8000`
-3. Test the endpoints
+3. The collection includes both unversioned and v1 endpoints for testing
+4. Use the login endpoint to get a JWT token, which is automatically stored in the `jwt_token` variable
+
+### Error Handling Testing
+Run the error handling test script to verify centralized error handling:
+
+```bash
+python test_error_handling.py
+```
+
+This script tests:
+- Not Found errors (404)
+- Validation errors (400)
+- Authentication errors (401)
+- Both unversioned and v1 endpoints
 
 ### Manual Testing
 Use the interactive Swagger UI at `/docs` or curl commands:
 
 ```bash
-# Get all categories
-curl http://127.0.0.1:8000/categories
+# Test error handling - Not Found
+curl -X GET http://127.0.0.1:8000/inventory/999
 
-# Create a category
-curl -X POST http://127.0.0.1:8000/categories \
+# Test error handling - Validation Error
+curl -X POST http://127.0.0.1:8000/inventory/ \
   -H "Content-Type: application/json" \
-  -d '{"category_name": "Makeup", "category_description": "Cosmetic products"}'
+  -d '{
+    "product_id": 1,
+    "stock_quantity": -5,
+    "location": "Test"
+  }'
+
+# Register a new user (unversioned)
+curl -X POST http://127.0.0.1:8000/users/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "login_name": "testuser",
+    "email_address": "test@example.com",
+    "display_name": "Test User",
+    "password": "password123",
+    "confirm_password": "password123",
+    "accept_terms": true
+  }'
+
+# Register a new user (v1)
+curl -X POST http://127.0.0.1:8000/v1/users/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "login_name": "testuser",
+    "email_address": "test@example.com",
+    "display_name": "Test User",
+    "password": "password123",
+    "confirm_password": "password123",
+    "accept_terms": true
+  }'
+
+# Login to get JWT token (unversioned)
+curl -X POST http://127.0.0.1:8000/users/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "login_name": "testuser",
+    "password": "password123"
+  }'
+
+# Use the token for authenticated requests (v1)
+curl -X GET http://127.0.0.1:8000/v1/users/me \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
 ```
 
 ## 📝 Development

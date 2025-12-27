@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Cosmetics Inventory API",
-    "description": "Postman collection for the Cosmetics Inventory API built with FastAPI",
+    "name": "Cosmetics Inventory API with JWT Auth and Versioning",
+    "description": "Postman collection for the Cosmetics Inventory API with JWT authentication and API versioning",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -9,14 +9,19 @@
       "key": "base_url",
       "value": "http://127.0.0.1:8000",
       "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
     }
   ],
   "item": [
     {
-      "name": "Root",
+      "name": "Root Endpoints",
       "item": [
         {
-          "name": "Get Root",
+          "name": "Get Root (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -26,14 +31,337 @@
               "path": [""]
             }
           }
+        },
+        {
+          "name": "Get Root (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/",
+              "host": ["{{base_url}}"],
+              "path": ["v1", ""]
+            }
+          }
         }
       ]
     },
     {
-      "name": "Categories",
+      "name": "Users API",
       "item": [
         {
-          "name": "Create Category",
+          "name": "Create User (Unversioned)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login_name\": \"admin\",\n  \"email_address\": \"admin@example.com\",\n  \"display_name\": \"Administrator\",\n  \"password\": \"password123\",\n  \"confirm_password\": \"password123\",\n  \"accept_terms\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/",
+              "host": ["{{base_url}}"],
+              "path": ["users", ""]
+            }
+          }
+        },
+        {
+          "name": "Create User (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login_name\": \"admin\",\n  \"email_address\": \"admin@example.com\",\n  \"display_name\": \"Administrator\",\n  \"password\": \"password123\",\n  \"confirm_password\": \"password123\",\n  \"accept_terms\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users/",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", ""]
+            }
+          }
+        },
+        {
+          "name": "Login User (Unversioned)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login_name\": \"admin\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/login",
+              "host": ["{{base_url}}"],
+              "path": ["users", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login User (v1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login_name\": \"admin\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users/login",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User (Unversioned)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User (v1)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users (Unversioned)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/?skip=0&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["users", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Users (v1)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/?skip=0&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID (Unversioned)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User (Unversioned)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_address\": \"admin@example.com\",\n  \"display_name\": \"Updated Administrator\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User (v1)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_address\": \"admin@example.com\",\n  \"display_name\": \"Updated Administrator\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete User (Unversioned)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete User (v1)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories API",
+      "item": [
+        {
+          "name": "Create Category (Unversioned)",
           "request": {
             "method": "POST",
             "header": [
@@ -54,7 +382,28 @@
           }
         },
         {
-          "name": "Get All Categories",
+          "name": "Create Category (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_name\": \"Lipsticks\",\n  \"category_description\": \"Various lipstick products\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "categories", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Categories (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -76,7 +425,29 @@
           }
         },
         {
-          "name": "Get Category by ID",
+          "name": "Get All Categories (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/categories/?skip=0&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "categories", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -88,7 +459,19 @@
           }
         },
         {
-          "name": "Update Category",
+          "name": "Get Category by ID (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/categories/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Category (Unversioned)",
           "request": {
             "method": "PUT",
             "header": [
@@ -109,7 +492,28 @@
           }
         },
         {
-          "name": "Delete Category",
+          "name": "Update Category (v1)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_name\": \"Updated Lipsticks\",\n  \"category_description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/categories/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category (Unversioned)",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -119,14 +523,26 @@
               "path": ["categories", "1"]
             }
           }
+        },
+        {
+          "name": "Delete Category (v1)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/categories/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "categories", "1"]
+            }
+          }
         }
       ]
     },
     {
-      "name": "Suppliers",
+      "name": "Suppliers API",
       "item": [
         {
-          "name": "Create Supplier",
+          "name": "Create Supplier (Unversioned)",
           "request": {
             "method": "POST",
             "header": [
@@ -147,7 +563,28 @@
           }
         },
         {
-          "name": "Get All Suppliers",
+          "name": "Create Supplier (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier_name\": \"Cosmetics Inc.\",\n  \"contact_info\": \"contact@cosmetics.com\",\n  \"address\": \"123 Beauty St\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/suppliers/",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "suppliers", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Suppliers (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -169,7 +606,29 @@
           }
         },
         {
-          "name": "Get Supplier by ID",
+          "name": "Get All Suppliers (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/suppliers/?skip=0&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "suppliers", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Supplier by ID (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -181,7 +640,19 @@
           }
         },
         {
-          "name": "Update Supplier",
+          "name": "Get Supplier by ID (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/suppliers/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "suppliers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Supplier (Unversioned)",
           "request": {
             "method": "PUT",
             "header": [
@@ -202,7 +673,28 @@
           }
         },
         {
-          "name": "Delete Supplier",
+          "name": "Update Supplier (v1)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier_name\": \"Updated Cosmetics Inc.\",\n  \"contact_info\": \"updated@cosmetics.com\",\n  \"address\": \"456 Beauty Ave\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/suppliers/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "suppliers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Supplier (Unversioned)",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -212,14 +704,26 @@
               "path": ["suppliers", "1"]
             }
           }
+        },
+        {
+          "name": "Delete Supplier (v1)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/suppliers/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "suppliers", "1"]
+            }
+          }
         }
       ]
     },
     {
-      "name": "Products",
+      "name": "Products API",
       "item": [
         {
-          "name": "Create Product",
+          "name": "Create Product (Unversioned)",
           "request": {
             "method": "POST",
             "header": [
@@ -240,7 +744,28 @@
           }
         },
         {
-          "name": "Get All Products",
+          "name": "Create Product (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_title\": \"Red Lipstick\",\n  \"product_description\": \"Matte red lipstick\",\n  \"category_id\": 1,\n  \"supplier_id\": 1,\n  \"price\": 15.99,\n  \"sku\": \"LIP-RED-001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/products/",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "products", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Products (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -262,7 +787,29 @@
           }
         },
         {
-          "name": "Get Product by ID",
+          "name": "Get All Products (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/products/?skip=0&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "products", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product by ID (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -274,7 +821,19 @@
           }
         },
         {
-          "name": "Update Product",
+          "name": "Get Product by ID (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/products/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "products", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Product (Unversioned)",
           "request": {
             "method": "PUT",
             "header": [
@@ -295,7 +854,28 @@
           }
         },
         {
-          "name": "Delete Product",
+          "name": "Update Product (v1)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_title\": \"Updated Red Lipstick\",\n  \"product_description\": \"Updated description\",\n  \"category_id\": 1,\n  \"supplier_id\": 1,\n  \"price\": 16.99,\n  \"sku\": \"LIP-RED-001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/products/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "products", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Product (Unversioned)",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -305,14 +885,26 @@
               "path": ["products", "1"]
             }
           }
+        },
+        {
+          "name": "Delete Product (v1)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/products/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "products", "1"]
+            }
+          }
         }
       ]
     },
     {
-      "name": "Inventory",
+      "name": "Inventory API",
       "item": [
         {
-          "name": "Create Inventory",
+          "name": "Create Inventory (Unversioned)",
           "request": {
             "method": "POST",
             "header": [
@@ -333,7 +925,28 @@
           }
         },
         {
-          "name": "Get All Inventory",
+          "name": "Create Inventory (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"quantity\": 100,\n  \"location\": \"Warehouse A\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/inventory/",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "inventory", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Inventory (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -355,7 +968,29 @@
           }
         },
         {
-          "name": "Get Inventory by ID",
+          "name": "Get All Inventory (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/inventory/?skip=0&limit=100",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "inventory", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Inventory by ID (Unversioned)",
           "request": {
             "method": "GET",
             "header": [],
@@ -367,7 +1002,19 @@
           }
         },
         {
-          "name": "Update Inventory",
+          "name": "Get Inventory by ID (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/inventory/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "inventory", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Inventory (Unversioned)",
           "request": {
             "method": "PUT",
             "header": [
@@ -388,100 +1035,7 @@
           }
         },
         {
-          "name": "Delete Inventory",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/inventory/1",
-              "host": ["{{base_url}}"],
-              "path": ["inventory", "1"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Users",
-      "item": [
-        {
-          "name": "Create User",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"admin\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"full_name\": \"Administrator\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/users/",
-              "host": ["{{base_url}}"],
-              "path": ["users", ""]
-            }
-          }
-        },
-        {
-          "name": "Login User",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password123\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/users/login",
-              "host": ["{{base_url}}"],
-              "path": ["users", "login"]
-            }
-          }
-        },
-        {
-          "name": "Get All Users",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/users/?skip=0&limit=100",
-              "host": ["{{base_url}}"],
-              "path": ["users", ""],
-              "query": [
-                {
-                  "key": "skip",
-                  "value": "0"
-                },
-                {
-                  "key": "limit",
-                  "value": "100"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get User by ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/users/1",
-              "host": ["{{base_url}}"],
-              "path": ["users", "1"]
-            }
-          }
-        },
-        {
-          "name": "Update User",
+          "name": "Update Inventory (v1)",
           "request": {
             "method": "PUT",
             "header": [
@@ -492,24 +1046,36 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"admin\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"newpassword123\",\n  \"full_name\": \"Administrator Updated\"\n}"
+              "raw": "{\n  \"product_id\": 1,\n  \"quantity\": 150,\n  \"location\": \"Warehouse B\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/users/1",
+              "raw": "{{base_url}}/v1/inventory/1",
               "host": ["{{base_url}}"],
-              "path": ["users", "1"]
+              "path": ["v1", "inventory", "1"]
             }
           }
         },
         {
-          "name": "Delete User",
+          "name": "Delete Inventory (Unversioned)",
           "request": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/users/1",
+              "raw": "{{base_url}}/inventory/1",
               "host": ["{{base_url}}"],
-              "path": ["users", "1"]
+              "path": ["inventory", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Inventory (v1)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/inventory/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "inventory", "1"]
             }
           }
         }

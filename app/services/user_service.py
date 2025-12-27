@@ -9,6 +9,17 @@ from app.mappers.user_mapper import (
     map_user_create_viewmodel_to_dto, map_user_update_viewmodel_to_dto,
     map_user_to_viewmodel, map_login_viewmodel_to_credentials
 )
+from app.auth import get_password_hash, create_access_token, verify_password
+from datetime import timedelta
+from pydantic import BaseModel
+from typing import Optional
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
 
 class UserService:
     def __init__(self, db: AsyncSession):
@@ -34,8 +45,12 @@ class UserService:
         if user_viewmodel.display_name and len(user_viewmodel.display_name.strip()) == 0:
             raise ValueError("Display name cannot be empty")
 
+        # Hash the password
+        hashed_password = get_password_hash(user_viewmodel.password)
+
         # Map ViewModel to DTO for database operations
         user_dto = map_user_create_viewmodel_to_dto(user_viewmodel)
+        user_dto.password = hashed_password  # Override with hashed password
 
         # Create user in database
         db_user = await crud_create_user(self.db, user_dto)
@@ -88,10 +103,27 @@ class UserService:
         """Delete user"""
         return await crud_delete_user(self.db, user_id) is not None
 
-    async def authenticate_user(self, login_viewmodel: UserLoginViewModel) -> UserViewModel:
-        """Authenticate user using login ViewModel"""
+    async def authenticate_user(self, login_viewmodel: UserLoginViewModel) -> Token:
+        """Authenticate user and return JWT token"""
         username, password = map_login_viewmodel_to_credentials(login_viewmodel)
-        user = await crud_authenticate_user(self.db, username, password)
-        if user:
-            return map_user_to_viewmodel(user)
-        return None
+
+        # Get user by username
+        user = await get_user_by_username(self.db, username)
+        if not user:
+            return None
+
+        # Verify password
+        if not verify_password(password, user.password):
+            return None
+
+        # Check if user is active
+        if not user.is_active:
+            raise ValueError("User account is inactive")
+
+        # Create access token
+        access_token_expires = timedelta(minutes=30)
+        access_token = create_access_token(
+            data={"sub": user.username}, expires_delta=access_token_expires
+        )
+
+        return Token(access_token=access_token, token_type="bearer")

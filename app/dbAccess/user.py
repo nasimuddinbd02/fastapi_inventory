@@ -3,15 +3,6 @@ from sqlalchemy.future import select
 from sqlalchemy import update
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
-from passlib.context import CryptContext
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
 
 async def get_user(db: AsyncSession, user_id: int):
     result = await db.execute(select(User).where(User.id == user_id))
