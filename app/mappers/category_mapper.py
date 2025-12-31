@@ -1,9 +1,10 @@
-from automapper import Mapper
 from app.viewmodels.category import (
     CategoryCreateViewModel, CategoryUpdateViewModel, CategoryViewModel
 )
 from app.schemas.category import CategoryCreate, CategoryUpdate, Category
 import logging
+
+from automapper import Mapper
 
 mapper_logger = logging.getLogger("app.mappers.category")
 

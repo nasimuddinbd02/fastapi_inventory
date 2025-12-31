@@ -1,14 +1,15 @@
-from automapper import Mapper
 from app.viewmodels.supplier import (
     SupplierCreateViewModel, SupplierUpdateViewModel, SupplierViewModel
 )
 from app.schemas.supplier import SupplierCreate, SupplierUpdate, Supplier
 import logging
 
-# Create mapper instance
-mapper = Mapper()
+from automapper import Mapper
 
 mapper_logger = logging.getLogger("app.mappers.supplier_mapper")
+
+# Create mapper instance
+mapper = Mapper()
 
 def map_supplier_create_viewmodel_to_dto(viewmodel: SupplierCreateViewModel) -> SupplierCreate:
     """Map SupplierCreateViewModel to SupplierCreate DTO using py-automapper"""
