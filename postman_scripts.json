@@ -1082,4 +1082,241 @@
       ]
     }
   ]
+    ,
+    {
+      "name": "Agents API",
+      "item": [
+        {
+          "name": "Analyze with Agent (Unversioned)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": [\"sample context item\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/analyze/sample",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "analyze", "sample"]
+            }
+          }
+        },
+        {
+          "name": "Analyze with Agent (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": [\"sample context item\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/agents/analyze/sample",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "analyze", "sample"]
+            }
+          }
+        },
+        {
+          "name": "Analyze with All Agents (Unversioned)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": [\"sample context item\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/analyze/all",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "analyze", "all"]
+            }
+          }
+        },
+        {
+          "name": "Analyze with All Agents (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": [\"sample context item\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/agents/analyze/all",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "analyze", "all"]
+            }
+          }
+        },
+        {
+          "name": "Execute Agent Action (Unversioned)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_type\": \"sample\",\n  \"action\": { \"action_type\": \"test\", \"params\": {} }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/execute-action",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "execute-action"]
+            }
+          }
+        },
+        {
+          "name": "Execute Agent Action (v1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_type\": \"sample\",\n  \"action\": { \"action_type\": \"test\", \"params\": {} }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/agents/execute-action",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "execute-action"]
+            }
+          }
+        },
+        {
+          "name": "Get Agent Capabilities (Unversioned)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agents/capabilities",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "capabilities"]
+            }
+          }
+        },
+        {
+          "name": "Get Agent Capabilities (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/agents/capabilities",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "capabilities"]
+            }
+          }
+        },
+        {
+          "name": "Get Agent Status (Unversioned)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agents/status",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get Agent Status (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/agents/status",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get Decision History (Unversioned)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agents/history?limit=50&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "history"],
+              "query": [
+                {"key": "limit", "value": "50"},
+                {"key": "offset", "value": "0"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Decision History (v1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/agents/history?limit=50&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "history"],
+              "query": [
+                {"key": "limit", "value": "50"},
+                {"key": "offset", "value": "0"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Agent Context (Unversioned)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agents/context",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "context"]
+            }
+          }
+        },
+        {
+          "name": "Get Agent Context (v1)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/agents/context",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "agents", "context"]
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

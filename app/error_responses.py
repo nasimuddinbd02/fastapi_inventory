@@ -57,7 +57,7 @@ class ValidationErrorResponse(ErrorResponse):
                 "code": "VALIDATION_ERROR",
                 "status_code": 400,
                 "details": {
-                    "field_errors": [error.dict() for error in field_errors]
+                        "field_errors": [error.model_dump() for error in field_errors]
                 }
             },
             timestamp=datetime.now(timezone.utc).isoformat() + "Z",
