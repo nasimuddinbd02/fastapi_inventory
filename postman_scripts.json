@@ -1,13 +1,13 @@
 {
   "info": {
     "name": "Cosmetics Inventory API with JWT Auth and Versioning",
-    "description": "Postman collection for the Cosmetics Inventory API with JWT authentication and API versioning",
+    "description": "Postman collection for the Cosmetics Inventory API with JWT authentication and API versioning. Import into Postman and set collection variables (e.g., base_url, jwt_token) as needed.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "base_url",
-      "value": "http://127.0.0.1:8000",
+      "value": "http://localhost:8000",
       "type": "string"
     },
     {

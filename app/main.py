@@ -2,7 +2,6 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
 from app.database import engine, Base
 from app.routers import categories, suppliers, products, inventory, users, agents
-from app.routers.ai_agents import router as agents_router
 from app.logging_config import setup_logging
 from app.exceptions import (
     AppException, ValidationError, NotFoundError, ConflictError,
@@ -96,7 +95,7 @@ app.include_router(suppliers.router)
 app.include_router(products.router)
 app.include_router(inventory.router)
 app.include_router(users.router)
-app.include_router(agents_router)
+app.include_router(agents.router)
 
 # API Versioning - v1 endpoints
 v1 = FastAPI(title="Cosmetics Inventory API v1", description="Version 1 of the Cosmetics Inventory API", version="1.0.0")

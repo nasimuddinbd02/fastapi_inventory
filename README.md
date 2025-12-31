@@ -227,6 +227,30 @@ python demo_agents.py
 ### Manual Testing
 Use the interactive API documentation at `http://127.0.0.1:8000/docs` to manually test agent endpoints.
 
+### Running Tests
+
+Run the project test suite (pytest) to verify imports and unit tests. From the project root run:
+
+```bash
+python -m pytest -q
+```
+
+On Windows you can use the included helper script to install test deps (if needed) and run tests:
+
+```powershell
+tools\run_tests.ps1
+```
+
+Note: the test suite includes import-level tests that use lightweight stubs for optional LLM-related packages, so tests run offline by default. For integration tests with real LLMs, install the actual LLM packages and remove or adjust the stubs in `app/tests/conftest.py`.
+
+### Postman Collection
+
+An export of the Postman collection is available at `postman_scripts.json` in the repository root. To use it:
+
+- Open Postman and choose "Import" → "File" and select `postman_scripts.json`.
+- Set the collection variable `base_url` to `http://localhost:8000` (or your server URL).
+- After running a successful `POST /users/login`, the `jwt_token` collection variable will be populated by the login test script.
+
 ### Example Agent Requests
 
 **Get Agent Capabilities:**

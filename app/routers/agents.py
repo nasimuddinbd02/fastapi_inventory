@@ -3,7 +3,7 @@ from typing import List, Optional
 from datetime import datetime, timezone
 from app.services.agent_service import AgentService
 from app.dependencies import get_agent_service
-from app.agents import AgentType, AgentDecision, AgentAction
+from app.agents import AgentType
 from app.viewmodels.agent import (
     AgentAnalysisRequest, AgentAnalysisResponse, AgentCapabilitiesResponse,
     AgentStatusResponse, AgentDecisionHistoryResponse, AgentActionExecutionRequest,

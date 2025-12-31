@@ -8,3 +8,22 @@ wheels/
 
 # Virtual environments
 .venv
+env/
+.env
+
+# VS Code
+.vscode/
+
+# Pytest / test artifacts
+.pytest_cache/
+reports/
+
+# Backup and cache files
+*.bak
+__pycache__/
+*.pyc
+
+# Packaging
+.coverage
+pip-wheel-metadata/
+.mypy_cache/

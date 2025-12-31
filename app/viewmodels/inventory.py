@@ -1,6 +1,5 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
-from .product import ProductViewModel
 
 class InventoryCreateViewModel(BaseModel):
     """ViewModel for inventory creation"""

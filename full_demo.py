@@ -4,10 +4,8 @@ Comprehensive Agentic AI Demo - Starts server and runs tests
 """
 import asyncio
 import threading
-import time
 import httpx
 import uvicorn
-import logging
 
 def start_server():
     """Start the FastAPI server in a separate thread"""

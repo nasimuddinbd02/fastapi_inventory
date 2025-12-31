@@ -4,7 +4,6 @@ Test script to verify centralized error handling
 """
 import asyncio
 import httpx
-import json
 
 BASE_URL = "http://127.0.0.1:8000"
 

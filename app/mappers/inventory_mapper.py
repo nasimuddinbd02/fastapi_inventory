@@ -4,7 +4,6 @@ from app.viewmodels.inventory import (
 )
 from app.schemas.inventory import InventoryCreate, InventoryUpdate, Inventory
 from app.dbAccess.product import get_product_by_name
-from app.mappers.product_mapper import map_product_to_viewmodel
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 

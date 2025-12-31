@@ -1,13 +1,12 @@
-from typing import List, Dict, Any, Optional, TypedDict, Annotated
 from datetime import datetime
 from dataclasses import dataclass
 from enum import Enum
 import logging
 import os
+from typing import List, Dict, Any, Optional, TypedDict
 from langgraph.graph import StateGraph, END
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
 from dotenv import load_dotenv
 
