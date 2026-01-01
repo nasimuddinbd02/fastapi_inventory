@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Any, Dict, Optional
-from datetime import datetime,timezone
+from datetime import datetime, timezone
 
 class ErrorDetail(BaseModel):
     """Detailed error information"""
@@ -11,7 +11,7 @@ class ErrorDetail(BaseModel):
 class ErrorResponse(BaseModel):
     """Standard error response model"""
     success: bool = False
-    error: Dict[str, Any] = {}
+    error: Dict[str, Any] = Field(default_factory=dict)
     timestamp: str
     request_id: Optional[str] = None
     path: Optional[str] = None
