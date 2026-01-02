@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, HTTPException, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
 from app.database import engine, Base
@@ -25,6 +26,14 @@ async def app_lifespan(app: FastAPI):
         logger.info("Shutting down Cosmetics Inventory API")
 
 app = FastAPI(title="Cosmetics Inventory API", description="API for managing cosmetics inventory", version="1.0.0", lifespan=app_lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Global Exception Handlers
 @app.exception_handler(AppException)

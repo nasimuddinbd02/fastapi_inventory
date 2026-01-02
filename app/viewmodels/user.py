@@ -19,17 +19,6 @@ class UserCreateViewModel(BaseModel):
             raise ValueError('Login name can only contain letters, numbers, underscores, and hyphens')
         return v
 
-    @field_validator('password')
-    @classmethod
-    def validate_password(cls, v):
-        if len(v) < 8:
-            raise ValueError('Password must be at least 8 characters')
-        if not any(char.isdigit() for char in v):
-            raise ValueError('Password must contain at least one number')
-        if not any(char.isupper() for char in v):
-            raise ValueError('Password must contain at least one uppercase letter')
-        return v
-
     @field_validator('confirm_password')
     @classmethod
     def passwords_match(cls, v, info):

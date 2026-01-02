@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.dbAccess.user import (
     get_user, get_user_by_username, get_user_by_email, get_users,
     create_user as crud_create_user, update_user as crud_update_user,
-    delete_user as crud_delete_user, authenticate_user as crud_authenticate_user
+    delete_user as crud_delete_user
 )
 from app.viewmodels.user import UserCreateViewModel, UserUpdateViewModel, UserViewModel, UserLoginViewModel
 from app.mappers.user_mapper import (
@@ -45,12 +45,9 @@ class UserService:
         if user_viewmodel.display_name and len(user_viewmodel.display_name.strip()) == 0:
             raise ValueError("Display name cannot be empty")
 
-        # Hash the password
-        hashed_password = get_password_hash(user_viewmodel.password)
-
         # Map ViewModel to DTO for database operations
         user_dto = map_user_create_viewmodel_to_dto(user_viewmodel)
-        user_dto.password = hashed_password  # Override with hashed password
+        user_dto.password = get_password_hash(user_viewmodel.password)
 
         # Create user in database
         db_user = await crud_create_user(self.db, user_dto)
@@ -91,6 +88,8 @@ class UserService:
 
         # Map ViewModel to DTO
         user_dto = map_user_update_viewmodel_to_dto(user_viewmodel)
+        if user_viewmodel.new_password:
+            user_dto.password = get_password_hash(user_viewmodel.new_password)
 
         # Update in database
         updated_user = await crud_update_user(self.db, user_id, user_dto)
@@ -113,7 +112,7 @@ class UserService:
             return None
 
         # Verify password
-        if not verify_password(password, user.password):
+        if not verify_password(password, user.hashed_password):
             return None
 
         # Check if user is active
