@@ -35,69 +35,163 @@ A modern, asynchronous FastAPI application for managing cosmetics inventory with
 
 ```
 fastapi_inventory/
-├── main.py                          # Application entry point
-├── requirements.txt                 # Python dependencies
-├── README.md                        # Project documentation
-├── inventory.db                     # SQLite database (auto-generated)
-├── app/                             # Main application package
-│   ├── __init__.py
-│   ├── main.py                      # FastAPI app instance and routes
-│   ├── database.py                  # Database configuration and engine
-│   ├── dependencies.py              # Dependency injection setup
-│   ├── logging_config.py            # Logging configuration
-│   ├── dbAccess/                    # Data Access Layer
-│   │   ├── category.py
-│   │   ├── supplier.py
-│   │   ├── product.py
-│   │   ├── inventory.py
-│   │   └── user.py
-│   ├── models/                      # SQLAlchemy ORM models
-│   │   ├── category.py
-│   │   ├── supplier.py
-│   │   ├── product.py
-│   │   ├── inventory.py
-│   │   └── user.py
-│   ├── mappers/                     # ViewModel to DTO mappers
-│   │   ├── category_mapper.py
-│   │   ├── supplier_mapper.py
-│   │   ├── product_mapper.py
-│   │   ├── inventory_mapper.py
-│   │   └── user_mapper.py
-│   ├── routers/                     # API route handlers
-│   │   ├── categories.py
-│   │   ├── suppliers.py
-│   │   ├── products.py
-│   │   ├── inventory.py
-│   │   └── users.py
-│   ├── schemas/                     # Pydantic DTOs (for data operations)
-│   │   ├── category.py
-│   │   ├── supplier.py
-│   │   ├── product.py
-│   │   ├── inventory.py
-│   │   └── user.py
-│   ├── services/                    # Business logic layer
-│   │   ├── category_service.py
-│   │   ├── supplier_service.py
-│   │   ├── product_service.py
-│   │   ├── inventory_service.py
-│   │   └── user_service.py
-│   └── viewmodels/                  # Pydantic ViewModels (API I/O)
-│       ├── category.py
-│       ├── supplier.py
-│       ├── product.py
-│       ├── inventory.py
-│       └── user.py
-└── .venv/                          # Virtual environment (not in repo)
+├── 📄 main.py                          # Application entry point
+├── 📄 start_server.py                  # Server startup script
+├── 📄 requirements.txt                  # Python dependencies
+├── 📄 pyproject.toml                    # Python project configuration
+├── 📄 pytest.ini                        # Pytest configuration
+├── 📄 README.md                         # Backend documentation
+├── 📄 VERIFICATION_CHECKLIST.md         # Verification checklist
+├── 📄 postman_scripts.json              # Postman API collection
+├── 📄 demo_agents.py                    # AI agents demo script
+├── 📄 full_demo.py                      # Full system demo
+├── 📄 test_error_handling.py            # Error handling tests
+├── 📄 package.json                      # Node.js scripts configuration
+├── 🗄️ inventory.db                     # SQLite database (auto-generated)
+├── 📁 .venv/                           # Virtual environment (not in repo)
+│
+├── 📁 app/                             # Main application package
+│   ├── 📄 __init__.py                  # Package initializer
+│   ├── 📄 main.py                      # FastAPI app instance and routes
+│   ├── 📄 database.py                  # Database configuration and engine
+│   ├── 📄 dependencies.py              # Dependency injection setup
+│   ├── 📄 logging_config.py            # Logging configuration
+│   ├── 📄 auth.py                      # JWT authentication utilities
+│   ├── 📄 agents.py                    # AI agent system (LangGraph)
+│   ├── 📄 exceptions.py                # Custom exception definitions
+│   ├── 📄 error_responses.py           # Error response formatting
+│   │
+│   ├── 📁 models/                      # SQLAlchemy ORM models
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 category.py              # Category database model
+│   │   ├── 📄 supplier.py              # Supplier database model
+│   │   ├── 📄 product.py               # Product database model
+│   │   ├── 📄 inventory.py             # Inventory database model
+│   │   ├── 📄 user.py                  # User database model
+│   │   ├── 📄 intake.py                # Intake database model
+│   │   └── 📄 dispatch.py              # Dispatch database model
+│   │
+│   ├── 📁 schemas/                     # Pydantic DTOs (for data operations)
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 category.py              # Category DTOs
+│   │   ├── 📄 supplier.py              # Supplier DTOs
+│   │   ├── 📄 product.py               # Product DTOs
+│   │   ├── 📄 inventory.py             # Inventory DTOs
+│   │   └── 📄 user.py                  # User DTOs
+│   │
+│   ├── 📁 viewmodels/                  # Pydantic ViewModels (API I/O)
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 category.py              # Category API models
+│   │   ├── 📄 supplier.py              # Supplier API models
+│   │   ├── 📄 product.py               # Product API models
+│   │   ├── 📄 inventory.py             # Inventory API models
+│   │   ├── 📄 user.py                  # User API models
+│   │   ├── 📄 agent.py                 # AI agent API models
+│   │   ├── 📄 intake.py                # Intake API models
+│   │   ├── 📄 dispatch.py              # Dispatch API models
+│   │   └── 📄 pagination.py            # Pagination models
+│   │
+│   ├── 📁 mappers/                     # ViewModel to DTO mappers
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 category_mapper.py       # Category mapping logic
+│   │   ├── 📄 supplier_mapper.py       # Supplier mapping logic
+│   │   ├── 📄 product_mapper.py        # Product mapping logic
+│   │   ├── 📄 inventory_mapper.py      # Inventory mapping logic
+│   │   ├── 📄 user_mapper.py           # User mapping logic
+│   │   ├── 📄 intake_mapper.py         # Intake mapping logic
+│   │   └── 📄 dispatch_mapper.py       # Dispatch mapping logic
+│   │
+│   ├── 📁 dbAccess/                    # Data Access Layer
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 category.py              # Category data access
+│   │   ├── 📄 supplier.py              # Supplier data access
+│   │   ├── 📄 product.py               # Product data access
+│   │   ├── 📄 inventory.py             # Inventory data access
+│   │   ├── 📄 user.py                  # User data access
+│   │   ├── 📄 intake.py                # Intake data access
+│   │   └── 📄 dispatch.py              # Dispatch data access
+│   │
+│   ├── 📁 services/                    # Business logic layer
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 category_service.py      # Category business logic
+│   │   ├── 📄 supplier_service.py      # Supplier business logic
+│   │   ├── 📄 product_service.py       # Product business logic
+│   │   ├── 📄 inventory_service.py     # Inventory business logic
+│   │   ├── 📄 user_service.py          # User business logic
+│   │   ├── 📄 agent_service.py         # AI agent business logic
+│   │   ├── 📄 intake_service.py        # Intake business logic
+│   │   └── 📄 dispatch_service.py      # Dispatch business logic
+│   │
+│   ├── 📁 routers/                     # API route handlers
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 categories.py            # Category endpoints
+│   │   ├── 📄 suppliers.py             # Supplier endpoints
+│   │   ├── 📄 products.py              # Product endpoints
+│   │   ├── 📄 inventory.py             # Inventory endpoints
+│   │   ├── 📄 users.py                 # User & auth endpoints
+│   │   ├── 📄 agents.py                # AI agent endpoints
+│   │   ├── 📄 intake.py                # Intake endpoints
+│   │   └── 📄 dispatch.py              # Dispatch endpoints
+│   │
+│   └── 📁 tests/                       # Test suite
+│       ├── 📄 __init__.py
+│       ├── 📄 conftest.py              # Pytest fixtures & configuration
+│       ├── 📁 core/                    # Core functionality tests
+│       │   ├── 📄 test_agents.py       # AI agent tests
+│       │   ├── 📄 test_auth_database.py # Auth & DB tests
+│       │   └── 📄 test_misc.py         # Miscellaneous tests
+│       ├── 📁 dbAccess/                # Data access layer tests
+│       ├── 📁 mappers/                 # Mapper tests
+│       ├── 📁 models/                  # Model tests
+│       ├── 📁 routers/                 # Router/endpoint tests
+│       ├── 📁 schemas/                 # Schema tests
+│       ├── 📁 services/                # Service layer tests
+│       └── 📁 viewmodels/              # ViewModel tests
+│
+├── 📁 frontend/                        # Next.js frontend application
+│   ├── 📄 package.json                 # Frontend dependencies
+│   ├── 📄 next.config.js               # Next.js configuration
+│   ├── 📄 tsconfig.json                # TypeScript configuration
+│   ├── 📄 tailwind.config.cjs          # Tailwind CSS configuration
+│   ├── 📄 postcss.config.cjs           # PostCSS configuration
+│   ├── 📄 components.json              # shadcn/ui configuration
+│   ├── 📄 README.md                    # Frontend documentation
+│   ├── 📄 ENVIRONMENT_SETUP.md         # Environment setup guide
+│   └── 📁 src/                         # Frontend source code
+│       ├── 📁 app/                     # Next.js app directory
+│       ├── 📁 components/              # React components
+│       ├── 📁 config/                  # Configuration files
+│       ├── 📁 hooks/                   # Custom React hooks
+│       ├── 📁 lib/                     # Utility functions
+│       ├── 📁 providers/               # React context providers
+│       └── 📁 store/                   # State management (Redux)
+│
+└── 📁 tools/                           # Development tools
+    ├── 📄 cleanup_unused_imports.py    # Clean up unused imports
+    └── 📄 run_tests.ps1                # PowerShell test runner
 ```
 
-## 🏗️ Architecture
+### Architecture Layers
 
-This application follows a clean n-tier architecture with the ViewModel pattern:
+The backend follows a clean **N-tier architecture** with clear separation of concerns:
 
-- **ViewModels**: Pydantic models for API input/output with business validation
-- **Mappers**: Convert between ViewModels and internal DTOs
-- **Services**: Business logic operating on ViewModels
-- **Routers**: API endpoints accepting ViewModels
+1. **API Layer** (`routers/`): HTTP endpoint handlers, request/response handling
+2. **Service Layer** (`services/`): Business logic and orchestration
+3. **Mapper Layer** (`mappers/`): Transform ViewModels ↔ DTOs
+4. **Data Access Layer** (`dbAccess/`): Database operations and queries
+5. **Model Layer** (`models/`): SQLAlchemy ORM entities
+6. **Schema Layer** (`schemas/`): Internal DTOs for database operations
+7. **ViewModel Layer** (`viewmodels/`): External API contracts with validation
+
+### Frontend Structure
+
+The frontend is built with **Next.js 14** and follows modern React patterns:
+
+- **App Directory**: Next.js 14 app router for routing
+- **Components**: Reusable UI components (shadcn/ui)
+- **State Management**: Redux Toolkit for global state
+- **Styling**: Tailwind CSS for utility-first styling
+- **Type Safety**: TypeScript for type checking
 - **dbAccess**: Data access layer with async database operations
 - **Models**: SQLAlchemy ORM entities
 - **Schemas**: Internal DTOs for database operations
@@ -151,13 +245,15 @@ OPENAI_TEMPERATURE=0.1
 - `POST /agents/execute-action` - Execute recommended agent actions
 - `GET /agents/history` - Retrieve decision history and audit trail
 
-## 📦 Installation
+## 📦 Installation & Setup
 
 ### Prerequisites
-- Python 3.13+
-- Virtual environment (recommended)
+- **Python**: 3.13+ (for backend)
+- **Node.js**: 18.x or higher (for frontend)
+- **npm**: 8.x or higher (for frontend)
+- **Virtual environment**: Recommended for Python
 
-### Setup Steps
+### Backend Setup
 
 1. **Clone the repository** (if applicable)
    ```bash
@@ -172,7 +268,7 @@ OPENAI_TEMPERATURE=0.1
 
 3. **Activate virtual environment**
    - Windows:
-     ```bash
+     ```powershell
      .venv\Scripts\activate
      ```
    - Linux/Mac:
@@ -180,27 +276,113 @@ OPENAI_TEMPERATURE=0.1
      source .venv/bin/activate
      ```
 
-4. **Install dependencies**
+4. **Install backend dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-## 🚀 Running the Application
-
-1. **Activate virtual environment** (if not already activated)
-   ```bash
-   .venv\Scripts\activate  # Windows
+5. **Configure environment variables** (Optional - for AI features)
+   
+   Create a `.env` file in the project root:
+   ```env
+   # OpenAI API Configuration
+   OPENAI_API_KEY=your_openai_api_key_here
+   
+   # Optional: OpenAI Model Configuration
+   OPENAI_MODEL=gpt-4o-mini
+   OPENAI_TEMPERATURE=0.1
    ```
 
-2. **Run the server**
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure API endpoint** (if needed)
+   
+   The frontend defaults to `http://localhost:8000`. If your backend runs on a different URL, update the API configuration in the frontend code.
+
+## 🚀 Running the Application
+
+### Running Backend Server
+
+1. **Activate virtual environment** (if not already activated)
+   ```powershell
+   .venv\Scripts\activate  # Windows
+   ```
+   ```bash
+   source .venv/bin/activate  # Linux/Mac
+   ```
+
+2. **Start the FastAPI server**
+   
+   Option 1 - Using uvicorn directly:
    ```bash
    uvicorn main:app --reload
    ```
+   
+   Option 2 - Using the start script:
+   ```bash
+   python start_server.py
+   ```
 
-3. **Access the application**
+3. **Verify backend is running**
    - API Base URL: `http://127.0.0.1:8000`
-   - Interactive Docs: `http://127.0.0.1:8000/docs`
+   - Interactive API Docs: `http://127.0.0.1:8000/docs`
    - Alternative Docs: `http://127.0.0.1:8000/redoc`
+
+### Running Frontend Application
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+3. **Access the frontend**
+   - Development URL: `http://localhost:3000`
+
+### Running Both Applications
+
+For a complete development environment:
+
+**Terminal 1 - Backend:**
+```powershell
+# Windows
+.venv\Scripts\activate
+uvicorn main:app --reload
+```
+
+**Terminal 2 - Frontend:**
+```powershell
+cd frontend
+npm run dev
+```
+
+### Production Build
+
+**Backend:**
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm run build
+npm run start
+```
 
 ## 🧪 Testing the Agentic AI System
 
