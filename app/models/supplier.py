@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy.orm import relationship
 from app.database import Base
 
 class Supplier(Base):
@@ -7,3 +8,6 @@ class Supplier(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
     contact_info = Column(Text, nullable=True)
+    
+    # Relationships
+    intake_orders = relationship("IntakeOrder", back_populates="supplier")

@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.dbAccess.user import (
     get_user, get_user_by_username, get_user_by_email, get_users,
     create_user as crud_create_user, update_user as crud_update_user,
-    delete_user as crud_delete_user
+    delete_user as crud_delete_user, count_users
 )
 from app.viewmodels.user import UserCreateViewModel, UserUpdateViewModel, UserViewModel, UserLoginViewModel
 from app.mappers.user_mapper import (
@@ -62,10 +62,11 @@ class UserService:
             return None
         return map_user_to_viewmodel(user)
 
-    async def get_users(self, skip: int = 0, limit: int = 100) -> list[UserViewModel]:
-        """Get list of users"""
-        users = await get_users(self.db, skip, limit)
-        return [map_user_to_viewmodel(user) for user in users]
+    async def get_users(self, skip: int = 0, limit: int = 100, search: str | None = None) -> tuple[list[UserViewModel], int]:
+        """Get paginated list of users"""
+        users = await get_users(self.db, skip, limit, search)
+        total = await count_users(self.db, search)
+        return [map_user_to_viewmodel(user) for user in users], total
 
     async def update_user(self, user_id: int, user_viewmodel: UserUpdateViewModel) -> UserViewModel:
         """Update user using ViewModel"""

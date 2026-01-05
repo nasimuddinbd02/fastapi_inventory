@@ -23,7 +23,7 @@ async def read_inventory(inventory_id: int, service: InventoryService = Depends(
     return inventory
 
 @router.get("/", response_model=list[InventoryViewModel])
-async def read_inventories(skip: int = 0, limit: int = 100, service: InventoryService = Depends(get_inventory_service)):
+async def read_inventories(skip: int = 0, limit: int = 1000, service: InventoryService = Depends(get_inventory_service)):
     router_logger.info(f"Fetching inventories with skip={skip}, limit={limit}")
     inventories = await service.get_inventories(skip, limit)
     router_logger.info(f"Retrieved {len(inventories)} inventories")

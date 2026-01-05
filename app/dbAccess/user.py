@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import update
+from sqlalchemy import update, func, or_
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
 
@@ -16,9 +16,33 @@ async def get_user_by_email(db: AsyncSession, email: str):
     result = await db.execute(select(User).where(User.email == email))
     return result.scalars().first()
 
-async def get_users(db: AsyncSession, skip: int = 0, limit: int = 100):
-    result = await db.execute(select(User).offset(skip).limit(limit))
+def _user_search_filter(search: str | None):
+    if not search:
+        return None
+    pattern = f"%{search.lower()}%"
+    return or_(
+        func.lower(User.username).like(pattern),
+        func.lower(User.email).like(pattern),
+        func.lower(User.full_name).like(pattern)
+    )
+
+
+async def get_users(db: AsyncSession, skip: int = 0, limit: int = 100, search: str | None = None):
+    query = select(User)
+    search_filter = _user_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query.offset(skip).limit(limit))
     return result.scalars().all()
+
+
+async def count_users(db: AsyncSession, search: str | None = None) -> int:
+    query = select(func.count(User.id))
+    search_filter = _user_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query)
+    return result.scalar_one()
 
 async def create_user(db: AsyncSession, user: UserCreate):
     db_user = User(

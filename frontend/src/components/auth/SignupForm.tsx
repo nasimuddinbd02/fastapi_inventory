@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { API_BASE_URL, authenticateUser, persistSession } from '@/lib/auth'
+import { authenticateUser, persistSession } from '@/lib/auth'
+import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import axios from 'axios'
 import { useAppDispatch } from '@/store/hooks'
 import { setSession } from '@/store/authSlice'
@@ -49,7 +50,7 @@ export default function SignUpForm(){
     setSubmitting(true)
     try {
       await axios.post(
-        `${API_BASE_URL}/users/`,
+        buildApiUrl(API_ENDPOINTS.SIGNUP),
         {
           login_name: loginName,
           email_address: email,

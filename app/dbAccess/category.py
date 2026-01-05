@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy import func, or_
 from app.models.category import Category
 from app.schemas.category import CategoryCreate, CategoryUpdate
 import logging
@@ -13,12 +14,38 @@ async def get_category(db: AsyncSession, category_id: int):
     db_logger.debug(f"Category query result: {'found' if category else 'not found'}")
     return category
 
-async def get_categories(db: AsyncSession, skip: int = 0, limit: int = 100):
-    db_logger.debug(f"Querying categories with skip={skip}, limit={limit}")
-    result = await db.execute(select(Category).offset(skip).limit(limit))
+def _category_search_filter(search: str | None):
+    if not search:
+        return None
+    pattern = f"%{search.lower()}%"
+    return or_(
+        func.lower(Category.name).like(pattern),
+        func.lower(Category.description).like(pattern)
+    )
+
+
+async def get_categories(db: AsyncSession, skip: int = 0, limit: int = 100, search: str | None = None):
+    db_logger.debug(f"Querying categories with skip={skip}, limit={limit}, search={search}")
+    query = select(Category)
+    search_filter = _category_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query.offset(skip).limit(limit))
     categories = result.scalars().all()
     db_logger.debug(f"Categories query returned {len(categories)} results")
     return categories
+
+
+async def count_categories(db: AsyncSession, search: str | None = None) -> int:
+    db_logger.debug(f"Counting categories with search={search}")
+    query = select(func.count(Category.id))
+    search_filter = _category_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query)
+    total = result.scalar_one()
+    db_logger.debug(f"Category count result: {total}")
+    return total
 
 async def create_category(db: AsyncSession, category: CategoryCreate):
     db_logger.debug(f"Creating category: {category.name}")

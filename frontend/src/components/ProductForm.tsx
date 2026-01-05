@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -48,7 +49,7 @@ export default function ProductForm({ open, onClose }: ProductFormProps){
     try{
       const fallbackToken = typeof window !== 'undefined' ? window.sessionStorage.getItem('token') : null
       const authToken = token ?? fallbackToken
-      await axios.post('http://localhost:8000/inventory', { name, description, quantity: quantityNumber }, { headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} })
+      await axios.post(buildApiUrl(API_ENDPOINTS.INVENTORY), { name, description, quantity: quantityNumber }, { headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} })
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('products:updated'))
       }

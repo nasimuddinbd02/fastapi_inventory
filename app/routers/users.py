@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends, Response
+from fastapi import APIRouter, HTTPException, Depends, Response, Query
 from app.viewmodels.user import UserCreateViewModel, UserUpdateViewModel, UserViewModel, UserLoginViewModel
 from app.services.user_service import UserService, Token
 from app.dependencies import get_user_service
 from app.auth import get_current_active_user
 from app.models.user import User
+from app.viewmodels.pagination import PaginatedResponse
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -58,9 +59,28 @@ async def read_user(user_id: int, service: UserService = Depends(get_user_servic
     return user
 
 
-@router.get("/", response_model=list[UserViewModel])
-async def read_users(skip: int = 0, limit: int = 100, service: UserService = Depends(get_user_service), current_user: User = Depends(get_current_active_user)):
-    return await service.get_users(skip, limit)
+@router.get("/", response_model=PaginatedResponse[UserViewModel])
+async def read_users(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=1000),
+    search: str | None = Query(None, alias="q"),
+    service: UserService = Depends(get_user_service)
+):
+    skip = (page - 1) * page_size
+    users, total = await service.get_users(skip, page_size, search)
+    return PaginatedResponse(items=users, total=total, page=page, page_size=page_size)
+
+
+@router.get("", response_model=PaginatedResponse[UserViewModel], include_in_schema=False)
+async def read_users_no_slash(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100),
+    search: str | None = Query(None, alias="q"),
+    service: UserService = Depends(get_user_service)
+):
+    skip = (page - 1) * page_size
+    users, total = await service.get_users(skip, page_size, search)
+    return PaginatedResponse(items=users, total=total, page=page, page_size=page_size)
 
 
 @router.put("/{user_id}", response_model=UserViewModel)

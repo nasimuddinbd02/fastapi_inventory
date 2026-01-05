@@ -1,14 +1,16 @@
 "use client"
 
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import AuthPanel from '@/components/auth/AuthPanel'
 import { SessionUser } from '@/lib/auth'
 
 export default function LoginPage(){
+  const router = useRouter()
+
   function handleSuccess(_user: SessionUser){
-    if (typeof window !== 'undefined'){
-      window.location.replace('/')
-    }
+    // Redirect to home page after successful login
+    router.replace('/')
   }
 
   return (

@@ -1,7 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import joinedload
+from sqlalchemy import func, or_
 from app.models.product import Product
+from app.models.category import Category
+from app.models.supplier import Supplier
 from app.schemas.product import ProductCreate, ProductUpdate
 import logging
 
@@ -21,16 +24,43 @@ async def get_product(db: AsyncSession, product_id: int):
         db_logger.debug(f"Product not found: {product_id}")
     return product
 
-async def get_products(db: AsyncSession, skip: int = 0, limit: int = 100):
-    db_logger.debug(f"Querying products with skip={skip}, limit={limit}")
-    result = await db.execute(
+def _product_search_filter(search: str | None):
+    if not search:
+        return None
+    pattern = f"%{search.lower()}%"
+    return or_(
+        func.lower(Product.name).like(pattern),
+        func.lower(Product.description).like(pattern),
+        Product.category.has(func.lower(Category.name).like(pattern)),
+        Product.supplier.has(func.lower(Supplier.name).like(pattern))
+    )
+
+
+async def get_products(db: AsyncSession, skip: int = 0, limit: int = 100, search: str | None = None):
+    db_logger.debug(f"Querying products with skip={skip}, limit={limit}, search={search}")
+    query = (
         select(Product)
         .options(joinedload(Product.category), joinedload(Product.supplier))
-        .offset(skip).limit(limit)
     )
+    search_filter = _product_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query.offset(skip).limit(limit))
     products = result.scalars().all()
     db_logger.debug(f"Retrieved {len(products)} products")
     return products
+
+
+async def count_products(db: AsyncSession, search: str | None = None) -> int:
+    db_logger.debug(f"Counting products with search={search}")
+    query = select(func.count(Product.id))
+    search_filter = _product_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query)
+    total = result.scalar_one()
+    db_logger.debug(f"Product count result: {total}")
+    return total
 
 async def create_product(db: AsyncSession, product: ProductCreate):
     db_logger.debug(f"Creating product: {product.name}")

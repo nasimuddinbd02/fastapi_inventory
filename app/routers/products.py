@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from app.viewmodels.product import ProductViewModel, ProductCreateViewModel, ProductUpdateViewModel
 from app.services.product_service import ProductService
 from app.dependencies import get_product_service
+from app.viewmodels.pagination import PaginatedResponse
 import logging
 
 router_logger = logging.getLogger("app.routers.products")
@@ -29,12 +30,18 @@ async def read_product(product_id: int, service: ProductService = Depends(get_pr
     router_logger.info(f"Product retrieved: {product.product_title}")
     return product
 
-@router.get("/", response_model=list[ProductViewModel])
-async def read_products(skip: int = 0, limit: int = 100, service: ProductService = Depends(get_product_service)):
-    router_logger.info(f"Fetching products with skip={skip}, limit={limit}")
-    products = await service.get_products(skip, limit)
-    router_logger.info(f"Retrieved {len(products)} products")
-    return products
+@router.get("/", response_model=PaginatedResponse[ProductViewModel])
+async def read_products(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=1000),
+    search: str | None = Query(None, alias="q"),
+    service: ProductService = Depends(get_product_service)
+):
+    router_logger.info(f"Fetching products with page={page}, page_size={page_size}, search={search}")
+    skip = (page - 1) * page_size
+    products, total = await service.get_products(skip, page_size, search)
+    router_logger.info(f"Retrieved {len(products)} products out of total {total}")
+    return PaginatedResponse(items=products, total=total, page=page, page_size=page_size)
 
 @router.put("/{product_id}", response_model=ProductViewModel)
 async def update_product(product_id: int, product: ProductUpdateViewModel, service: ProductService = Depends(get_product_service)):

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 
 type Product = {
   id?: number | string
@@ -21,7 +22,7 @@ export default function ProductsView(){
       setLoading(true)
       setError('')
       try{
-        const res = await axios.get('http://localhost:8000/inventory')
+        const res = await axios.get(buildApiUrl(API_ENDPOINTS.INVENTORY))
         if (mounted) setProducts(res.data || [])
       }catch(err:any){
         if (mounted) setError(err?.message || 'Failed to load')

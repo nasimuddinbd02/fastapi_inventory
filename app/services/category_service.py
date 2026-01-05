@@ -1,5 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.dbAccess.category import create_category as crud_create_category, get_category, update_category as crud_update_category, delete_category as crud_delete_category, get_categories, get_category_by_name
+from app.dbAccess.category import (
+    create_category as crud_create_category,
+    get_category,
+    update_category as crud_update_category,
+    delete_category as crud_delete_category,
+    get_categories,
+    get_category_by_name,
+    count_categories
+)
 from app.viewmodels.category import CategoryCreateViewModel, CategoryUpdateViewModel, CategoryViewModel
 from app.mappers.category_mapper import (
     map_category_create_viewmodel_to_dto, map_category_update_viewmodel_to_dto,
@@ -48,13 +56,14 @@ class CategoryService:
         service_logger.debug(f"Category retrieved: {result.category_name}")
         return result
 
-    async def get_categories(self, skip: int = 0, limit: int = 100) -> list[CategoryViewModel]:
-        """Get list of categories"""
-        service_logger.debug(f"Getting categories with skip={skip}, limit={limit}")
-        categories = await get_categories(self.db, skip, limit)
+    async def get_categories(self, skip: int = 0, limit: int = 100, search: str | None = None) -> tuple[list[CategoryViewModel], int]:
+        """Get paginated list of categories"""
+        service_logger.debug(f"Getting categories with skip={skip}, limit={limit}, search={search}")
+        categories = await get_categories(self.db, skip, limit, search)
+        total = await count_categories(self.db, search)
         result = [map_category_to_viewmodel(category) for category in categories]
-        service_logger.debug(f"Retrieved {len(result)} categories")
-        return result
+        service_logger.debug(f"Retrieved {len(result)} categories out of total {total}")
+        return result, total
 
     async def update_category(self, category_id: int, category_viewmodel: CategoryUpdateViewModel) -> CategoryViewModel:
         """Update category using ViewModel"""

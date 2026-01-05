@@ -1,5 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.dbAccess.product import create_product as crud_create_product, get_product, update_product as crud_update_product, delete_product as crud_delete_product, get_products
+from app.dbAccess.product import (
+    create_product as crud_create_product,
+    get_product,
+    update_product as crud_update_product,
+    delete_product as crud_delete_product,
+    get_products,
+    count_products
+)
 from app.viewmodels.product import ProductCreateViewModel, ProductUpdateViewModel, ProductViewModel
 from app.mappers.product_mapper import (
     map_product_create_viewmodel_to_dto, map_product_update_viewmodel_to_dto,
@@ -50,13 +57,14 @@ class ProductService:
         service_logger.info(f"Product retrieved: {result.product_title}")
         return result
 
-    async def get_products(self, skip: int = 0, limit: int = 100) -> list[ProductViewModel]:
-        """Get list of products"""
-        service_logger.info(f"Retrieving products with skip={skip}, limit={limit}")
-        products = await get_products(self.db, skip, limit)
+    async def get_products(self, skip: int = 0, limit: int = 100, search: str | None = None) -> tuple[list[ProductViewModel], int]:
+        """Get paginated list of products"""
+        service_logger.info(f"Retrieving products with skip={skip}, limit={limit}, search={search}")
+        products = await get_products(self.db, skip, limit, search)
+        total = await count_products(self.db, search)
         results = [map_product_to_viewmodel(product) for product in products]
-        service_logger.info(f"Retrieved {len(results)} products")
-        return results
+        service_logger.info(f"Retrieved {len(results)} products out of total {total}")
+        return results, total
 
     async def update_product(self, product_id: int, product_viewmodel: ProductUpdateViewModel) -> ProductViewModel:
         """Update product using ViewModel"""

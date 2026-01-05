@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from app.viewmodels.category import CategoryViewModel, CategoryCreateViewModel, CategoryUpdateViewModel
 from app.services.category_service import CategoryService
 from app.dependencies import get_category_service
+from app.viewmodels.pagination import PaginatedResponse
 import logging
 
 router_logger = logging.getLogger("app.routers.categories")
@@ -29,12 +30,18 @@ async def read_category(category_id: int, service: CategoryService = Depends(get
     router_logger.info(f"Category retrieved: {category.category_name}")
     return category
 
-@router.get("/", response_model=list[CategoryViewModel])
-async def read_categories(skip: int = 0, limit: int = 100, service: CategoryService = Depends(get_category_service)):
-    router_logger.info(f"Fetching categories with skip={skip}, limit={limit}")
-    categories = await service.get_categories(skip, limit)
-    router_logger.info(f"Retrieved {len(categories)} categories")
-    return categories
+@router.get("/", response_model=PaginatedResponse[CategoryViewModel])
+async def read_categories(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=1000),
+    search: str | None = Query(None, alias="q"),
+    service: CategoryService = Depends(get_category_service)
+):
+    router_logger.info(f"Fetching categories with page={page}, page_size={page_size}, search={search}")
+    skip = (page - 1) * page_size
+    categories, total = await service.get_categories(skip, page_size, search)
+    router_logger.info(f"Retrieved {len(categories)} categories out of total {total}")
+    return PaginatedResponse(items=categories, total=total, page=page, page_size=page_size)
 
 @router.put("/{category_id}", response_model=CategoryViewModel)
 async def update_category(category_id: int, category: CategoryUpdateViewModel, service: CategoryService = Depends(get_category_service)):

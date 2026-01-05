@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy import func, or_
 from app.models.supplier import Supplier
 from app.schemas.supplier import SupplierCreate, SupplierUpdate
 import logging
@@ -16,12 +17,38 @@ async def get_supplier(db: AsyncSession, supplier_id: int):
         db_logger.debug(f"Supplier not found: {supplier_id}")
     return supplier
 
-async def get_suppliers(db: AsyncSession, skip: int = 0, limit: int = 100):
-    db_logger.debug(f"Querying suppliers with skip={skip}, limit={limit}")
-    result = await db.execute(select(Supplier).offset(skip).limit(limit))
+def _supplier_search_filter(search: str | None):
+    if not search:
+        return None
+    pattern = f"%{search.lower()}%"
+    return or_(
+        func.lower(Supplier.name).like(pattern),
+        func.lower(Supplier.contact_info).like(pattern)
+    )
+
+
+async def get_suppliers(db: AsyncSession, skip: int = 0, limit: int = 100, search: str | None = None):
+    db_logger.debug(f"Querying suppliers with skip={skip}, limit={limit}, search={search}")
+    query = select(Supplier)
+    search_filter = _supplier_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query.offset(skip).limit(limit))
     suppliers = result.scalars().all()
     db_logger.debug(f"Retrieved {len(suppliers)} suppliers")
     return suppliers
+
+
+async def count_suppliers(db: AsyncSession, search: str | None = None) -> int:
+    db_logger.debug(f"Counting suppliers with search={search}")
+    query = select(func.count(Supplier.id))
+    search_filter = _supplier_search_filter(search.strip().lower() if search else None)
+    if search_filter is not None:
+        query = query.where(search_filter)
+    result = await db.execute(query)
+    total = result.scalar_one()
+    db_logger.debug(f"Supplier count result: {total}")
+    return total
 
 async def create_supplier(db: AsyncSession, supplier: SupplierCreate):
     db_logger.debug(f"Creating supplier: {supplier.name}")

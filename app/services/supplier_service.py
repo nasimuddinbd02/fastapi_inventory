@@ -1,5 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.dbAccess.supplier import create_supplier as crud_create_supplier, get_supplier, update_supplier as crud_update_supplier, delete_supplier as crud_delete_supplier, get_suppliers, get_supplier_by_name
+from app.dbAccess.supplier import (
+    create_supplier as crud_create_supplier,
+    get_supplier,
+    update_supplier as crud_update_supplier,
+    delete_supplier as crud_delete_supplier,
+    get_suppliers,
+    get_supplier_by_name,
+    count_suppliers
+)
 from app.viewmodels.supplier import SupplierCreateViewModel, SupplierUpdateViewModel, SupplierViewModel
 from app.mappers.supplier_mapper import (
     map_supplier_create_viewmodel_to_dto, map_supplier_update_viewmodel_to_dto,
@@ -48,13 +56,14 @@ class SupplierService:
         service_logger.info(f"Supplier retrieved: {result.supplier_name}")
         return result
 
-    async def get_suppliers(self, skip: int = 0, limit: int = 100) -> list[SupplierViewModel]:
-        """Get list of suppliers"""
-        service_logger.info(f"Retrieving suppliers with skip={skip}, limit={limit}")
-        suppliers = await get_suppliers(self.db, skip, limit)
+    async def get_suppliers(self, skip: int = 0, limit: int = 100, search: str | None = None) -> tuple[list[SupplierViewModel], int]:
+        """Get paginated list of suppliers"""
+        service_logger.info(f"Retrieving suppliers with skip={skip}, limit={limit}, search={search}")
+        suppliers = await get_suppliers(self.db, skip, limit, search)
+        total = await count_suppliers(self.db, search)
         results = [map_supplier_to_viewmodel(supplier) for supplier in suppliers]
-        service_logger.info(f"Retrieved {len(results)} suppliers")
-        return results
+        service_logger.info(f"Retrieved {len(results)} suppliers out of total {total}")
+        return results, total
 
     async def update_supplier(self, supplier_id: int, supplier_viewmodel: SupplierUpdateViewModel) -> SupplierViewModel:
         """Update supplier using ViewModel"""

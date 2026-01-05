@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000'
+import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 
 export type SessionUser = {
   name: string
@@ -14,7 +13,7 @@ export type AuthResult = {
 }
 
 export async function authenticateUser(loginName: string, password: string): Promise<AuthResult> {
-  const loginResponse = await axios.post(`${API_BASE_URL}/users/login`, {
+  const loginResponse = await axios.post(buildApiUrl(API_ENDPOINTS.LOGIN), {
     login_name: loginName,
     password
   })
@@ -24,7 +23,7 @@ export async function authenticateUser(loginName: string, password: string): Pro
     throw new Error('Authentication failed: access token missing')
   }
 
-  const profileResponse = await axios.get(`${API_BASE_URL}/users/me`, {
+  const profileResponse = await axios.get(buildApiUrl(API_ENDPOINTS.USER_PROFILE), {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }

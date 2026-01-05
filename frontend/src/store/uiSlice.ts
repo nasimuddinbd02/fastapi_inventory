@@ -1,6 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type ViewKey = 'dashboard' | 'products' | 'settings'
+type ViewKey =
+  | 'dashboard'
+  | 'intake'
+  | 'dispatch'
+  | 'settings'
+  | 'settings.categories'
+  | 'settings.suppliers'
+  | 'settings.products'
+  | 'settings.users'
 
 type UiState = {
   activeView: ViewKey
