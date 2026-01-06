@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Response, Query
 from app.viewmodels.user import UserCreateViewModel, UserUpdateViewModel, UserViewModel, UserLoginViewModel
-from app.services.user_service import UserService, Token
+from app.services.user_service import UserService, Token, RefreshTokenRequest
 from app.dependencies import get_user_service
 from app.auth import get_current_active_user
 from app.models.user import User
@@ -43,6 +43,16 @@ async def login_user(login_data: UserLoginViewModel, service: UserService = Depe
         return token
     except ValueError as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+
+@router.post("/refresh", response_model=Token)
+async def refresh_token(request: RefreshTokenRequest, service: UserService = Depends(get_user_service)):
+    """Refresh access token using refresh token"""
+    token = await service.refresh_access_token(request.refresh_token)
+    if not token:
+        raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
+    return token
+
 
 @router.get("/me", response_model=UserViewModel)
 async def read_current_user(current_user: User = Depends(get_current_active_user)):

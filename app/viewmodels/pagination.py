@@ -1,11 +1,12 @@
+
 from typing import Generic, TypeVar
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, ConfigDict
 
 T = TypeVar("T")
 
-class PaginatedResponse(GenericModel, Generic[T]):
+class PaginatedResponse(BaseModel, Generic[T]):
     """Standard response model for paginated list endpoints."""
-
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     items: list[T]
     total: int
     page: int

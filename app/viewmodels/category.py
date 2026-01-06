@@ -6,7 +6,7 @@ class CategoryCreateViewModel(BaseModel):
     category_name: str
     category_description: Optional[str] = None
 
-    @field_validator('category_name')
+    @field_validator('category_name', mode="before")
     @classmethod
     def validate_category_name(cls, v):
         if len(v.strip()) < 2:
@@ -18,7 +18,7 @@ class CategoryUpdateViewModel(BaseModel):
     category_name: Optional[str] = None
     category_description: Optional[str] = None
 
-    @field_validator('category_name')
+    @field_validator('category_name', mode="before")
     @classmethod
     def validate_category_name(cls, v):
         if v and len(v.strip()) < 2:

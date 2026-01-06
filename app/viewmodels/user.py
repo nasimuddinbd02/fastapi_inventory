@@ -10,7 +10,7 @@ class UserCreateViewModel(BaseModel):
     confirm_password: str
     accept_terms: bool = False
 
-    @field_validator('login_name')
+    @field_validator('login_name', mode="before")
     @classmethod
     def validate_login_name(cls, v):
         if len(v) < 3:
@@ -19,7 +19,7 @@ class UserCreateViewModel(BaseModel):
             raise ValueError('Login name can only contain letters, numbers, underscores, and hyphens')
         return v
 
-    @field_validator('confirm_password')
+    @field_validator('confirm_password', mode="after")
     @classmethod
     def passwords_match(cls, v, info):
         if 'password' in info.data and v != info.data['password']:
@@ -34,14 +34,14 @@ class UserUpdateViewModel(BaseModel):
     new_password: Optional[str] = None
     confirm_new_password: Optional[str] = None
 
-    @field_validator('new_password')
+    @field_validator('new_password', mode="before")
     @classmethod
     def validate_new_password(cls, v):
         if v and len(v) < 8:
             raise ValueError('New password must be at least 8 characters')
         return v
 
-    @field_validator('confirm_new_password')
+    @field_validator('confirm_new_password', mode="after")
     @classmethod
     def new_passwords_match(cls, v, info):
         if v and 'new_password' in info.data and v != info.data['new_password']:

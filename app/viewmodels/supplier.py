@@ -7,7 +7,7 @@ class SupplierCreateViewModel(BaseModel):
     contact_email: Optional[EmailStr] = None
     contact_info: Optional[str] = None
 
-    @field_validator('supplier_name')
+    @field_validator('supplier_name', mode="before")
     @classmethod
     def validate_supplier_name(cls, v):
         if len(v.strip()) < 2:
@@ -20,7 +20,7 @@ class SupplierUpdateViewModel(BaseModel):
     contact_email: Optional[EmailStr] = None
     contact_info: Optional[str] = None
 
-    @field_validator('supplier_name')
+    @field_validator('supplier_name', mode="before")
     @classmethod
     def validate_supplier_name(cls, v):
         if v and len(v.strip()) < 2:

@@ -7,7 +7,7 @@ class InventoryCreateViewModel(BaseModel):
     stock_quantity: float  # Different from 'quantity'
     warehouse_location: Optional[str] = None  # Different from 'location'
 
-    @field_validator('stock_quantity')
+    @field_validator('stock_quantity', mode="before")
     @classmethod
     def validate_stock_quantity(cls, v):
         if v < 0:
@@ -19,7 +19,7 @@ class InventoryUpdateViewModel(BaseModel):
     stock_quantity: Optional[float] = None
     warehouse_location: Optional[str] = None
 
-    @field_validator('stock_quantity')
+    @field_validator('stock_quantity', mode="before")
     @classmethod
     def validate_stock_quantity(cls, v):
         if v is not None and v < 0:

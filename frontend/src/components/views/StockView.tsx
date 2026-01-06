@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { fetchProducts, setPage, setPageSize } from '@/store/productsSlice'
+import { fetchProducts, setPage } from '@/store/productsSlice'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'

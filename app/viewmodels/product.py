@@ -11,14 +11,14 @@ class ProductCreateViewModel(BaseModel):
     category_name: str  # Use name instead of ID
     supplier_name: str  # Use name instead of ID
 
-    @field_validator('product_title')
+    @field_validator('product_title', mode="before")
     @classmethod
     def validate_product_title(cls, v):
         if len(v.strip()) < 2:
             raise ValueError('Product title must be at least 2 characters')
         return v.strip()
 
-    @field_validator('unit_price')
+    @field_validator('unit_price', mode="before")
     @classmethod
     def validate_unit_price(cls, v):
         if v <= 0:
@@ -33,14 +33,14 @@ class ProductUpdateViewModel(BaseModel):
     category_name: Optional[str] = None
     supplier_name: Optional[str] = None
 
-    @field_validator('product_title')
+    @field_validator('product_title', mode="before")
     @classmethod
     def validate_product_title(cls, v):
         if v and len(v.strip()) < 2:
             raise ValueError('Product title must be at least 2 characters')
         return v.strip() if v else v
 
-    @field_validator('unit_price')
+    @field_validator('unit_price', mode="before")
     @classmethod
     def validate_unit_price(cls, v):
         if v is not None and v <= 0:

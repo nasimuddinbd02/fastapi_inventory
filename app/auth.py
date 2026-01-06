@@ -1,6 +1,6 @@
 from datetime import datetime,timezone, timedelta
 from typing import Optional
-from jwt import PyJWTError, decode, encode
+from jwt import PyJWTError, decode, encode, ExpiredSignatureError
 from pwdlib import PasswordHash
 from fastapi import Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -11,8 +11,10 @@ from app.exceptions import AuthenticationError, AuthorizationError
 
 # JWT Configuration
 SECRET_KEY = "your-secret-key-here-change-in-production"  # In production, use environment variable
+REFRESH_SECRET_KEY = "your-refresh-secret-key-here-change-in-production"  # Separate secret for refresh tokens
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Access token: 30 minutes
+REFRESH_TOKEN_EXPIRE_DAYS = 7  # Refresh token: 7 days
 
 # Password hashing with Argon2
 pwd_context = PasswordHash.recommended()
@@ -36,9 +38,35 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
-    to_encode.update({"exp": expire})
+    to_encode.update({"exp": expire, "type": "access"})
     encoded_jwt = encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
+    """Create JWT refresh token with longer expiry"""
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+
+    to_encode.update({"exp": expire, "type": "refresh"})
+    encoded_jwt = encode(to_encode, REFRESH_SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+def verify_refresh_token(token: str) -> Optional[str]:
+    """Verify refresh token and return username if valid"""
+    try:
+        payload = decode(token, REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+        token_type = payload.get("type")
+        if token_type != "refresh":
+            return None
+        username: str = payload.get("sub")
+        return username
+    except ExpiredSignatureError:
+        return None
+    except PyJWTError:
+        return None
 
 async def get_current_user(token: HTTPAuthorizationCredentials = Depends(security), db: AsyncSession = Depends(get_db)):
     """Dependency to get current authenticated user"""

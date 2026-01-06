@@ -32,6 +32,9 @@ const authSlice = createSlice({
       state.token = action.payload.token
       state.initialized = true
     },
+    setToken(state, action: PayloadAction<string>) {
+      state.token = action.payload
+    },
     clearSessionState(state) {
       state.user = null
       state.token = null
@@ -48,6 +51,6 @@ const authSlice = createSlice({
   }
 })
 
-export const { hydrateSession, setSession, clearSessionState, updateUserProfile } = authSlice.actions
+export const { hydrateSession, setSession, setToken, clearSessionState, updateUserProfile } = authSlice.actions
 
 export default authSlice.reducer

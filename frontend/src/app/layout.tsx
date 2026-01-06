@@ -4,6 +4,7 @@ import StoreProvider from '@/providers/StoreProvider'
 import { ThemeProvider } from 'next-themes'
 import { SettingsProvider } from '@/providers/settings-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { GlobalLoading } from '@/components/ui/global-loading'
 import { AuthGuard } from '@/components/auth/AuthGuard'
 import { AuthExpiryHandler } from '@/components/auth/AuthExpiryHandler'
 import '@/lib/axiosInterceptor' // Initialize axios interceptor
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }){
               <AuthGuard>
                 {children}
               </AuthGuard>
+              <GlobalLoading />
             </SettingsProvider>
           </ThemeProvider>
         </StoreProvider>

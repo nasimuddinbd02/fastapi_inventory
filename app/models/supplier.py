@@ -8,6 +8,7 @@ class Supplier(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
     contact_info = Column(Text, nullable=True)
-    
+    contact_email = Column(String, nullable=True)
+
     # Relationships
     intake_orders = relationship("IntakeOrder", back_populates="supplier")

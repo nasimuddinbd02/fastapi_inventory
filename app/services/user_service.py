@@ -9,14 +9,22 @@ from app.mappers.user_mapper import (
     map_user_create_viewmodel_to_dto, map_user_update_viewmodel_to_dto,
     map_user_to_viewmodel, map_login_viewmodel_to_credentials
 )
-from app.auth import get_password_hash, create_access_token, verify_password
+from app.auth import (
+    get_password_hash, create_access_token, create_refresh_token,
+    verify_password, verify_refresh_token, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+)
 from datetime import timedelta
 from pydantic import BaseModel
 from typing import Optional
 
 class Token(BaseModel):
     access_token: str
+    refresh_token: str
     token_type: str
+    expires_in: int  # seconds until access token expires
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
 
 class TokenData(BaseModel):
     username: Optional[str] = None
@@ -104,7 +112,7 @@ class UserService:
         return await crud_delete_user(self.db, user_id) is not None
 
     async def authenticate_user(self, login_viewmodel: UserLoginViewModel) -> Token:
-        """Authenticate user and return JWT token"""
+        """Authenticate user and return JWT tokens (access + refresh)"""
         username, password = map_login_viewmodel_to_credentials(login_viewmodel)
 
         # Get user by username
@@ -124,10 +132,52 @@ class UserService:
         if not user.is_active:
             raise ValueError("User account is inactive")
 
-        # Create access token
-        access_token_expires = timedelta(minutes=30)
+        # Create access token (short-lived)
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": user.username}, expires_delta=access_token_expires
         )
 
-        return Token(access_token=access_token, token_type="bearer")
+        # Create refresh token (long-lived)
+        refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+        refresh_token = create_refresh_token(
+            data={"sub": user.username}, expires_delta=refresh_token_expires
+        )
+
+        return Token(
+            access_token=access_token,
+            refresh_token=refresh_token,
+            token_type="bearer",
+            expires_in=ACCESS_TOKEN_EXPIRE_MINUTES * 60  # Convert to seconds
+        )
+
+    async def refresh_access_token(self, refresh_token: str) -> Token:
+        """Use refresh token to get a new access token"""
+        # Verify the refresh token
+        username = verify_refresh_token(refresh_token)
+        if not username:
+            return None
+
+        # Get user to ensure they still exist and are active
+        user = await get_user_by_username(self.db, username)
+        if not user or not user.is_active:
+            return None
+
+        # Create new access token
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        new_access_token = create_access_token(
+            data={"sub": user.username}, expires_delta=access_token_expires
+        )
+
+        # Optionally rotate refresh token (create a new one)
+        refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+        new_refresh_token = create_refresh_token(
+            data={"sub": user.username}, expires_delta=refresh_token_expires
+        )
+
+        return Token(
+            access_token=new_access_token,
+            refresh_token=new_refresh_token,
+            token_type="bearer",
+            expires_in=ACCESS_TOKEN_EXPIRE_MINUTES * 60
+        )
