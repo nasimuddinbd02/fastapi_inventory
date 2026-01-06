@@ -14,7 +14,11 @@ async def get_product(db: AsyncSession, product_id: int):
     db_logger.debug(f"Querying product with ID: {product_id}")
     result = await db.execute(
         select(Product)
-        .options(joinedload(Product.category), joinedload(Product.supplier))
+        .options(
+            joinedload(Product.category),
+            joinedload(Product.supplier),
+            joinedload(Product.inventory)
+        )
         .where(Product.id == product_id)
     )
     product = result.scalars().first()
@@ -40,7 +44,11 @@ async def get_products(db: AsyncSession, skip: int = 0, limit: int = 100, search
     db_logger.debug(f"Querying products with skip={skip}, limit={limit}, search={search}")
     query = (
         select(Product)
-        .options(joinedload(Product.category), joinedload(Product.supplier))
+        .options(
+            joinedload(Product.category),
+            joinedload(Product.supplier),
+            joinedload(Product.inventory)
+        )
     )
     search_filter = _product_search_filter(search.strip().lower() if search else None)
     if search_filter is not None:
@@ -88,7 +96,11 @@ async def get_product_by_name(db: AsyncSession, name: str):
     db_logger.debug(f"Querying product by name: {name}")
     result = await db.execute(
         select(Product)
-        .options(joinedload(Product.category), joinedload(Product.supplier))
+        .options(
+            joinedload(Product.category),
+            joinedload(Product.supplier),
+            joinedload(Product.inventory)
+        )
         .where(Product.name == name)
     )
     product = result.scalars().first()

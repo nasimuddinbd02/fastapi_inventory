@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.dbAccess import dispatch as dispatch_db
 from app.mappers.dispatch_mapper import map_dispatch_order_to_viewmodel
 from app.viewmodels.dispatch import (
@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 
 class DispatchService:
-    def __init__(self, db: Session):
+    def __init__(self, db: AsyncSession):
         self.db = db
     
     async def get_dispatch_orders(
@@ -52,7 +52,8 @@ class DispatchService:
             data.payment_method,
             items_data,
             data.notes,
-            data.tax_rate
+            data.tax_rate,
+            data.status
         )
         
         return map_dispatch_order_to_viewmodel(order)

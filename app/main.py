@@ -2,9 +2,10 @@ from fastapi import FastAPI, Request, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
-from app.database import engine, Base
-from app.routers import categories, suppliers, products, inventory, users, agents, intake, dispatch
+from app.database import engine, Base, SessionLocal
+from app.routers import categories, suppliers, products, inventory, users, agents, intake, dispatch, settings
 from app.logging_config import setup_logging
+from app.dbAccess.settings import initialize_default_settings
 from app.exceptions import AppException
 from app.error_responses import ErrorResponse
 import logging
@@ -20,6 +21,12 @@ async def app_lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables created/verified successfully")
+    
+    # Initialize default settings
+    async with SessionLocal() as db:
+        await initialize_default_settings(db)
+    logger.info("Default application settings initialized")
+    
     try:
         yield
     finally:
@@ -106,6 +113,7 @@ app.include_router(users.router)
 app.include_router(agents.router)
 app.include_router(intake.router)
 app.include_router(dispatch.router)
+app.include_router(settings.router)
 
 # API Versioning - v1 endpoints using APIRouter
 v1_router = APIRouter(prefix="/v1")
@@ -124,6 +132,7 @@ v1_router.include_router(users.router, tags=["v1/users"])
 v1_router.include_router(agents.router, tags=["v1/agents"])
 v1_router.include_router(intake.router, tags=["v1/intake"])
 v1_router.include_router(dispatch.router, tags=["v1/dispatch"])
+v1_router.include_router(settings.router, tags=["v1/settings"])
 
 # Attach v1 router to main app
 app.include_router(v1_router)

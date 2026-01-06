@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.dbAccess import intake as intake_db
 from app.mappers.intake_mapper import map_intake_order_to_viewmodel
 from app.viewmodels.intake import (
@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 
 class IntakeService:
-    def __init__(self, db: Session):
+    def __init__(self, db: AsyncSession):
         self.db = db
     
     async def get_intake_orders(

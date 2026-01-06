@@ -1,19 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { fetchDispatchOrders, deleteDispatchOrder, setPage, setPageSize } from '@/store/dispatchSlice'
+import { fetchDispatchOrders, deleteDispatchOrder, setPage, type DispatchOrder } from '@/store/dispatchSlice'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { DataTable, type Column } from '@/components/views/masterData/shared'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +17,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
-import { Loader2, Plus, Pencil, Trash2, Search } from 'lucide-react'
+import { Loader2, Plus, Pencil, Search, Eye } from 'lucide-react'
 import DispatchForm from '@/components/forms/DispatchForm'
 
 export default function DispatchView() {
@@ -45,7 +37,13 @@ export default function DispatchView() {
     dispatch(fetchDispatchOrders({ page: 1, pageSize, search: searchQuery }))
   }
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async (order: DispatchOrder) => {
+    if (order.id) {
+      setDeleteId(order.id)
+    }
+  }, [])
+
+  const confirmDelete = async () => {
     if (deleteId) {
       await dispatch(deleteDispatchOrder(deleteId))
       setDeleteId(null)
@@ -53,10 +51,10 @@ export default function DispatchView() {
     }
   }
 
-  const handleEdit = (id: number) => {
-    setEditingId(id)
+  const handleEdit = useCallback((order: DispatchOrder) => {
+    setEditingId(order.id)
     setShowForm(true)
-  }
+  }, [])
 
   const handleCreate = () => {
     setEditingId(null)
@@ -68,6 +66,10 @@ export default function DispatchView() {
     setEditingId(null)
     dispatch(fetchDispatchOrders({ page, pageSize, search: searchQuery }))
   }
+
+  const handlePageChange = useCallback((newPage: number) => {
+    dispatch(setPage(newPage))
+  }, [dispatch])
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
@@ -83,109 +85,125 @@ export default function DispatchView() {
     return <Badge variant="secondary">{method.replace('_', ' ').toUpperCase()}</Badge>
   }
 
-  const totalPages = Math.ceil(total / pageSize)
+  const columns: Array<Column<DispatchOrder>> = useMemo(() => [
+    {
+      key: 'dispatch_number',
+      header: 'Dispatch Number',
+      render: (item) => <span className="font-medium">{item.dispatch_number}</span>,
+      sortValue: (item) => item.dispatch_number || '',
+      filterValue: (item) => item.dispatch_number || '',
+      filterable: false
+    },
+    {
+      key: 'dispatch_date',
+      header: 'Date',
+      render: (item) => new Date(item.dispatch_date).toLocaleDateString(),
+      sortValue: (item) => item.dispatch_date || '',
+      filterValue: (item) => new Date(item.dispatch_date).toLocaleDateString(),
+      filterable: false
+    },
+    {
+      key: 'customer_name',
+      header: 'Customer',
+      render: (item) => item.customer_name || '-',
+      sortValue: (item) => item.customer_name?.toLowerCase() || '',
+      filterValue: (item) => item.customer_name || '',
+      filterable: false
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (item) => getStatusBadge(item.status),
+      sortValue: (item) => item.status || '',
+      filterValue: (item) => item.status || '',
+      filterable: false
+    },
+    {
+      key: 'payment_method',
+      header: 'Payment',
+      render: (item) => getPaymentBadge(item.payment_method),
+      sortValue: (item) => item.payment_method || '',
+      filterValue: (item) => item.payment_method || '',
+      filterable: false
+    },
+    {
+      key: 'total_amount',
+      header: 'Total',
+      render: (item) => <div className="text-center">${Number.parseFloat(item.total_amount.toString()).toFixed(2)}</div>,
+      sortValue: (item) => Number.parseFloat(item.total_amount.toString()),
+      filterValue: (item) => item.total_amount.toString(),
+      filterable: false
+    },
+    {
+      key: 'items',
+      header: 'Items',
+      render: (item) => item.items?.length || 0,
+      sortValue: (item) => item.items?.length || 0,
+      filterable: false
+    },
+    {
+      key: 'actions',
+      header: 'Actions',
+      render: (item) => (
+        <div className="text-right space-x-2">
+          {item.status === 'draft' ? (
+            <Button variant="ghost" size="sm" onClick={() => handleEdit(item)}>
+              <Pencil className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button variant="ghost" size="sm" onClick={() => handleEdit(item)} title="View order">
+              <Eye className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      ),
+      filterable: false
+    }
+  ], [handleEdit])
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 h-4 w-4" />
-            New Dispatch
-          </Button>
-          <CardTitle>Dispatch Orders</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center space-x-2 mb-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search by dispatch number, customer..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="pl-8"
-              />
-            </div>
-            <Button onClick={handleSearch}>Search</Button>
-          </div>
+    <div className="space-y-4 pt-4">
+      <p className="text-sm text-muted-foreground">Process outgoing inventory to customers. Create dispatch orders to track shipments and automatically deduct from stock levels.</p>
+      
+      <div className="flex flex-row items-center justify-start mb-4">
+        <Button onClick={handleCreate}>
+          <Plus className="mr-2 h-4 w-4" />
+          New Dispatch
+        </Button>
+      </div>
 
-          {loading ? (
-            <div className="flex justify-center p-8">
-              <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
-          ) : (
-            <>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Dispatch Number</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Payment</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
-                    <TableHead>Items</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {items.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell className="font-medium">{order.dispatch_number}</TableCell>
-                      <TableCell>{new Date(order.dispatch_date).toLocaleDateString()}</TableCell>
-                      <TableCell>{order.customer_name || '-'}</TableCell>
-                      <TableCell>{getStatusBadge(order.status)}</TableCell>
-                      <TableCell>{getPaymentBadge(order.payment_method)}</TableCell>
-                      <TableCell className="text-right">${parseFloat(order.total_amount).toFixed(2)}</TableCell>
-                      <TableCell>{order.items?.length || 0}</TableCell>
-                      <TableCell className="text-right space-x-2">
-                        {order.status === 'draft' && (
-                          <>
-                            <Button variant="ghost" size="sm" onClick={() => handleEdit(order.id)}>
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" onClick={() => setDeleteId(order.id)}>
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+      <div className="flex items-center space-x-2 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by dispatch number, customer..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            className="pl-8"
+          />
+        </div>
+        <Button onClick={handleSearch}>Search</Button>
+      </div>
 
-              <div className="flex items-center justify-between mt-4">
-                <p className="text-sm text-muted-foreground">
-                  Showing {items.length} of {total} orders
-                </p>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    disabled={page <= 1}
-                    onClick={() => dispatch(setPage(page - 1))}
-                  >
-                    Previous
-                  </Button>
-                  <span className="text-sm">
-                    Page {page} of {totalPages || 1}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    disabled={page >= totalPages}
-                    onClick={() => dispatch(setPage(page + 1))}
-                  >
-                    Next
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-        </CardContent>
-      </Card>
+      {loading ? (
+        <div className="flex justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      ) : (
+        <DataTable<DispatchOrder>
+          data={items}
+          columns={columns}
+          emptyMessage="No dispatch orders found"
+          loading={loading}
+          page={page}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={handlePageChange}
+          onDelete={item => item.status === 'draft' ? handleDelete(item) : undefined}
+          onRowDoubleClick={handleEdit}
+        />
+      )}
 
       {showForm && (
         <DispatchForm
@@ -205,7 +223,7 @@ export default function DispatchView() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

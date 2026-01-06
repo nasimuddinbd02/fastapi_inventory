@@ -1,1 +1,1 @@
-from . import categories, suppliers, products, inventory, users, agents
+from . import categories, suppliers, products, inventory, users, agents, intake, dispatch, settings

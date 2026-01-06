@@ -1,8 +1,9 @@
 "use client"
 
 import React, { useMemo, useState } from 'react'
-import { Trash2 } from 'lucide-react'
+import { Trash2, Filter, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +30,8 @@ export type Column<T> = {
   header: string
   render: (item: T) => React.ReactNode
   sortValue?: (item: T) => string | number | boolean | null | undefined
+  filterValue?: (item: T) => string
+  filterable?: boolean
 }
 
 type DataTableProps<T> = {
@@ -65,6 +68,8 @@ export function DataTable<T>({
   const [deletingId, setDeletingId] = useState<string | number | null>(null)
   const [itemToDelete, setItemToDelete] = useState<T | null>(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [columnFilters, setColumnFilters] = useState<Record<string, string>>({})
+  const [showFilters, setShowFilters] = useState(false)
 
   const sortableColumns = useMemo(()=>{
     return new Map(columns.map(column => [column.key, column]))
@@ -78,11 +83,28 @@ export function DataTable<T>({
 
   const colSpan = useMemo(()=> Math.max(columns.length + (onDelete ? 1 : 0), 1), [columns.length, onDelete])
 
+  // Filter data first
+  const filteredData = useMemo(() => {
+    if (Object.keys(columnFilters).length === 0) return data
+    
+    return data.filter(item => {
+      return Object.entries(columnFilters).every(([columnKey, filterText]) => {
+        if (!filterText) return true
+        
+        const column = columns.find(col => col.key === columnKey)
+        if (!column?.filterValue) return true
+        
+        const itemValue = column.filterValue(item)
+        return itemValue.toLowerCase().includes(filterText.toLowerCase())
+      })
+    })
+  }, [data, columnFilters, columns])
+
   const sortedData = useMemo(()=>{
-    if (!activeColumn?.sortValue) return data
+    if (!activeColumn?.sortValue) return filteredData
     const extractor = activeColumn.sortValue
     const direction = sortDirection === 'asc' ? 1 : -1
-    return [...data].sort((a, b) => {
+    return [...filteredData].sort((a, b) => {
       const aValue = extractor(a)
       const bValue = extractor(b)
 
@@ -104,7 +126,7 @@ export function DataTable<T>({
       const bString = String(bValue).toLowerCase()
       return aString.localeCompare(bString) * direction
     })
-  }, [activeColumn, data, sortDirection])
+  }, [activeColumn, filteredData, sortDirection])
 
   function handleSort(column: Column<T>){
     if (!column.sortValue) return
@@ -115,6 +137,23 @@ export function DataTable<T>({
       setSortDirection('asc')
     }
   }
+
+  function handleFilterChange(columnKey: string, value: string) {
+    setColumnFilters(prev => {
+      if (!value) {
+        const newFilters = { ...prev }
+        delete newFilters[columnKey]
+        return newFilters
+      }
+      return { ...prev, [columnKey]: value }
+    })
+  }
+
+  function clearAllFilters() {
+    setColumnFilters({})
+  }
+
+  const hasActiveFilters = Object.keys(columnFilters).length > 0
 
   function promptDelete(item: T){
     if (!onDelete) return
@@ -187,8 +226,44 @@ export function DataTable<T>({
   const disablePrev = loading || currentPage <= 1
   const disableNext = loading || currentPage >= totalPages
 
+  // Check if any column is filterable
+  const hasFilterableColumns = columns.some(col => col.filterable)
+
   return (
     <div className="w-full overflow-hidden rounded-md border">
+      {/* Filter Toggle Button - only show if there are filterable columns */}
+      {hasFilterableColumns && (
+        <div className="flex items-center justify-between border-b px-4 py-2 bg-muted/50">
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant={showFilters ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowFilters(prev => !prev)}
+            >
+              <Filter className="h-4 w-4 mr-2" />
+              {showFilters ? 'Hide Filters' : 'Show Filters'}
+            </Button>
+            {hasActiveFilters && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={clearAllFilters}
+              >
+                <X className="h-4 w-4 mr-2" />
+                Clear Filters ({Object.keys(columnFilters).length})
+              </Button>
+            )}
+          </div>
+          {hasActiveFilters && (
+            <span className="text-sm text-muted-foreground">
+              Showing {sortedData.length} of {data.length} items
+            </span>
+          )}
+        </div>
+      )}
+
       <Table className="w-full">
         <TableHeader>
           <TableRow>
@@ -215,6 +290,24 @@ export function DataTable<T>({
               <TableHead className="w-16 text-right">Actions</TableHead>
             )}
           </TableRow>
+          {/* Filter Row */}
+          {showFilters && (
+            <TableRow className="bg-muted/30">
+              {columns.map(column => (
+                <TableHead key={`filter-${column.key}`} className="py-2">
+                  {(column.filterable !== false && column.filterValue) ? (
+                    <Input
+                      placeholder={`Filter ${column.header}...`}
+                      value={columnFilters[column.key] || ''}
+                      onChange={(e) => handleFilterChange(column.key, e.target.value)}
+                      className="h-8 text-sm"
+                    />
+                  ) : null}
+                </TableHead>
+              ))}
+              {onDelete && <TableHead className="py-2" />}
+            </TableRow>
+          )}
         </TableHeader>
         <TableBody>
           {loading ? (

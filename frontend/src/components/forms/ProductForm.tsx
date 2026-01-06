@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastValidation, handleApiError } from '@/lib/toast-messages'
 import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import { useAppSelector } from '@/store/hooks'
 import {
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import {
   Select,
   SelectContent,
@@ -23,6 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { FormSection, FormField, FormRow, FormActions, RequiredMark } from '@/components/ui/form-section'
+import { Package, FileText, DollarSign, Tags, Building2, Loader2, Save, X } from 'lucide-react'
 
 interface ProductFormProps {
   open: boolean
@@ -124,39 +127,23 @@ export function ProductForm({ open, onOpenChange, editData }: ProductFormProps) 
     e.preventDefault()
     
     if (!productTitle.trim()) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Product title is required"
-      })
+      toastValidation.required('Product title')
       return
     }
 
     const price = parseFloat(unitPrice)
     if (isNaN(price) || price <= 0) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Unit price must be greater than 0"
-      })
+      toastValidation.custom('Invalid Price', 'Unit price must be greater than 0')
       return
     }
 
     if (!categoryName) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Category is required"
-      })
+      toastValidation.required('Category')
       return
     }
 
     if (!supplierName) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Supplier is required"
-      })
+      toastValidation.required('Supplier')
       return
     }
 
@@ -182,11 +169,7 @@ export function ProductForm({ open, onOpenChange, editData }: ProductFormProps) 
           }
         )
 
-        toast({
-          variant: "success",
-          title: "Product Updated",
-          description: `${productTitle} has been updated successfully`
-        })
+        toastSuccess.updated('Product', productTitle)
       } else {
         // Create new product
         await axios.post(
@@ -203,11 +186,7 @@ export function ProductForm({ open, onOpenChange, editData }: ProductFormProps) 
           }
         )
 
-        toast({
-          variant: "success",
-          title: "Product Created",
-          description: `${productTitle} has been added successfully`
-        })
+        toastSuccess.created('Product', productTitle)
       }
 
       handleClose()
@@ -216,16 +195,8 @@ export function ProductForm({ open, onOpenChange, editData }: ProductFormProps) 
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('products:updated'))
       }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.error?.message 
-        || error.response?.data?.detail 
-        || error.message 
-        || 'An error occurred'
-      toast({
-        variant: "destructive",
-        title: editData ? "Failed to Update Product" : "Failed to Create Product",
-        description: errorMessage
-      })
+    } catch (error: unknown) {
+      handleApiError(error, editData ? 'update' : 'create', 'product')
     } finally {
       setIsSubmitting(false)
     }
@@ -233,115 +204,161 @@ export function ProductForm({ open, onOpenChange, editData }: ProductFormProps) 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg">
-        <SheetHeader>
-          <SheetTitle>{editData ? 'Edit Product' : 'Add New Product'}</SheetTitle>
-          <SheetDescription>
-            {editData ? 'Update the product details' : 'Enter the product details to add a new item to inventory'}
-          </SheetDescription>
+      <SheetContent className="sm:max-w-xl overflow-y-auto">
+        <SheetHeader className="space-y-1 pb-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <Package className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <SheetTitle>{editData ? 'Edit Product' : 'Add New Product'}</SheetTitle>
+              <SheetDescription>
+                {editData ? 'Update the product details' : 'Add a new product to your inventory catalog'}
+              </SheetDescription>
+            </div>
+          </div>
         </SheetHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
-          <div className="space-y-2">
-            <Label htmlFor="product-title">
-              Product Title <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="product-title"
-              value={productTitle}
-              onChange={(e) => setProductTitle(e.target.value)}
-              placeholder="Enter product title"
-              disabled={isSubmitting}
-              required
-            />
-          </div>
+        <Separator className="mb-6" />
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <FormSection title="Product Information" icon={<FileText className="h-4 w-4" />}>
+            <FormField>
+              <Label htmlFor="product-title" className="text-sm font-medium">
+                Product Title<RequiredMark />
+              </Label>
+              <Input
+                id="product-title"
+                value={productTitle}
+                onChange={(e) => setProductTitle(e.target.value)}
+                placeholder="e.g., Wireless Mouse, Office Chair, USB Cable"
+                disabled={isSubmitting}
+                required
+                className="h-10"
+              />
+            </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="product-description">Description</Label>
-            <Textarea
-              id="product-description"
-              value={productDescription}
-              onChange={(e) => setProductDescription(e.target.value)}
-              placeholder="Enter product description (optional)"
-              disabled={isSubmitting}
-              rows={3}
-            />
-          </div>
+            <FormField>
+              <Label htmlFor="product-description" className="text-sm font-medium">
+                Description
+              </Label>
+              <Textarea
+                id="product-description"
+                value={productDescription}
+                onChange={(e) => setProductDescription(e.target.value)}
+                placeholder="Describe the product features, specifications, or notes..."
+                disabled={isSubmitting}
+                rows={3}
+                className="resize-none"
+              />
+              <p className="text-xs text-muted-foreground">
+                Optional: Add details to help identify this product
+              </p>
+            </FormField>
+          </FormSection>
 
-          <div className="space-y-2">
-            <Label htmlFor="unit-price">
-              Unit Price <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="unit-price"
-              type="number"
-              step="0.01"
-              min="0.01"
-              value={unitPrice}
-              onChange={(e) => setUnitPrice(e.target.value)}
-              placeholder="0.00"
-              disabled={isSubmitting}
-              required
-            />
-          </div>
+          <FormSection title="Pricing" icon={<DollarSign className="h-4 w-4" />}>
+            <FormField>
+              <Label htmlFor="unit-price" className="text-sm font-medium">
+                Unit Price<RequiredMark />
+              </Label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                <Input
+                  id="unit-price"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  value={unitPrice}
+                  onChange={(e) => setUnitPrice(e.target.value)}
+                  placeholder="0.00"
+                  disabled={isSubmitting}
+                  required
+                  className="h-10 pl-7"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Default selling price per unit
+              </p>
+            </FormField>
+          </FormSection>
 
-          <div className="space-y-2">
-            <Label htmlFor="category">
-              Category <span className="text-red-500">*</span>
-            </Label>
-            <Select 
-              value={categoryName} 
-              onValueChange={setCategoryName}
-              disabled={isSubmitting}
-            >
-              <SelectTrigger id="category">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.category_id} value={category.category_name}>
-                    {category.category_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <FormSection title="Classification" icon={<Tags className="h-4 w-4" />}>
+            <FormRow>
+              <FormField>
+                <Label htmlFor="category" className="text-sm font-medium">
+                  Category<RequiredMark />
+                </Label>
+                <Select 
+                  value={categoryName} 
+                  onValueChange={setCategoryName}
+                  disabled={isSubmitting}
+                >
+                  <SelectTrigger id="category" className="h-10">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.category_id} value={category.category_name}>
+                        {category.category_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="supplier">
-              Supplier <span className="text-red-500">*</span>
-            </Label>
-            <Select 
-              value={supplierName} 
-              onValueChange={setSupplierName}
-              disabled={isSubmitting}
-            >
-              <SelectTrigger id="supplier">
-                <SelectValue placeholder="Select supplier" />
-              </SelectTrigger>
-              <SelectContent>
-                {suppliers.map((supplier) => (
-                  <SelectItem key={supplier.supplier_id} value={supplier.supplier_name}>
-                    {supplier.supplier_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+              <FormField>
+                <Label htmlFor="supplier" className="text-sm font-medium">
+                  <span className="flex items-center gap-2">
+                    <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
+                    Supplier<RequiredMark />
+                  </span>
+                </Label>
+                <Select 
+                  value={supplierName} 
+                  onValueChange={setSupplierName}
+                  disabled={isSubmitting}
+                >
+                  <SelectTrigger id="supplier" className="h-10">
+                    <SelectValue placeholder="Select supplier" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {suppliers.map((supplier) => (
+                      <SelectItem key={supplier.supplier_id} value={supplier.supplier_name}>
+                        {supplier.supplier_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
+            </FormRow>
+          </FormSection>
 
-          <div className="flex justify-end gap-3 pt-4">
+          <FormActions sticky>
             <Button
               type="button"
               variant="outline"
               onClick={handleClose}
               disabled={isSubmitting}
+              className="gap-2"
             >
+              <X className="h-4 w-4" />
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (editData ? 'Updating...' : 'Creating...') : (editData ? 'Update Product' : 'Create Product')}
+            <Button type="submit" disabled={isSubmitting} className="gap-2">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {editData ? 'Updating...' : 'Creating...'}
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  {editData ? 'Update Product' : 'Create Product'}
+                </>
+              )}
             </Button>
-          </div>
+          </FormActions>
         </form>
       </SheetContent>
     </Sheet>

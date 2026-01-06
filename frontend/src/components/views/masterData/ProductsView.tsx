@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useMemo, useState, useEffect } from 'react'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastError } from '@/lib/toast-messages'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,7 @@ import { Plus } from 'lucide-react'
 import { DataTable, type Column } from './shared'
 import { ProductForm } from '@/components/forms/ProductForm'
 import { fetchProducts, deleteProduct, setPage, type Product } from '@/store/productsSlice'
+import { selectSettings } from '@/store/settingsSlice'
 
 export default function SettingsProductsView(){
   const [search, setSearch] = useState('')
@@ -16,11 +17,13 @@ export default function SettingsProductsView(){
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const dispatch = useAppDispatch()
   const { items, loading, error, total, page, pageSize } = useAppSelector(state => state.products)
-  const currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }), [])
+  const settings = useAppSelector(selectSettings)
+  const effectivePageSize = settings.items_per_page || pageSize
+  const currencyFormatter = useMemo(() => new Intl.NumberFormat('en-US', { style: 'currency', currency: settings.currency || 'USD' }), [settings.currency])
 
   useEffect(() => {
-    dispatch(fetchProducts({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchProducts({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleAdd = useCallback(()=>{
     setEditingProduct(null)
@@ -35,8 +38,8 @@ export default function SettingsProductsView(){
   const handleCloseForm = useCallback(() => {
     setShowAddForm(false)
     setEditingProduct(null)
-    dispatch(fetchProducts({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchProducts({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleDelete = useCallback(async (product: Product)=>{
     if (!product.id) return
@@ -44,22 +47,14 @@ export default function SettingsProductsView(){
     try {
       await dispatch(deleteProduct(product.id)).unwrap()
       
-      toast({
-        variant: 'success',
-        title: 'Product deleted successfully',
-        description: `"${product.product_title}" has been removed from the system.`
-      })
+      toastSuccess.deleted('Product', product.product_title)
       
-      dispatch(fetchProducts({ page, pageSize, search }))
+      dispatch(fetchProducts({ page, pageSize: effectivePageSize, search }))
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Failed to delete product',
-        description: error instanceof Error ? error.message : 'An unexpected error occurred'
-      })
+      toastError.deleteFailed(error instanceof Error ? error.message : 'product')
       throw error
     }
-  }, [dispatch, page, pageSize, search])
+  }, [dispatch, page, effectivePageSize, search])
 
   const handlePageChange = useCallback((newPage: number) => {
     dispatch(setPage(newPage))
@@ -70,40 +65,42 @@ export default function SettingsProductsView(){
       key: 'product_title',
       header: 'Title',
       render: item => item.product_title,
-      sortValue: item => item.product_title?.toLowerCase() || ''
+      sortValue: item => item.product_title?.toLowerCase() || '',
+      filterValue: item => item.product_title || ''
     },
     {
       key: 'product_description',
       header: 'Description',
       render: item => item.product_description || '--',
-      sortValue: item => item.product_description?.toLowerCase() || ''
+      sortValue: item => item.product_description?.toLowerCase() || '',
+      filterValue: item => item.product_description || ''
     },
     {
       key: 'unit_price',
       header: 'Unit Price',
       render: item => (typeof item.unit_price === 'number' ? currencyFormatter.format(item.unit_price) : '--'),
-      sortValue: item => (typeof item.unit_price === 'number' ? item.unit_price : Number.POSITIVE_INFINITY)
+      sortValue: item => (typeof item.unit_price === 'number' ? item.unit_price : Number.POSITIVE_INFINITY),
+      filterValue: item => (typeof item.unit_price === 'number' ? item.unit_price.toString() : '')
     },
     {
       key: 'category',
       header: 'Category',
       render: item => item.category?.category_name || '--',
-      sortValue: item => item.category?.category_name?.toLowerCase() || ''
+      sortValue: item => item.category?.category_name?.toLowerCase() || '',
+      filterValue: item => item.category?.category_name || ''
     },
     {
       key: 'supplier',
       header: 'Supplier',
       render: item => item.supplier?.supplier_name || '--',
-      sortValue: item => item.supplier?.supplier_name?.toLowerCase() || ''
+      sortValue: item => item.supplier?.supplier_name?.toLowerCase() || '',
+      filterValue: item => item.supplier?.supplier_name || ''
     }
   ]), [currencyFormatter])
 
   return (
-    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8">
-      <div className="space-y-1">
-        <h2 className="text-xl font-semibold">Products</h2>
-        <p className="text-sm text-gray-600">Inspect the product master list, including pricing and category assignments.</p>
-      </div>
+    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8 pt-4">
+      <p className="text-sm text-muted-foreground">Manage your product catalog including pricing, stock levels, and category assignments. Add, edit, or remove products as needed.</p>
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
@@ -141,7 +138,7 @@ export default function SettingsProductsView(){
           emptyMessage="No products found."
           loading={loading}
           page={page}
-          pageSize={pageSize}
+          pageSize={effectivePageSize}
           total={total}
           onPageChange={handlePageChange}
           onDelete={handleDelete}

@@ -112,6 +112,10 @@ class UserService:
         if not user:
             return None
 
+        # Check if user has a password set
+        if not user.hashed_password:
+            return None
+
         # Verify password
         if not verify_password(password, user.hashed_password):
             return None

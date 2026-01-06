@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastValidation, handleApiError } from '@/lib/toast-messages'
 import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import { useAppSelector } from '@/store/hooks'
 import {
@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Separator } from "@/components/ui/separator"
+import { FormSection, FormField, FormRow, FormActions, RequiredMark } from '@/components/ui/form-section'
+import { User, Mail, Lock, Shield, Loader2, Save, X, UserCircle } from 'lucide-react'
 
 interface UserFormProps {
   open: boolean
@@ -73,102 +76,62 @@ export function UserForm({ open, onOpenChange, editData }: UserFormProps) {
     
     // Validate login name
     if (!loginName.trim() || loginName.trim().length < 3) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Login name must be at least 3 characters"
-      })
+      toastValidation.minLength('Login name', 3)
       return
     }
 
     // Check if login name is alphanumeric
     const alphanumericRegex = /^[a-zA-Z0-9]+$/
     if (!alphanumericRegex.test(loginName.trim())) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Login name must contain only letters and numbers"
-      })
+      toastValidation.custom('Invalid Format', 'Login name must contain only letters and numbers')
       return
     }
 
     // Validate email
     if (!emailAddress.trim()) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Email address is required"
-      })
+      toastValidation.required('Email address')
       return
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(emailAddress.trim())) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Please enter a valid email address"
-      })
+      toastValidation.invalidEmail()
       return
     }
 
     // Validate password (only required when creating new user)
     if (!editData) {
       if (!password) {
-        toast({
-          variant: "destructive",
-          title: "Validation Error",
-          description: "Password is required"
-        })
+        toastValidation.required('Password')
         return
       }
 
       if (password.length < 6) {
-        toast({
-          variant: "destructive",
-          title: "Validation Error",
-          description: "Password must be at least 6 characters"
-        })
+        toastValidation.minLength('Password', 6)
         return
       }
 
       // Validate confirm password
       if (password !== confirmPassword) {
-        toast({
-          variant: "destructive",
-          title: "Validation Error",
-          description: "Passwords do not match"
-        })
+        toastValidation.passwordMismatch()
         return
       }
 
       // Validate terms acceptance
       if (!acceptTerms) {
-        toast({
-          variant: "destructive",
-          title: "Validation Error",
-          description: "You must accept the terms and conditions"
-        })
+        toastValidation.termsRequired()
         return
       }
     } else {
       // When editing, only validate password if it's being changed
       if (password || confirmPassword) {
         if (password.length < 6) {
-          toast({
-            variant: "destructive",
-            title: "Validation Error",
-            description: "Password must be at least 6 characters"
-          })
+          toastValidation.minLength('Password', 6)
           return
         }
 
         if (password !== confirmPassword) {
-          toast({
-            variant: "destructive",
-            title: "Validation Error",
-            description: "Passwords do not match"
-          })
+          toastValidation.passwordMismatch()
           return
         }
       }
@@ -202,11 +165,7 @@ export function UserForm({ open, onOpenChange, editData }: UserFormProps) {
           }
         )
 
-        toast({
-          variant: "success",
-          title: "User Updated",
-          description: `User ${loginName} has been updated successfully`
-        })
+        toastSuccess.updated('User', loginName)
       } else {
         // Create new user
         await axios.post(
@@ -224,11 +183,7 @@ export function UserForm({ open, onOpenChange, editData }: UserFormProps) {
           }
         )
 
-        toast({
-          variant: "success",
-          title: "User Created",
-          description: `User ${loginName} has been added successfully`
-        })
+        toastSuccess.created('User', loginName)
       }
 
       handleClose()
@@ -237,16 +192,8 @@ export function UserForm({ open, onOpenChange, editData }: UserFormProps) {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('users:updated'))
       }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.error?.message 
-        || error.response?.data?.detail 
-        || error.message 
-        || 'An error occurred'
-      toast({
-        variant: "destructive",
-        title: editData ? "Failed to Update User" : "Failed to Create User",
-        description: errorMessage
-      })
+    } catch (error: unknown) {
+      handleApiError(error, editData ? 'update' : 'create', 'user')
     } finally {
       setIsSubmitting(false)
     }
@@ -255,128 +202,173 @@ export function UserForm({ open, onOpenChange, editData }: UserFormProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="sm:max-w-lg overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>{editData ? 'Edit User' : 'Add New User'}</SheetTitle>
-          <SheetDescription>
-            {editData ? 'Update the user details' : 'Enter the user details to create a new account'}
-          </SheetDescription>
+        <SheetHeader className="space-y-1 pb-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <User className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <SheetTitle>{editData ? 'Edit User' : 'Add New User'}</SheetTitle>
+              <SheetDescription>
+                {editData ? 'Update user account details' : 'Create a new user account for system access'}
+              </SheetDescription>
+            </div>
+          </div>
         </SheetHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
-          <div className="space-y-2">
-            <Label htmlFor="login-name">
-              Login Name <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="login-name"
-              value={loginName}
-              onChange={(e) => setLoginName(e.target.value)}
-              placeholder="Enter username (letters and numbers only)"
-              disabled={isSubmitting}
-              required
-              minLength={3}
-              pattern="[a-zA-Z0-9]+"
-            />
-            <p className="text-xs text-gray-500">
-              At least 3 characters, letters and numbers only
+        <Separator className="mb-6" />
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <FormSection title="Account Information" icon={<UserCircle className="h-4 w-4" />}>
+            <FormField>
+              <Label htmlFor="login-name" className="text-sm font-medium">
+                Login Name<RequiredMark />
+              </Label>
+              <Input
+                id="login-name"
+                value={loginName}
+                onChange={(e) => setLoginName(e.target.value)}
+                placeholder="e.g., johndoe, admin123"
+                disabled={isSubmitting}
+                required
+                minLength={3}
+                pattern="[a-zA-Z0-9]+"
+                className="h-10"
+              />
+              <p className="text-xs text-muted-foreground">
+                3+ characters, letters and numbers only (used for login)
+              </p>
+            </FormField>
+
+            <FormField>
+              <Label htmlFor="display-name" className="text-sm font-medium">
+                Display Name
+              </Label>
+              <Input
+                id="display-name"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="e.g., John Doe"
+                disabled={isSubmitting}
+                className="h-10"
+              />
+              <p className="text-xs text-muted-foreground">
+                Optional: Name shown in the application
+              </p>
+            </FormField>
+
+            <FormField>
+              <Label htmlFor="email-address" className="text-sm font-medium">
+                <span className="flex items-center gap-2">
+                  <Mail className="h-3.5 w-3.5 text-muted-foreground" />
+                  Email Address<RequiredMark />
+                </span>
+              </Label>
+              <Input
+                id="email-address"
+                type="email"
+                value={emailAddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
+                placeholder="user@example.com"
+                disabled={isSubmitting}
+                required
+                className="h-10"
+              />
+            </FormField>
+          </FormSection>
+
+          <FormSection title="Security" icon={<Lock className="h-4 w-4" />}>
+            <FormRow>
+              <FormField>
+                <Label htmlFor="password" className="text-sm font-medium">
+                  Password{!editData && <RequiredMark />}
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={editData ? "Leave blank to keep" : "Min. 6 characters"}
+                  disabled={isSubmitting}
+                  required={!editData}
+                  minLength={6}
+                  className="h-10"
+                />
+              </FormField>
+
+              <FormField>
+                <Label htmlFor="confirm-password" className="text-sm font-medium">
+                  Confirm Password{!editData && <RequiredMark />}
+                </Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder={editData ? "Confirm if changing" : "Confirm password"}
+                  disabled={isSubmitting}
+                  required={!editData}
+                  className="h-10"
+                />
+              </FormField>
+            </FormRow>
+            <p className="text-xs text-muted-foreground">
+              {editData 
+                ? "Leave both fields blank to keep the current password" 
+                : "Password must be at least 6 characters"}
             </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email-address">
-              Email Address <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="email-address"
-              type="email"
-              value={emailAddress}
-              onChange={(e) => setEmailAddress(e.target.value)}
-              placeholder="user@example.com"
-              disabled={isSubmitting}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="display-name">Display Name</Label>
-            <Input
-              id="display-name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="Full name (optional)"
-              disabled={isSubmitting}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">
-              Password {!editData && <span className="text-red-500">*</span>}
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={editData ? "Leave blank to keep current password" : "Enter password"}
-              disabled={isSubmitting}
-              required={!editData}
-              minLength={6}
-            />
-            <p className="text-xs text-gray-500">
-              {editData ? "Leave blank to keep current password. At least 6 characters if changing." : "At least 6 characters"}
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="confirm-password">
-              Confirm Password {!editData && <span className="text-red-500">*</span>}
-            </Label>
-            <Input
-              id="confirm-password"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder={editData ? "Confirm new password" : "Confirm password"}
-              disabled={isSubmitting}
-              required={!editData}
-            />
-          </div>
+          </FormSection>
 
           {!editData && (
-            <div className="flex items-start space-x-2 pt-2">
-              <Checkbox
-                id="accept-terms"
-                checked={acceptTerms}
-                onCheckedChange={(checked) => setAcceptTerms(checked === true)}
-                disabled={isSubmitting}
-              />
-              <div className="grid gap-1.5 leading-none">
-                <label
-                  htmlFor="accept-terms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                >
-                  I accept the terms and conditions <span className="text-red-500">*</span>
-                </label>
-                <p className="text-xs text-muted-foreground">
-                  You must agree to the terms and conditions to create an account.
-                </p>
+            <FormSection title="Agreement" icon={<Shield className="h-4 w-4" />}>
+              <div className="flex items-start space-x-3 rounded-lg border p-4 bg-muted/50">
+                <Checkbox
+                  id="accept-terms"
+                  checked={acceptTerms}
+                  onCheckedChange={(checked) => setAcceptTerms(checked === true)}
+                  disabled={isSubmitting}
+                  className="mt-0.5"
+                />
+                <div className="grid gap-1.5 leading-none">
+                  <label
+                    htmlFor="accept-terms"
+                    className="text-sm font-medium leading-none cursor-pointer"
+                  >
+                    I accept the terms and conditions<RequiredMark />
+                  </label>
+                  <p className="text-xs text-muted-foreground">
+                    By creating an account, you agree to our Terms of Service and Privacy Policy.
+                  </p>
+                </div>
               </div>
-            </div>
+            </FormSection>
           )}
 
-          <div className="flex justify-end gap-3 pt-4">
+          <FormActions sticky>
             <Button
               type="button"
               variant="outline"
               onClick={handleClose}
               disabled={isSubmitting}
+              className="gap-2"
             >
+              <X className="h-4 w-4" />
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (editData ? 'Updating...' : 'Creating...') : (editData ? 'Update User' : 'Create User')}
+            <Button type="submit" disabled={isSubmitting} className="gap-2">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {editData ? 'Updating...' : 'Creating...'}
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  {editData ? 'Update User' : 'Create User'}
+                </>
+              )}
             </Button>
-          </div>
+          </FormActions>
         </form>
       </SheetContent>
     </Sheet>

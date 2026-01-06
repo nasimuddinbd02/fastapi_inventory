@@ -4,13 +4,14 @@ import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import { DEFAULT_PAGE_SIZE } from '@/config/app'
 
 export type Product = {
-  id?: number | string
+  id: number
   product_title: string
   product_description?: string | null
-  unit_price?: number | null
+  unit_price: number
   category?: { category_name?: string | null } | null
   supplier?: { supplier_name?: string | null } | null
-  created_at?: string | null
+  available_stock: number
+  created_at: string
 }
 
 type ProductsState = {

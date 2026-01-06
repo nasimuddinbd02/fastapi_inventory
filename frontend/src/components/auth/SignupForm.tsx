@@ -5,14 +5,18 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { authenticateUser, persistSession } from '@/lib/auth'
+import { authenticateUser, persistSession, SessionUser } from '@/lib/auth'
 import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import axios from 'axios'
 import { useAppDispatch } from '@/store/hooks'
 import { setSession } from '@/store/authSlice'
 import { setActiveView } from '@/store/uiSlice'
 
-export default function SignUpForm(){
+interface SignUpFormProps {
+  onSuccess?: (user: SessionUser) => void
+}
+
+export default function SignUpForm({ onSuccess }: SignUpFormProps){
   const dispatch = useAppDispatch()
   const [loginName, setLoginName] = useState('')
   const [email, setEmail] = useState('')
@@ -71,6 +75,9 @@ export default function SignUpForm(){
       persistSession(auth)
       dispatch(setSession(auth))
       dispatch(setActiveView('dashboard'))
+      if (onSuccess) {
+        onSuccess(auth.user)
+      }
     } catch (err: any){
       const detail = err?.response?.data?.detail
       if (Array.isArray(detail)){

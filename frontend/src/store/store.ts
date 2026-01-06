@@ -7,6 +7,7 @@ import suppliersReducer from './suppliersSlice'
 import usersReducer from './usersSlice'
 import intakeReducer from './intakeSlice'
 import dispatchReducer from './dispatchSlice'
+import settingsReducer from './settingsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     suppliers: suppliersReducer,
     users: usersReducer,
     intake: intakeReducer,
-    dispatch: dispatchReducer
+    dispatch: dispatchReducer,
+    settings: settingsReducer,
   }
 })
 

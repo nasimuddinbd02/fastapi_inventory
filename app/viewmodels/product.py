@@ -55,4 +55,5 @@ class ProductViewModel(BaseModel):
     unit_price: float
     category: Optional[CategoryViewModel] = None
     supplier: Optional[SupplierViewModel] = None
+    available_stock: float = 0  # Stock quantity from inventory
     created_at: str  # Formatted date

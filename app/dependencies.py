@@ -7,6 +7,9 @@ from app.services.product_service import ProductService
 from app.services.inventory_service import InventoryService
 from app.services.user_service import UserService
 from app.services.agent_service import AgentService
+from app.services.dispatch_service import DispatchService
+from app.services.intake_service import IntakeService
+from app.services.settings_service import SettingsService
 
 def get_category_service(db: AsyncSession = Depends(get_db)):
     return CategoryService(db)
@@ -22,6 +25,15 @@ def get_inventory_service(db: AsyncSession = Depends(get_db)):
 
 def get_user_service(db: AsyncSession = Depends(get_db)):
     return UserService(db)
+
+def get_dispatch_service(db: AsyncSession = Depends(get_db)):
+    return DispatchService(db)
+
+def get_intake_service(db: AsyncSession = Depends(get_db)):
+    return IntakeService(db)
+
+def get_settings_service(db: AsyncSession = Depends(get_db)):
+    return SettingsService(db)
 
 # Agent service - singleton instance (no database dependency)
 _agent_service_instance = None

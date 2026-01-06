@@ -2,24 +2,17 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
+import { toastError } from '@/lib/toast-messages'
 
 /**
  * Client component to handle authentication expiry events
  */
 export function AuthExpiryHandler() {
   const router = useRouter()
-  const { toast } = useToast()
 
   useEffect(() => {
-    const handleAuthExpired = (event: Event) => {
-      const customEvent = event as CustomEvent<{ message: string }>
-      
-      toast({
-        variant: 'destructive',
-        title: 'Session Expired',
-        description: customEvent.detail?.message || 'Your session has expired. Please login again.',
-      })
+    const handleAuthExpired = () => {
+      toastError.unauthorized()
     }
 
     if (typeof window !== 'undefined') {
@@ -31,7 +24,7 @@ export function AuthExpiryHandler() {
         window.removeEventListener('auth:expired', handleAuthExpired)
       }
     }
-  }, [router, toast])
+  }, [router])
 
   return null
 }

@@ -4,12 +4,16 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { authenticateUser, persistSession } from '@/lib/auth'
+import { authenticateUser, persistSession, SessionUser } from '@/lib/auth'
 import { useAppDispatch } from '@/store/hooks'
 import { setSession } from '@/store/authSlice'
 import { setActiveView } from '@/store/uiSlice'
 
-export default function LoginForm(){
+interface LoginFormProps {
+  onSuccess?: (user: SessionUser) => void
+}
+
+export default function LoginForm({ onSuccess }: LoginFormProps){
   const dispatch = useAppDispatch()
   const [loginName, setLoginName] = useState('')
   const [password, setPassword] = useState('')
@@ -25,6 +29,9 @@ export default function LoginForm(){
       persistSession(auth)
       dispatch(setSession(auth))
       dispatch(setActiveView('dashboard'))
+      if (onSuccess) {
+        onSuccess(auth.user)
+      }
     } catch (err: any){
       const detail = err?.response?.data?.detail
       if (Array.isArray(detail)){

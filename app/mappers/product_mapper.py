@@ -78,6 +78,11 @@ async def map_product_update_viewmodel_to_dto(viewmodel: ProductUpdateViewModel,
 def map_product_to_viewmodel(product: Product) -> ProductViewModel:
     """Map Product DTO to ProductViewModel using py-automapper"""
     mapper_logger.debug(f"Mapping product to viewmodel: {product.name}")
+    # Get available stock from inventory relationship
+    available_stock = 0
+    if product.inventory:
+        available_stock = product.inventory.quantity
+    
     result = ProductViewModel(
         id=product.id,
         product_title=product.name,
@@ -85,7 +90,8 @@ def map_product_to_viewmodel(product: Product) -> ProductViewModel:
         unit_price=product.price,
         category=map_category_to_viewmodel(product.category) if product.category else None,
         supplier=map_supplier_to_viewmodel(product.supplier) if product.supplier else None,
+        available_stock=available_stock,
         created_at="N/A"  # Products don't have timestamps
     )
-    mapper_logger.debug(f"Product mapped to viewmodel: {product.name}")
+    mapper_logger.debug(f"Product mapped to viewmodel: {product.name} (stock: {available_stock})")
     return result

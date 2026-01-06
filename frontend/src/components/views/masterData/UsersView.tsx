@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useState, useEffect } from 'react'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastError } from '@/lib/toast-messages'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -9,37 +9,43 @@ import { Plus } from 'lucide-react'
 import { DataTable, type Column } from './shared'
 import { UserForm } from '@/components/forms/UserForm'
 import { fetchUsers, deleteUser, setPage, type User } from '@/store/usersSlice'
+import { selectSettings } from '@/store/settingsSlice'
 
 const columns: Array<Column<User>> = [
   {
     key: 'login_name',
     header: 'Login',
     render: item => item.login_name,
-    sortValue: item => item.login_name?.toLowerCase() || ''
+    sortValue: item => item.login_name?.toLowerCase() || '',
+    filterValue: item => item.login_name || ''
   },
   {
     key: 'display_name',
     header: 'Display Name',
     render: item => item.display_name || '--',
-    sortValue: item => item.display_name?.toLowerCase() || ''
+    sortValue: item => item.display_name?.toLowerCase() || '',
+    filterValue: item => item.display_name || ''
   },
   {
     key: 'email_address',
     header: 'Email',
     render: item => item.email_address || '--',
-    sortValue: item => item.email_address?.toLowerCase() || ''
+    sortValue: item => item.email_address?.toLowerCase() || '',
+    filterValue: item => item.email_address || ''
   },
   {
     key: 'is_active',
     header: 'Status',
     render: item => (item.is_active ? 'Active' : 'Inactive'),
-    sortValue: item => (item.is_active ? 1 : 0)
+    sortValue: item => (item.is_active ? 1 : 0),
+    filterValue: item => (item.is_active ? 'Active' : 'Inactive')
   },
   {
     key: 'account_created',
     header: 'Created',
     render: item => item.account_created || '--',
-    sortValue: item => item.account_created || ''
+    sortValue: item => item.account_created || '',
+    filterValue: item => item.account_created || ''
   }
 ]
 
@@ -49,10 +55,12 @@ export default function SettingsUsersView(){
   const [editingUser, setEditingUser] = useState<User | null>(null)
   const dispatch = useAppDispatch()
   const { items, loading, error, total, page, pageSize } = useAppSelector(state => state.users)
+  const settings = useAppSelector(selectSettings)
+  const effectivePageSize = settings.items_per_page || pageSize
 
   useEffect(() => {
-    dispatch(fetchUsers({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchUsers({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleAdd = useCallback(()=>{
     setEditingUser(null)
@@ -67,8 +75,8 @@ export default function SettingsUsersView(){
   const handleCloseForm = useCallback(() => {
     setShowAddForm(false)
     setEditingUser(null)
-    dispatch(fetchUsers({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchUsers({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleDelete = useCallback(async (user: User)=>{
     if (!user.id) return
@@ -76,33 +84,22 @@ export default function SettingsUsersView(){
     try {
       await dispatch(deleteUser(user.id)).unwrap()
       
-      toast({
-        variant: 'success',
-        title: 'User deleted successfully',
-        description: `"${user.login_name}" has been removed from the system.`
-      })
+      toastSuccess.deleted('User', user.login_name)
       
-      dispatch(fetchUsers({ page, pageSize, search }))
+      dispatch(fetchUsers({ page, pageSize: effectivePageSize, search }))
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Failed to delete user',
-        description: error instanceof Error ? error.message : 'An unexpected error occurred'
-      })
+      toastError.deleteFailed(error instanceof Error ? error.message : 'user')
       throw error
     }
-  }, [dispatch, page, pageSize, search])
+  }, [dispatch, page, effectivePageSize, search])
 
   const handlePageChange = useCallback((newPage: number) => {
     dispatch(setPage(newPage))
   }, [dispatch])
 
   return (
-    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8">
-      <div className="space-y-1">
-        <h2 className="text-xl font-semibold">Users</h2>
-        <p className="text-sm text-gray-600">Manage user accounts and verify account activity status.</p>
-      </div>
+    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8 pt-4">
+      <p className="text-sm text-muted-foreground">Control system access by managing user accounts. Add new users, update permissions, and monitor account activity.</p>
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
@@ -140,7 +137,7 @@ export default function SettingsUsersView(){
           emptyMessage="No users found."
           loading={loading}
           page={page}
-          pageSize={pageSize}
+          pageSize={effectivePageSize}
           total={total}
           onPageChange={handlePageChange}
           onDelete={handleDelete}

@@ -39,7 +39,7 @@ class ProductService:
         db_product = await crud_create_product(self.db, product_dto)
 
         # Ensure relationships are loaded
-        await self.db.refresh(db_product, ['category', 'supplier'])
+        await self.db.refresh(db_product, ['category', 'supplier', 'inventory'])
 
         # Map back to ViewModel for response
         result = map_product_to_viewmodel(db_product)

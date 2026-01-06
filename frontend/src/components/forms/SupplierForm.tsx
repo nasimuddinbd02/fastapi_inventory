@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastValidation, handleApiError } from '@/lib/toast-messages'
 import { API_ENDPOINTS, buildApiUrl } from '@/config/api'
 import { useAppSelector } from '@/store/hooks'
 import {
@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { FormSection, FormField, FormActions, RequiredMark } from '@/components/ui/form-section'
+import { Building2, User, Mail, Phone, Loader2, Save, X } from 'lucide-react'
 
 interface SupplierFormProps {
   open: boolean
@@ -59,31 +62,19 @@ export function SupplierForm({ open, onOpenChange, editData }: SupplierFormProps
     e.preventDefault()
     
     if (!supplierName.trim() || supplierName.trim().length < 2) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Supplier name must be at least 2 characters"
-      })
+      toastValidation.minLength('Supplier name', 2)
       return
     }
 
     if (!contactEmail.trim()) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Contact email is required"
-      })
+      toastValidation.required('Contact email')
       return
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(contactEmail.trim())) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Please enter a valid email address"
-      })
+      toastValidation.invalidEmail()
       return
     }
 
@@ -107,11 +98,7 @@ export function SupplierForm({ open, onOpenChange, editData }: SupplierFormProps
           }
         )
 
-        toast({
-          variant: "success",
-          title: "Supplier Updated",
-          description: `${supplierName} has been updated successfully`
-        })
+        toastSuccess.updated('Supplier', supplierName)
       } else {
         // Create new supplier
         await axios.post(
@@ -126,11 +113,7 @@ export function SupplierForm({ open, onOpenChange, editData }: SupplierFormProps
           }
         )
 
-        toast({
-          variant: "success",
-          title: "Supplier Created",
-          description: `${supplierName} has been added successfully`
-        })
+        toastSuccess.created('Supplier', supplierName)
       }
 
       handleClose()
@@ -139,16 +122,8 @@ export function SupplierForm({ open, onOpenChange, editData }: SupplierFormProps
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('suppliers:updated'))
       }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.error?.message 
-        || error.response?.data?.detail 
-        || error.message 
-        || 'An error occurred'
-      toast({
-        variant: "destructive",
-        title: editData ? "Failed to Update Supplier" : "Failed to Create Supplier",
-        description: errorMessage
-      })
+    } catch (error: unknown) {
+      handleApiError(error, editData ? 'update' : 'create', 'supplier')
     } finally {
       setIsSubmitting(false)
     }
@@ -156,70 +131,112 @@ export function SupplierForm({ open, onOpenChange, editData }: SupplierFormProps
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg">
-        <SheetHeader>
-          <SheetTitle>{editData ? 'Edit Supplier' : 'Add New Supplier'}</SheetTitle>
-          <SheetDescription>
-            {editData ? 'Update the supplier details' : 'Enter the supplier details to add a new supplier'}
-          </SheetDescription>
+      <SheetContent className="sm:max-w-lg overflow-y-auto">
+        <SheetHeader className="space-y-1 pb-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <Building2 className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <SheetTitle>{editData ? 'Edit Supplier' : 'Add New Supplier'}</SheetTitle>
+              <SheetDescription>
+                {editData ? 'Update the supplier information' : 'Register a new supplier for your inventory'}
+              </SheetDescription>
+            </div>
+          </div>
         </SheetHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
-          <div className="space-y-2">
-            <Label htmlFor="supplier-name">
-              Supplier Name <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="supplier-name"
-              value={supplierName}
-              onChange={(e) => setSupplierName(e.target.value)}
-              placeholder="Enter supplier name"
-              disabled={isSubmitting}
-              required
-              minLength={2}
-            />
-          </div>
+        <Separator className="mb-6" />
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <FormSection title="Company Details" icon={<Building2 className="h-4 w-4" />}>
+            <FormField>
+              <Label htmlFor="supplier-name" className="text-sm font-medium">
+                Supplier Name<RequiredMark />
+              </Label>
+              <Input
+                id="supplier-name"
+                value={supplierName}
+                onChange={(e) => setSupplierName(e.target.value)}
+                placeholder="e.g., ABC Trading Co., Global Supplies Inc."
+                disabled={isSubmitting}
+                required
+                minLength={2}
+                className="h-10"
+              />
+              <p className="text-xs text-muted-foreground">
+                Company or business name of the supplier
+              </p>
+            </FormField>
+          </FormSection>
 
-          <div className="space-y-2">
-            <Label htmlFor="contact-email">
-              Contact Email <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="contact-email"
-              type="email"
-              value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
-              placeholder="supplier@example.com"
-              disabled={isSubmitting}
-              required
-            />
-          </div>
+          <FormSection title="Contact Information" icon={<User className="h-4 w-4" />}>
+            <FormField>
+              <Label htmlFor="contact-email" className="text-sm font-medium">
+                <span className="flex items-center gap-2">
+                  <Mail className="h-3.5 w-3.5 text-muted-foreground" />
+                  Email Address<RequiredMark />
+                </span>
+              </Label>
+              <Input
+                id="contact-email"
+                type="email"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                placeholder="contact@supplier.com"
+                disabled={isSubmitting}
+                required
+                className="h-10"
+              />
+            </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="contact-info">Contact Info</Label>
-            <Textarea
-              id="contact-info"
-              value={contactInfo}
-              onChange={(e) => setContactInfo(e.target.value)}
-              placeholder="Phone, address, or other contact details (optional)"
-              disabled={isSubmitting}
-              rows={4}
-            />
-          </div>
+            <FormField>
+              <Label htmlFor="contact-info" className="text-sm font-medium">
+                <span className="flex items-center gap-2">
+                  <Phone className="h-3.5 w-3.5 text-muted-foreground" />
+                  Additional Contact Info
+                </span>
+              </Label>
+              <Textarea
+                id="contact-info"
+                value={contactInfo}
+                onChange={(e) => setContactInfo(e.target.value)}
+                placeholder="Phone number, address, or other contact details..."
+                disabled={isSubmitting}
+                rows={3}
+                className="resize-none"
+              />
+              <p className="text-xs text-muted-foreground">
+                Optional: Include phone, fax, or physical address
+              </p>
+            </FormField>
+          </FormSection>
 
-          <div className="flex justify-end gap-3 pt-4">
+          <FormActions sticky>
             <Button
               type="button"
               variant="outline"
               onClick={handleClose}
               disabled={isSubmitting}
+              className="gap-2"
             >
+              <X className="h-4 w-4" />
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (editData ? 'Updating...' : 'Creating...') : (editData ? 'Update Supplier' : 'Create Supplier')}
+            <Button type="submit" disabled={isSubmitting} className="gap-2">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {editData ? 'Updating...' : 'Creating...'}
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  {editData ? 'Update Supplier' : 'Create Supplier'}
+                </>
+              )}
             </Button>
-          </div>
+          </FormActions>
         </form>
       </SheetContent>
     </Sheet>

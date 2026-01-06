@@ -26,7 +26,7 @@ export default function ClientAppShell({ children, activeView, onSelectView, use
 
       {/* Header - fixed at top */}
       <div className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] h-[var(--header-height)] z-40">
-        <Header onOpenProduct={() => setOpenProduct(true)} onToggleSidebar={() => setSidebarOpen(s=>!s)} />
+        <Header onOpenProduct={() => setOpenProduct(true)} onToggleSidebar={() => setSidebarOpen(s=>!s)} activeView={activeView} />
       </div>
 
       {/* Main content - offset by header + sidebar */}

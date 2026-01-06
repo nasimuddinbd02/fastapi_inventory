@@ -6,14 +6,9 @@ from app.viewmodels.dispatch import (
 )
 from app.viewmodels.pagination import PaginatedResponse
 from app.services.dispatch_service import DispatchService
-from app.database import get_db
-from sqlalchemy.orm import Session
+from app.dependencies import get_dispatch_service
 
 router = APIRouter(prefix="/dispatch", tags=["dispatch"])
-
-
-def get_dispatch_service(db: Session = Depends(get_db)) -> DispatchService:
-    return DispatchService(db)
 
 
 @router.get("/", response_model=PaginatedResponse[DispatchOrderViewModel])

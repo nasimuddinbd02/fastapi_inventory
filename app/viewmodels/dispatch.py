@@ -46,6 +46,7 @@ class DispatchOrderCreateViewModel(BaseModel):
     customer_name: Optional[str] = None
     payment_method: Optional[str] = None
     notes: Optional[str] = None
+    status: Optional[str] = None  # Add status field for create
     items: List[DispatchItemCreateViewModel] = Field(min_length=1)
     tax_rate: Optional[Decimal] = Field(default=Decimal("0.10"), ge=0)  # 10% default tax
 

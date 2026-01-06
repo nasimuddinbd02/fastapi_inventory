@@ -4,11 +4,14 @@ type ViewKey =
   | 'dashboard'
   | 'intake'
   | 'dispatch'
+  | 'stock'
+  | 'ledger'
+  | 'masterdata'
+  | 'masterdata.categories'
+  | 'masterdata.suppliers'
+  | 'masterdata.products'
+  | 'masterdata.users'
   | 'settings'
-  | 'settings.categories'
-  | 'settings.suppliers'
-  | 'settings.products'
-  | 'settings.users'
 
 type UiState = {
   activeView: ViewKey

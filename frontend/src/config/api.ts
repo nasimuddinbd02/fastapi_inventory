@@ -35,6 +35,9 @@ export const API_ENDPOINTS = {
   INTAKE: '/intake',
   DISPATCH: '/dispatch',
   
+  // Settings
+  SETTINGS: '/settings',
+  
   // Agents (if used)
   AGENTS: '/agents',
 } as const

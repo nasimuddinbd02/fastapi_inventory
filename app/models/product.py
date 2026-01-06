@@ -14,3 +14,4 @@ class Product(Base):
 
     category = relationship("Category")
     supplier = relationship("Supplier")
+    inventory = relationship("Inventory", back_populates="product", uselist=False)

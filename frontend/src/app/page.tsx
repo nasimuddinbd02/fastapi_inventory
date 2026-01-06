@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ClientAppShell from '@/components/ClientAppShell'
 import DashboardView from '@/components/views/DashboardView'
@@ -10,6 +10,10 @@ import SettingsProductsView from '@/components/views/masterData/ProductsView'
 import SettingsUsersView from '@/components/views/masterData/UsersView'
 import IntakeView from '@/components/views/IntakeView'
 import DispatchView from '@/components/views/DispatchView'
+import StockView from '@/components/views/StockView'
+import StockLedgerView from '@/components/views/StockLedgerView'
+import SettingsView from '@/components/views/SettingsView'
+import ProfileDialog from '@/components/ProfileDialog'
 import { clearSession } from '@/lib/auth'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { clearSessionState } from '@/store/authSlice'
@@ -20,6 +24,38 @@ export default function Home(){
   const dispatch = useAppDispatch()
   const { user } = useAppSelector(state => state.auth)
   const activeView = useAppSelector(state => state.ui.activeView)
+  const [profileDialogOpen, setProfileDialogOpen] = useState(false)
+  const [profileDialogTab, setProfileDialogTab] = useState<'profile' | 'contact' | 'help'>('profile')
+
+  // Update page title based on active view
+  useEffect(() => {
+    const titleMap: Record<string, string> = {
+      'dashboard': 'Dashboard',
+      'intake': 'Inventory Intake',
+      'dispatch': 'Inventory Dispatch',
+      'stock': 'Stock Position',
+      'ledger': 'Stock Ledger',
+      'masterdata': 'Master Data',
+      'masterdata.categories': 'Categories',
+      'masterdata.suppliers': 'Suppliers',
+      'masterdata.products': 'Products',
+      'masterdata.users': 'Users',
+      'settings': 'Settings'
+    }
+
+    const pageTitle = titleMap[activeView] || 'Dashboard'
+    const fullTitle = `AI Base Inventory Management System [${pageTitle}]`
+    
+    // Set immediately
+    document.title = fullTitle
+    
+    // Also set after a small delay in case something overwrites it
+    const timer = setTimeout(() => {
+      document.title = fullTitle
+    }, 100)
+    
+    return () => clearTimeout(timer)
+  }, [activeView])
 
   const content = useMemo(()=>{
     switch(activeView){
@@ -27,21 +63,20 @@ export default function Home(){
         return <IntakeView />
       case 'dispatch':
         return <DispatchView />
-      case 'settings.categories':
+      case 'stock':
+        return <StockView />
+      case 'ledger':
+        return <StockLedgerView />
+      case 'masterdata.categories':
         return <SettingsCategoriesView />
-      case 'settings.suppliers':
+      case 'masterdata.suppliers':
         return <SettingsSuppliersView />
-      case 'settings.products':
+      case 'masterdata.products':
         return <SettingsProductsView />
-      case 'settings.users':
+      case 'masterdata.users':
         return <SettingsUsersView />
       case 'settings':
-        return (
-          <div className="container">
-            <h2 className="text-xl font-semibold mb-4">Settings</h2>
-            <p className="text-sm text-gray-500">Configuration options will appear here.</p>
-          </div>
-        )
+        return <SettingsView />
       default:
         return <DashboardView />
     }
@@ -62,23 +97,33 @@ export default function Home(){
       return
     }
     if (action === 'profile'){
-      dispatch(setActiveView('dashboard'))
+      setProfileDialogTab('profile')
+      setProfileDialogOpen(true)
       return
     }
-    if (action === 'edit'){
-      dispatch(setActiveView('settings'))
+    if (action === 'help'){
+      setProfileDialogTab('help')
+      setProfileDialogOpen(true)
       return
     }
   }
 
   return (
-    <ClientAppShell
-      activeView={activeView}
-      onSelectView={(view)=> dispatch(setActiveView(view))}
-      userName={user.name ?? 'User'}
-      onUserAction={handleUserAction}
-    >
-      {content}
-    </ClientAppShell>
+    <>
+      <ClientAppShell
+        activeView={activeView}
+        onSelectView={(view)=> dispatch(setActiveView(view))}
+        userName={user.name ?? 'User'}
+        onUserAction={handleUserAction}
+      >
+        {content}
+      </ClientAppShell>
+      
+      <ProfileDialog
+        open={profileDialogOpen}
+        onOpenChange={setProfileDialogOpen}
+        initialTab={profileDialogTab}
+      />
+    </>
   )
 }

@@ -1,6 +1,8 @@
 import './globals.css'
 import React from 'react'
 import StoreProvider from '@/providers/StoreProvider'
+import { ThemeProvider } from 'next-themes'
+import { SettingsProvider } from '@/providers/settings-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { AuthGuard } from '@/components/auth/AuthGuard'
 import { AuthExpiryHandler } from '@/components/auth/AuthExpiryHandler'
@@ -13,13 +15,17 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }){
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <StoreProvider>
-          <AuthExpiryHandler />
-          <AuthGuard>
-            {children}
-          </AuthGuard>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+            <SettingsProvider>
+              <AuthExpiryHandler />
+              <AuthGuard>
+                {children}
+              </AuthGuard>
+            </SettingsProvider>
+          </ThemeProvider>
         </StoreProvider>
         <Toaster />
       </body>

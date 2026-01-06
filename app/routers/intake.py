@@ -6,14 +6,9 @@ from app.viewmodels.intake import (
 )
 from app.viewmodels.pagination import PaginatedResponse
 from app.services.intake_service import IntakeService
-from app.database import get_db
-from sqlalchemy.orm import Session
+from app.dependencies import get_intake_service
 
 router = APIRouter(prefix="/intake", tags=["intake"])
-
-
-def get_intake_service(db: Session = Depends(get_db)) -> IntakeService:
-    return IntakeService(db)
 
 
 @router.get("/", response_model=PaginatedResponse[IntakeOrderViewModel])

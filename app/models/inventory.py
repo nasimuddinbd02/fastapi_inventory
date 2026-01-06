@@ -10,4 +10,4 @@ class Inventory(Base):
     quantity = Column(Float)
     location = Column(String, nullable=True)
 
-    product = relationship("Product")
+    product = relationship("Product", back_populates="inventory")

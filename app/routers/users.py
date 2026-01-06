@@ -51,6 +51,22 @@ async def read_current_user(current_user: User = Depends(get_current_active_user
     return map_user_to_viewmodel(current_user)
 
 
+@router.put("/me", response_model=UserViewModel)
+async def update_current_user(
+    user: UserUpdateViewModel,
+    service: UserService = Depends(get_user_service),
+    current_user: User = Depends(get_current_active_user)
+):
+    """Update current authenticated user's profile"""
+    try:
+        updated = await service.update_user(current_user.id, user)
+        if not updated:
+            raise HTTPException(status_code=404, detail="User not found")
+        return updated
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.get("/{user_id}", response_model=UserViewModel)
 async def read_user(user_id: int, service: UserService = Depends(get_user_service)):
     user = await service.get_user(user_id)

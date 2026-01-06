@@ -9,8 +9,19 @@
   --primary-foreground:#ffffff;
   --sidebar:#f8fafc;
   --sidebar-foreground:#0a0a0a;
+  --sidebar-border:#e2e8f0;
+  --header:#ffffff;
+  --header-foreground:#1f2937;
   --sidebar-width: 5rem;
   --header-height: 3.5rem;
+}
+
+.dark {
+  --sidebar:#1e293b;
+  --sidebar-foreground:#f1f5f9;
+  --sidebar-border:#334155;
+  --header:#0f172a;
+  --header-foreground:#f1f5f9;
 }
 
 html,body,#root{height:100%}
@@ -20,6 +31,8 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"
 .text-foreground{color:var(--foreground)}
 .bg-sidebar{background:var(--sidebar)}
 .text-sidebar-foreground{color:var(--sidebar-foreground)}
+.bg-header{background:var(--header)}
+.text-header-foreground{color:var(--header-foreground)}
 
 .container{max-width:1100px;margin:0 auto;padding:1rem}
 

@@ -86,32 +86,42 @@ async def create_dispatch_order(
     payment_method: Optional[str],
     items_data: List[dict],
     notes: Optional[str],
-    tax_rate: Decimal = Decimal("0.10")
+    tax_rate: Decimal = Decimal("0.10"),
+    status: Optional[str] = None
 ) -> DispatchOrder:
     """Create new dispatch order"""
     # Generate dispatch number
     dispatch_number = await generate_dispatch_number(db)
     
-    # Calculate totals
+    # Determine initial status
+    if status and status == 'completed':
+        initial_status = DispatchStatus.COMPLETED
+    elif status and status == 'draft':
+        initial_status = DispatchStatus.DRAFT
+    else:
+        initial_status = DispatchStatus.DRAFT
+    
+    # Calculate totals and validate stock if completing
     subtotal = Decimal("0")
     for item_data in items_data:
-        # Check stock availability
-        result = await db.execute(
-            select(Inventory).filter(Inventory.product_id == item_data["product_id"])
-        )
-        inventory = result.scalar_one_or_none()
-        
-        if not inventory or inventory.quantity < item_data["quantity"]:
-            product_result = await db.execute(
-                select(Product).filter(Product.id == item_data["product_id"])
+        # Only check stock availability if creating as completed
+        if initial_status == DispatchStatus.COMPLETED:
+            result = await db.execute(
+                select(Inventory).filter(Inventory.product_id == item_data["product_id"])
             )
-            product = product_result.scalar_one_or_none()
-            product_name = product.name if product else f"Product #{item_data['product_id']}"
-            available = inventory.quantity if inventory else 0
-            raise ValueError(
-                f"Insufficient stock for {product_name}. "
-                f"Requested: {item_data['quantity']}, Available: {available}"
-            )
+            inventory = result.scalar_one_or_none()
+            
+            if not inventory or inventory.quantity < item_data["quantity"]:
+                product_result = await db.execute(
+                    select(Product).filter(Product.id == item_data["product_id"])
+                )
+                product = product_result.scalar_one_or_none()
+                product_name = product.name if product else f"Product #{item_data['product_id']}"
+                available = inventory.quantity if inventory else 0
+                raise ValueError(
+                    f"Insufficient stock for {product_name}. "
+                    f"Requested: {item_data['quantity']}, Available: {available}"
+                )
         
         subtotal += item_data["quantity"] * item_data["unit_price"]
     
@@ -123,7 +133,7 @@ async def create_dispatch_order(
         dispatch_number=dispatch_number,
         dispatch_date=dispatch_date,
         customer_name=customer_name,
-        status=DispatchStatus.DRAFT,
+        status=initial_status,
         subtotal=subtotal,
         tax_amount=tax_amount,
         total_amount=total_amount,
@@ -145,8 +155,27 @@ async def create_dispatch_order(
         )
         db.add(item)
     
+    await db.flush()  # Flush to save items
+    
+    # Load items relationship for the order
+    await db.refresh(order, ['items'])
+    
+    # Store order ID before commit (to avoid expired state access)
+    order_id = order.id
+    
+    # If creating as completed, update inventory immediately
+    if initial_status == DispatchStatus.COMPLETED:
+        await _update_inventory_on_complete(db, order)
+    
     await db.commit()
-    await db.refresh(order)
+    
+    # Reload order with all relationships using the stored ID
+    result = await db.execute(
+        select(DispatchOrder)
+        .options(selectinload(DispatchOrder.items).selectinload(DispatchItem.product))
+        .filter(DispatchOrder.id == order_id)
+    )
+    order = result.scalar_one()
     
     return order
 

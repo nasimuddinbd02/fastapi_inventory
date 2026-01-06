@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useState, useEffect } from 'react'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastError } from '@/lib/toast-messages'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -9,25 +9,29 @@ import { Plus } from 'lucide-react'
 import { DataTable, type Column } from './shared'
 import { CategoryForm } from '@/components/forms/CategoryForm'
 import { fetchCategories, deleteCategory, setPage, type Category } from '@/store/categoriesSlice'
+import { selectSettings } from '@/store/settingsSlice'
 
 const columns: Array<Column<Category>> = [
   {
     key: 'category_name',
     header: 'Name',
     render: item => item.category_name,
-    sortValue: item => item.category_name?.toLowerCase() || ''
+    sortValue: item => item.category_name?.toLowerCase() || '',
+    filterValue: item => item.category_name || ''
   },
   {
     key: 'category_description',
     header: 'Description',
     render: item => item.category_description || '--',
-    sortValue: item => item.category_description?.toLowerCase() || ''
+    sortValue: item => item.category_description?.toLowerCase() || '',
+    filterValue: item => item.category_description || ''
   },
   {
     key: 'created_at',
     header: 'Created',
     render: item => item.created_at || '--',
-    sortValue: item => item.created_at || ''
+    sortValue: item => item.created_at || '',
+    filterValue: item => item.created_at || ''
   }
 ]
 
@@ -37,10 +41,12 @@ export default function SettingsCategoriesView(){
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const dispatch = useAppDispatch()
   const { items, loading, error, total, page, pageSize } = useAppSelector(state => state.categories)
+  const settings = useAppSelector(selectSettings)
+  const effectivePageSize = settings.items_per_page || pageSize
 
   useEffect(() => {
-    dispatch(fetchCategories({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchCategories({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleAdd = useCallback(()=>{
     setEditingCategory(null)
@@ -56,9 +62,9 @@ export default function SettingsCategoriesView(){
     setShowAddForm(isOpen)
     if (!isOpen) {
       setEditingCategory(null)
-      dispatch(fetchCategories({ page, pageSize, search }))
+      dispatch(fetchCategories({ page, pageSize: effectivePageSize, search }))
     }
-  }, [dispatch, page, pageSize, search])
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleDelete = useCallback(async (category: Category)=>{
     if (!category.id) return
@@ -66,33 +72,22 @@ export default function SettingsCategoriesView(){
     try {
       await dispatch(deleteCategory(category.id)).unwrap()
       
-      toast({
-        variant: 'success',
-        title: 'Category deleted successfully',
-        description: `"${category.category_name}" has been removed from the system.`
-      })
+      toastSuccess.deleted('Category', category.category_name)
       
-      dispatch(fetchCategories({ page, pageSize, search }))
+      dispatch(fetchCategories({ page, pageSize: effectivePageSize, search }))
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Failed to delete category',
-        description: error instanceof Error ? error.message : 'An unexpected error occurred'
-      })
+      toastError.deleteFailed(error instanceof Error ? error.message : 'category')
       throw error
     }
-  }, [dispatch, page, pageSize, search])
+  }, [dispatch, page, effectivePageSize, search])
 
   const handlePageChange = useCallback((newPage: number) => {
     dispatch(setPage(newPage))
   }, [dispatch])
 
   return (
-    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8">
-      <div className="space-y-1">
-        <h2 className="text-xl font-semibold">Categories</h2>
-        <p className="text-sm text-gray-600">View the list of product categories from the inventory API.</p>
-      </div>
+    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8 pt-4">
+      <p className="text-sm text-muted-foreground">Organize your products by creating and managing categories. Categories help streamline inventory tracking and reporting.</p>
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
@@ -130,7 +125,7 @@ export default function SettingsCategoriesView(){
           emptyMessage="No categories found."
           loading={loading}
           page={page}
-          pageSize={pageSize}
+          pageSize={effectivePageSize}
           total={total}
           onPageChange={handlePageChange}
           onDelete={handleDelete}

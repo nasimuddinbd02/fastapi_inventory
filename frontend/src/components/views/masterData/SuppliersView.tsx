@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useState, useEffect } from 'react'
-import { toast } from '@/hooks/use-toast'
+import { toastSuccess, toastError } from '@/lib/toast-messages'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -9,31 +9,36 @@ import { Plus } from 'lucide-react'
 import { DataTable, type Column } from './shared'
 import { SupplierForm } from '@/components/forms/SupplierForm'
 import { fetchSuppliers, deleteSupplier, setPage, type Supplier } from '@/store/suppliersSlice'
+import { selectSettings } from '@/store/settingsSlice'
 
 const columns: Array<Column<Supplier>> = [
   {
     key: 'supplier_name',
     header: 'Name',
     render: item => item.supplier_name,
-    sortValue: item => item.supplier_name?.toLowerCase() || ''
+    sortValue: item => item.supplier_name?.toLowerCase() || '',
+    filterValue: item => item.supplier_name || ''
   },
   {
     key: 'contact_email',
     header: 'Email',
     render: item => item.contact_email || '--',
-    sortValue: item => item.contact_email?.toLowerCase() || ''
+    sortValue: item => item.contact_email?.toLowerCase() || '',
+    filterValue: item => item.contact_email || ''
   },
   {
     key: 'contact_info',
     header: 'Contact Info',
     render: item => item.contact_info || '--',
-    sortValue: item => item.contact_info?.toLowerCase() || ''
+    sortValue: item => item.contact_info?.toLowerCase() || '',
+    filterValue: item => item.contact_info || ''
   },
   {
     key: 'created_at',
     header: 'Created',
     render: item => item.created_at || '--',
-    sortValue: item => item.created_at || ''
+    sortValue: item => item.created_at || '',
+    filterValue: item => item.created_at || ''
   }
 ]
 
@@ -43,10 +48,12 @@ export default function SettingsSuppliersView(){
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null)
   const dispatch = useAppDispatch()
   const { items, loading, error, total, page, pageSize } = useAppSelector(state => state.suppliers)
+  const settings = useAppSelector(selectSettings)
+  const effectivePageSize = settings.items_per_page || pageSize
 
   useEffect(() => {
-    dispatch(fetchSuppliers({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchSuppliers({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleAdd = useCallback(()=>{
     setEditingSupplier(null)
@@ -61,8 +68,8 @@ export default function SettingsSuppliersView(){
   const handleCloseForm = useCallback(() => {
     setShowAddForm(false)
     setEditingSupplier(null)
-    dispatch(fetchSuppliers({ page, pageSize, search }))
-  }, [dispatch, page, pageSize, search])
+    dispatch(fetchSuppliers({ page, pageSize: effectivePageSize, search }))
+  }, [dispatch, page, effectivePageSize, search])
 
   const handleDelete = useCallback(async (supplier: Supplier)=>{
     if (!supplier.id) return
@@ -70,33 +77,22 @@ export default function SettingsSuppliersView(){
     try {
       await dispatch(deleteSupplier(supplier.id)).unwrap()
       
-      toast({
-        variant: 'success',
-        title: 'Supplier deleted successfully',
-        description: `"${supplier.supplier_name}" has been removed from the system.`
-      })
+      toastSuccess.deleted('Supplier', supplier.supplier_name)
       
-      dispatch(fetchSuppliers({ page, pageSize, search }))
+      dispatch(fetchSuppliers({ page, pageSize: effectivePageSize, search }))
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Failed to delete supplier',
-        description: error instanceof Error ? error.message : 'An unexpected error occurred'
-      })
+      toastError.deleteFailed(error instanceof Error ? error.message : 'supplier')
       throw error
     }
-  }, [dispatch, page, pageSize, search])
+  }, [dispatch, page, effectivePageSize, search])
 
   const handlePageChange = useCallback((newPage: number) => {
     dispatch(setPage(newPage))
   }, [dispatch])
 
   return (
-    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8">
-      <div className="space-y-1">
-        <h2 className="text-xl font-semibold">Suppliers</h2>
-        <p className="text-sm text-gray-600">Review supplier details to keep procurement information current.</p>
-      </div>
+    <div className="w-full space-y-4 px-4 sm:px-6 lg:px-8 pt-4">
+      <p className="text-sm text-muted-foreground">Maintain your supplier directory with contact details and business information. Keep your procurement network organized and up-to-date.</p>
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
@@ -134,7 +130,7 @@ export default function SettingsSuppliersView(){
           emptyMessage="No suppliers found."
           loading={loading}
           page={page}
-          pageSize={pageSize}
+          pageSize={effectivePageSize}
           total={total}
           onPageChange={handlePageChange}
           onDelete={handleDelete}

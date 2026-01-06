@@ -76,6 +76,7 @@ export const createDispatchOrder = createAsyncThunk(
     customer_name?: string | null
     payment_method?: string | null
     notes?: string | null
+    status?: string
     items: Array<{ product_id: number; quantity: number; unit_price: number }>
     tax_rate?: number
   }) => {
