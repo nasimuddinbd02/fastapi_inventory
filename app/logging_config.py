@@ -23,42 +23,42 @@ def setup_logging() -> None:
                 "formatter": "default",
                 "level": "INFO"
             },
-            # "file": {
-            #     "class": "logging.FileHandler",
-            #     "filename": "app.log",
-            #     "formatter": "detailed",
-            #     "level": "DEBUG"
-            # }
+            "file": {
+                "class": "logging.FileHandler",
+                "filename": "app.log",
+                "formatter": "detailed",
+                "level": "DEBUG"
+            }
         },
         "loggers": {
             "app": {
-                "handlers": ["console"],
+                "handlers": ["console", "file"],
                 "level": "DEBUG",
                 "propagate": False
             },
             "app.routers": {
-                "handlers": ["console"],
+                "handlers": ["console", "file"],
                 "level": "INFO",
                 "propagate": False
             },
             "app.services": {
-                "handlers": ["console"],
+                "handlers": ["console", "file"],
                 "level": "INFO",
                 "propagate": False
             },
             "app.dbAccess": {
-                "handlers": ["console"],
+                "handlers": ["console", "file"],
                 "level": "DEBUG",
                 "propagate": False
             },
             "app.mappers": {
-                "handlers": ["console"],
+                "handlers": ["console", "file"],
                 "level": "DEBUG",
                 "propagate": False
             }
         },
         "root": {
-            "handlers": ["console"],
+            "handlers": ["console", "file"],
             "level": "WARNING"
         }
     }
