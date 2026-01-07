@@ -6,7 +6,16 @@ from app.agents import (
     BaseAgent, InventoryOptimizationAgent, DemandForecastingAgent,
     PricingOptimizationAgent, AgentDecision, AgentAction, AgentType, AgentPriority
 )
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from app.exceptions import BusinessLogicError
+from app.services.product_service import ProductService
+from app.services.inventory_service import InventoryService
+from app.viewmodels.product import ProductUpdateViewModel
+from app.viewmodels.inventory import InventoryUpdateViewModel
+from app.models.inventory import Inventory
+from app.schemas.inventory import InventoryCreate
+from app.dbAccess.inventory import create_inventory
 
 logger = logging.getLogger("app.services.agent_service")
 
@@ -28,6 +37,7 @@ class AgentService:
         self.agents[AgentType.PRICING_OPTIMIZATION] = PricingOptimizationAgent()
 
         logger.info(f"Initialized {len(self.agents)} AI agents")
+
 
     async def run_agent_analysis(self, agent_type: AgentType, context: Dict[str, Any]) -> AgentDecision:
         """Run analysis for a specific agent"""
@@ -73,16 +83,59 @@ class AgentService:
             logger.error(f"Error running all agents: {str(e)}")
             raise BusinessLogicError(f"Multi-agent analysis failed: {str(e)}")
 
-    async def execute_agent_action(self, agent_type: AgentType, action: AgentAction) -> Dict[str, Any]:
+
+    async def execute_agent_action(self, agent_type: AgentType, action: AgentAction, db: AsyncSession) -> Dict[str, Any]:
         """Execute a specific agent action"""
         if agent_type not in self.agents:
             raise BusinessLogicError(f"Agent type {agent_type.value} not found")
 
         agent = self.agents[agent_type]
         logger.info(f"Executing action for agent {agent.name}: {action.action_type}")
+        
+        execution_details = {}
 
         try:
+            # Initialize services
+            product_service = ProductService(db)
+            inventory_service = InventoryService(db)
+
+            if action.action_type == "update_stock_quantity":
+                product_id = int(action.parameters.get("product_id"))
+                quantity_change = float(action.parameters.get("quantity_change", 0))
+                
+                # Find inventory for product
+                result = await db.execute(select(Inventory).where(Inventory.product_id == product_id))
+                inventory_record = result.scalars().first()
+                
+                if inventory_record:
+                    new_quantity = max(0, inventory_record.quantity + quantity_change)
+                    update_vm = InventoryUpdateViewModel(stock_quantity=new_quantity)
+                    await inventory_service.update_inventory(inventory_record.id, update_vm)
+                    execution_details = {"inventory_id": inventory_record.id, "new_quantity": new_quantity}
+                else:
+                    # Create new inventory record if it doesn't exist
+                    logger.info(f"Creating new inventory record for product {product_id}")
+                    new_quantity = max(0, quantity_change) # Assuming start from 0
+                    create_dto = InventoryCreate(
+                        product_id=product_id,
+                        quantity=new_quantity,
+                        location="Main Warehouse"
+                    )
+                    new_inventory = await create_inventory(db, create_dto)
+                    execution_details = {"inventory_id": new_inventory.id, "new_quantity": new_quantity, "status": "created"}
+
+            elif action.action_type == "update_product_price":
+                product_id = int(action.parameters.get("product_id"))
+                new_price = float(action.parameters.get("new_price"))
+                
+                update_vm = ProductUpdateViewModel(unit_price=new_price)
+                await product_service.update_product(product_id, update_vm)
+                execution_details = {"product_id": product_id, "new_price": new_price}
+                
+            # Log successful execution in agent
             result = await agent.execute_action(action)
+            result["execution_details"] = execution_details
+            
             logger.info(f"Action {action.action_type} executed successfully")
             return result
         except Exception as e:
@@ -164,41 +217,85 @@ class AgentService:
             return max(d.timestamp for d in agent_decisions)
         return None
 
-    async def get_context_for_agents(self, db_session) -> Dict[str, Any]:
+
+    async def get_context_for_agents(self, db: Optional[AsyncSession]) -> Dict[str, Any]:
         """Gather context data needed by agents"""
-        # This would typically query the database for relevant data
-        # For now, return a sample context structure
-
-        context = {
-            "timestamp":datetime.now(timezone.utc),
-            "products": [
-                {
-                    "id": 1,
-                    "product_title": "Red Lipstick",
-                    "stock_quantity": 25,
-                    "reorder_point": 20,
-                    "price": 15.99,
-                    "cost": 8.00
-                },
-                {
-                    "id": 2,
-                    "product_title": "Blue Eyeshadow",
-                    "stock_quantity": 45,
-                    "reorder_point": 30,
-                    "price": 12.50,
-                    "cost": 6.00
-                }
-            ],
-            "sales_history": [
-                {"product_id": 1, "quantity": 5, "unit_price": 15.99, "date": "2025-12-20"},
-                {"product_id": 1, "quantity": 3, "unit_price": 15.99, "date": "2025-12-21"},
-                {"product_id": 2, "quantity": 8, "unit_price": 12.50, "date": "2025-12-20"},
-                {"product_id": 2, "quantity": 6, "unit_price": 12.50, "date": "2025-12-21"}
-            ],
-            "competitor_prices": {
-                1: {"average_price": 16.50, "min_price": 14.99, "max_price": 18.99},
-                2: {"average_price": 11.99, "min_price": 10.99, "max_price": 13.99}
+        
+        # Fallback to mock data if no DB session (e.g. testing)
+        if not db:
+            return {
+                "timestamp":datetime.now(timezone.utc),
+                "products": [
+                    {
+                        "id": 1,
+                        "product_title": "Red Lipstick",
+                        "stock_quantity": 25,
+                        "reorder_point": 20,
+                        "price": 15.99,
+                        "cost": 8.00
+                    },
+                    {
+                        "id": 2,
+                        "product_title": "Blue Eyeshadow",
+                        "stock_quantity": 45,
+                        "reorder_point": 30,
+                        "price": 12.50,
+                        "cost": 6.00
+                    }
+                ],
+                "sales_history": [],
+                "competitor_prices": {}
             }
-        }
 
-        return context
+        # Fetch real data
+        try:
+            from app.dbAccess.product import get_products
+            from app.dbAccess.inventory import get_inventories
+            from app.dbAccess.dispatch import get_dispatch_orders
+
+            # 1. Products
+            products = await get_products(db, limit=50)
+            
+            # 2. Inventory (to match products)
+            inventories = await get_inventories(db, limit=50)
+            inventory_map = {inv.product_id: inv for inv in inventories}
+            
+            product_context = []
+            for p in products:
+                # Find matching inventory
+                inv = inventory_map.get(p.id)
+                current_stock = inv.quantity if inv else 0
+                
+                product_context.append({
+                    "id": p.id,
+                    "product_title": p.name,
+                    "stock_quantity": float(current_stock),
+                    "reorder_point": 10, # Default, as it might not be in DB model yet
+                    "price": float(p.price) if p.price else 0,
+                    "cost": 0 # Cost not in product model yet
+                })
+
+            # 3. Sales History (from Completed Dispatch Orders)
+            orders, _ = await get_dispatch_orders(db, limit=50)
+            sales_history = []
+            for order in orders:
+                if order.status.value == "completed": # Check status value string
+                    for item in order.items:
+                        sales_history.append({
+                            "product_id": item.product_id,
+                            "quantity": float(item.quantity),
+                            "unit_price": float(item.unit_price),
+                            "date": order.dispatch_date.isoformat()
+                        })
+
+            context = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "products": product_context,
+                "sales_history": sales_history,
+                "competitor_prices": {} # Placeholder as we don't scrape competitors yet
+            }
+            return context
+
+        except Exception as e:
+            logger.error(f"Error fetching DB context for agents: {e}")
+            raise BusinessLogicError(f"Failed to gather agent context: {e}")

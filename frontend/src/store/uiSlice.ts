@@ -11,6 +11,7 @@ type ViewKey =
   | 'masterdata.suppliers'
   | 'masterdata.products'
   | 'masterdata.users'
+  | 'ai.insights'
   | 'settings'
 
 type UiState = {

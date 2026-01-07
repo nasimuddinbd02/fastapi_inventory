@@ -10,8 +10,10 @@ class InventoryBase(BaseModel):
 class InventoryCreate(InventoryBase):
     pass
 
-class InventoryUpdate(InventoryBase):
-    pass
+class InventoryUpdate(BaseModel):
+    product_id: Optional[int] = None
+    quantity: Optional[float] = None
+    location: Optional[str] = None
 
 class Inventory(InventoryBase):
     id: int

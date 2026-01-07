@@ -13,6 +13,7 @@ import DispatchView from '@/components/views/DispatchView'
 import StockView from '@/components/views/StockView'
 import StockLedgerView from '@/components/views/StockLedgerView'
 import SettingsView from '@/components/views/SettingsView'
+import AiAgentsView from '@/components/views/AiAgentsView'
 import ProfileDialog from '@/components/ProfileDialog'
 import { clearSession } from '@/lib/auth'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -40,6 +41,7 @@ export default function Home(){
       'masterdata.suppliers': 'Suppliers',
       'masterdata.products': 'Products',
       'masterdata.users': 'Users',
+      'ai.insights': 'AI Insights',
       'settings': 'Settings'
     }
 
@@ -75,6 +77,8 @@ export default function Home(){
         return <SettingsProductsView />
       case 'masterdata.users':
         return <SettingsUsersView />
+      case 'ai.insights':
+        return <AiAgentsView />
       case 'settings':
         return <SettingsView />
       default:

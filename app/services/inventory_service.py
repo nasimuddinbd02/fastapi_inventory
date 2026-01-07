@@ -102,7 +102,7 @@ class InventoryService:
         service_logger.debug(f"Mapping inventory update {inventory_id} to DTO")
         # Map ViewModel to DTO (validates product if name provided)
         try:
-            inventory_dto = await map_inventory_update_viewmodel_to_dto(inventory_viewmodel, self.db)
+            inventory_dto = map_inventory_update_viewmodel_to_dto(inventory_viewmodel)
         except Exception as e:
             service_logger.error(f"Failed to map inventory update viewmodel for inventory {inventory_id}: {str(e)}")
             raise BusinessLogicError(

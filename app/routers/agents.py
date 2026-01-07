@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, Query
 from typing import List, Optional
 from datetime import datetime, timezone
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.services.agent_service import AgentService
 from app.dependencies import get_agent_service
+from app.database import get_db
 from app.agents import AgentType
 from app.viewmodels.agent import (
     AgentAnalysisRequest, AgentAnalysisResponse, AgentCapabilitiesResponse,
@@ -14,28 +16,6 @@ import logging
 router_logger = logging.getLogger("app.routers.agents")
 
 router = APIRouter(prefix="/agents", tags=["agents"])
-
-@router.post("/analyze/{agent_type}", response_model=AgentAnalysisResponse)
-async def analyze_with_agent(
-    agent_type: AgentType,
-    request: AgentAnalysisRequest,
-    service: AgentService = Depends(get_agent_service)
-):
-    """Run analysis with a specific AI agent"""
-    router_logger.info(f"Running analysis with agent: {agent_type.value}")
-
-    decision = await service.run_agent_analysis(agent_type, request.context)
-
-    router_logger.info(f"Agent {agent_type.value} analysis completed with {len(decision.actions)} actions")
-    return AgentAnalysisResponse(
-        agent_type=decision.agent_type,
-        decision=decision.decision,
-        confidence_score=decision.confidence_score,
-        actions=decision.actions,
-        reasoning=decision.reasoning,
-        timestamp=decision.timestamp,
-        context_summary=f"Analysis based on {len(request.context)} context items"
-    )
 
 @router.post("/analyze/all", response_model=List[AgentAnalysisResponse])
 async def analyze_with_all_agents(
@@ -61,15 +41,38 @@ async def analyze_with_all_agents(
         for decision in decisions
     ]
 
+@router.post("/analyze/{agent_type}", response_model=AgentAnalysisResponse)
+async def analyze_with_agent(
+    agent_type: AgentType,
+    request: AgentAnalysisRequest,
+    service: AgentService = Depends(get_agent_service)
+):
+    """Run analysis with a specific AI agent"""
+    router_logger.info(f"Running analysis with agent: {agent_type.value}")
+
+    decision = await service.run_agent_analysis(agent_type, request.context)
+
+    router_logger.info(f"Agent {agent_type.value} analysis completed with {len(decision.actions)} actions")
+    return AgentAnalysisResponse(
+        agent_type=decision.agent_type,
+        decision=decision.decision,
+        confidence_score=decision.confidence_score,
+        actions=decision.actions,
+        reasoning=decision.reasoning,
+        timestamp=decision.timestamp,
+        context_summary=f"Analysis based on {len(request.context)} context items"
+    )
+
 @router.post("/execute-action", response_model=AgentActionExecutionResponse)
 async def execute_agent_action(
     request: AgentActionExecutionRequest,
-    service: AgentService = Depends(get_agent_service)
+    service: AgentService = Depends(get_agent_service),
+    db: AsyncSession = Depends(get_db)
 ):
     """Execute a specific agent action"""
     router_logger.info(f"Executing action: {request.action.action_type} for agent: {request.agent_type.value}")
 
-    result = await service.execute_agent_action(request.agent_type, request.action)
+    result = await service.execute_agent_action(request.agent_type, request.action, db)
 
     router_logger.info(f"Action {request.action.action_type} executed successfully")
     return AgentActionExecutionResponse(
@@ -118,14 +121,10 @@ async def get_decision_history(
     ]
 
 @router.post("/context", response_model=dict)
-async def get_agent_context(service: AgentService = Depends(get_agent_service)):
-    """Get context data for agents (for testing/debugging)"""
-    # In a real implementation, this would use a database session
-    context = await service.get_context_for_agents(None)
-    return {
-        "context_items": len(context),
-        "timestamp": context["timestamp"],
-        "products_count": len(context["products"]),
-        "sales_records": len(context["sales_history"]),
-        "competitor_data": len(context["competitor_prices"])
-    }
+async def get_agent_context(
+    service: AgentService = Depends(get_agent_service),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get context data for agents"""
+    context = await service.get_context_for_agents(db)
+    return context

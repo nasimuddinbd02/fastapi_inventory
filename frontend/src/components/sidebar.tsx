@@ -23,6 +23,7 @@ import {
   ChevronUp,
   Shield,
   HelpCircle,
+  Brain,
   type LucideIcon
 } from 'lucide-react'
 
@@ -79,6 +80,12 @@ const navSections: NavSection[] = [
     items: [
       { key: 'stock', icon: BarChart3, label: 'Stock Position', view: 'stock' },
       { key: 'ledger', icon: ClipboardList, label: 'Stock Ledger', view: 'ledger' },
+    ]
+  },
+  {
+    title: 'Intelligence',
+    items: [
+      { key: 'ai.insights', icon: Brain, label: 'AI Insights', view: 'ai.insights' },
     ]
   },
   {

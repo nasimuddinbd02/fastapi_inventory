@@ -23,11 +23,11 @@ class AgentType(Enum):
     SUPPLIER_MANAGEMENT = "supplier_management"
     QUALITY_CONTROL = "quality_control"
 
-class AgentPriority(Enum):
-    LOW = 1
-    MEDIUM = 2
-    HIGH = 3
-    CRITICAL = 4
+class AgentPriority(str, Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
 
 @dataclass
 class AgentAction:
@@ -67,12 +67,17 @@ class BaseAgent:
         self.name = name
         self.logger = logging.getLogger(f"app.agents.{agent_type.value}")
 
-        # Initialize OpenAI LLM
-        self.llm = ChatOpenAI(
-            model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
-            temperature=float(os.getenv("OPENAI_TEMPERATURE", "0.1")),
-            openai_api_key=os.getenv("OPENAI_API_KEY")
-        )
+        # Initialize OpenAI LLM or Mock
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key or api_key.startswith("your_"):
+            self.logger.warning("OPENAI_API_KEY unavailable. Using Mock LLM.")
+            self.llm = MockLLM()
+        else:
+            self.llm = ChatOpenAI(
+                model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+                temperature=float(os.getenv("OPENAI_TEMPERATURE", "0.1")),
+                openai_api_key=api_key
+            )
 
         # Build the LangGraph workflow
         self.workflow = self._build_workflow()
@@ -227,6 +232,21 @@ class BaseAgent:
 
         return state
 
+    async def execute_action(self, action: AgentAction) -> Dict[str, Any]:
+        """Execute a specific action"""
+        self.logger.info(f"Executing action: {action.action_type}")
+        
+        # In a real system, this would trigger actual business logic
+        # For now, we'll simulate execution and return a success result
+        
+        return {
+            "success": True,
+            "action_type": action.action_type,
+            "timestamp": datetime.now(),
+            "details": f"Executed {action.action_type} with parameters: {action.parameters}",
+            "simulated": True
+        }
+
     async def analyze(self, context: Dict[str, Any]) -> AgentDecision:
         """Run the complete analysis workflow"""
         try:
@@ -337,12 +357,25 @@ class InventoryOptimizationAgent(BaseAgent):
 
     def get_action_prompt(self) -> str:
         return """
-        Generate specific inventory actions such as:
-        - Reorder recommendations with quantities
-        - Stock level adjustments
-        - Safety stock modifications
-        - Supplier priority changes
-        - Inventory policy updates
+        Generate specific inventory actions.
+        CRITICAL: Return strictly a JSON array of objects.
+        
+        Supported 'action_type' values:
+        - "update_stock_quantity": For changing stock levels (Must include 'product_id' and 'quantity_change' in parameters)
+        - "update_product_price": For changing prices (Must include 'product_id' and 'new_price' in parameters)
+        - "create_alert": For notifications (Must include 'message' in parameters)
+
+        Example:
+        [
+            {
+                "action_type": "update_stock_quantity",
+                "description": "Restock Red Lipstick due to low stock",
+                "parameters": {"product_id": 1, "quantity_change": 20},
+                "priority": "HIGH",
+                "requires_approval": true,
+                "estimated_impact": "Prevent stockout in 2 days"
+            }
+        ]
         """
 
 
@@ -419,10 +452,22 @@ class PricingOptimizationAgent(BaseAgent):
 
     def get_action_prompt(self) -> str:
         return """
-        Generate pricing actions such as:
-        - Price adjustments with new price points
-        - Promotional pricing strategies
-        - Dynamic pricing rules
-        - Competitor monitoring recommendations
-        - Profit margin targets
+        Generate pricing actions.
+        CRITICAL: Return strictly a JSON array of objects.
+        
+        Supported 'action_type' values:
+        - "update_product_price": For changing prices (Must include 'product_id' and 'new_price' in parameters)
+        - "create_alert": For notifications
+
+        Example:
+        [
+            {
+                "action_type": "update_product_price",
+                "description": "Decrease price for seasonal sale",
+                "parameters": {"product_id": 2, "new_price": 19.99},
+                "priority": "MEDIUM",
+                "requires_approval": true,
+                "estimated_impact": "Increase sales volume by 15%"
+            }
+        ]
         """

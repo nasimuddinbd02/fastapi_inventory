@@ -4,12 +4,8 @@ from app.viewmodels.category import (
 from app.schemas.category import CategoryCreate, CategoryUpdate, Category
 import logging
 
-from automapper import Mapper
 
 mapper_logger = logging.getLogger("app.mappers.category")
-
-# Create mapper instance
-mapper = Mapper()
 
 def map_category_create_viewmodel_to_dto(viewmodel: CategoryCreateViewModel) -> CategoryCreate:
     """Map CategoryCreateViewModel to CategoryCreate DTO using py-automapper"""

@@ -9,12 +9,8 @@ from app.mappers.supplier_mapper import map_supplier_to_viewmodel
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 
-from automapper import Mapper
 
 mapper_logger = logging.getLogger("app.mappers.product_mapper")
-
-# Create mapper instance
-mapper = Mapper()
 
 async def map_product_create_viewmodel_to_dto(viewmodel: ProductCreateViewModel, db: AsyncSession) -> ProductCreate:
     """Map ProductCreateViewModel to ProductCreate DTO using py-automapper - resolve names to IDs"""

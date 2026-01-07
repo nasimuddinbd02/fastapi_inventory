@@ -6,12 +6,8 @@ from app.dbAccess.product import get_product_by_name
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 
-from automapper import Mapper
 
 mapper_logger = logging.getLogger("app.mappers.inventory_mapper")
-
-# Create mapper instance
-mapper = Mapper()
 
 async def map_inventory_create_viewmodel_to_dto(viewmodel: InventoryCreateViewModel, db: AsyncSession) -> InventoryCreate:
     """Map InventoryCreateViewModel to InventoryCreate DTO using py-automapper - resolve product name to ID"""
@@ -32,7 +28,8 @@ async def map_inventory_create_viewmodel_to_dto(viewmodel: InventoryCreateViewMo
     mapper_logger.debug(f"Inventory create viewmodel mapped successfully for product: {viewmodel.product_title}")
     return result
 
-async def map_inventory_update_viewmodel_to_dto(viewmodel: InventoryUpdateViewModel, db: AsyncSession) -> InventoryUpdate:
+
+def map_inventory_update_viewmodel_to_dto(viewmodel: InventoryUpdateViewModel) -> InventoryUpdate:
     """Map InventoryUpdateViewModel to InventoryUpdate DTO using py-automapper"""
     mapper_logger.debug("Mapping inventory update viewmodel")
     update_data = {}
