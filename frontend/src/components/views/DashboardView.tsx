@@ -78,15 +78,15 @@ export default function DashboardView() {
 
     return {
       totalProducts,
-      totalStockValue: isNaN(totalStockValue) ? 0 : totalStockValue,
+      totalStockValue: Number.isNaN(totalStockValue) ? 0 : totalStockValue,
       lowStockCount: lowStockItems.length,
       outOfStockCount: outOfStockItems.length,
       lowStockItems,
       outOfStockItems,
       todayIntakesCount: todayIntakes.length,
       todayDispatchesCount: todayDispatches.length,
-      totalIntakeValue: isNaN(totalIntakeValue) ? 0 : totalIntakeValue,
-      totalDispatchValue: isNaN(totalDispatchValue) ? 0 : totalDispatchValue
+      totalIntakeValue: Number.isNaN(totalIntakeValue) ? 0 : totalIntakeValue,
+      totalDispatchValue: Number.isNaN(totalDispatchValue) ? 0 : totalDispatchValue
     }
   }, [products, intakeOrders, dispatchOrders])
 
@@ -254,6 +254,10 @@ export default function DashboardView() {
             <Button onClick={() => navigateTo('masterdata.products')} variant="outline" className="gap-2">
               <Package className="h-4 w-4" />
               Manage Products
+            </Button>
+            <Button onClick={() => navigateTo('ai.insights')} variant="outline" className="gap-2">
+              <Package className="h-4 w-4" />
+              AI Insights
             </Button>
           </div>
         </CardContent>

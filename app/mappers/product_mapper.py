@@ -81,7 +81,7 @@ def map_product_to_viewmodel(product: Product) -> ProductViewModel:
     
     result = ProductViewModel(
         id=product.id,
-        product_title=product.name,
+        product_title=product.name or "Unknown Product",
         product_description=product.description,
         unit_price=product.price,
         category=map_category_to_viewmodel(product.category) if product.category else None,

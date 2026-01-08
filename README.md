@@ -248,6 +248,7 @@ OPENAI_TEMPERATURE=0.1
 ## 📦 Installation & Setup
 
 ### Prerequisites
+
 - **Python**: 3.13+ (for backend)
 - **Node.js**: 18.x or higher (for frontend)
 - **npm**: 8.x or higher (for frontend)
@@ -256,17 +257,20 @@ OPENAI_TEMPERATURE=0.1
 ### Backend Setup
 
 1. **Clone the repository** (if applicable)
+
    ```bash
    git clone <repository-url>
    cd fastapi_inventory
    ```
 
 2. **Create virtual environment**
+
    ```bash
    python -m venv .venv
    ```
 
 3. **Activate virtual environment**
+
    - Windows:
      ```powershell
      .venv\Scripts\activate
@@ -277,17 +281,19 @@ OPENAI_TEMPERATURE=0.1
      ```
 
 4. **Install backend dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 5. **Configure environment variables** (Optional - for AI features)
-   
+
    Create a `.env` file in the project root:
+
    ```env
    # OpenAI API Configuration
    OPENAI_API_KEY=your_openai_api_key_here
-   
+
    # Optional: OpenAI Model Configuration
    OPENAI_MODEL=gpt-4o-mini
    OPENAI_TEMPERATURE=0.1
@@ -296,17 +302,19 @@ OPENAI_TEMPERATURE=0.1
 ### Frontend Setup
 
 1. **Navigate to frontend directory**
+
    ```bash
    cd frontend
    ```
 
 2. **Install frontend dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Configure API endpoint** (if needed)
-   
+
    The frontend defaults to `http://localhost:8000`. If your backend runs on a different URL, update the API configuration in the frontend code.
 
 ## 🚀 Running the Application
@@ -314,21 +322,25 @@ OPENAI_TEMPERATURE=0.1
 ### Running Backend Server
 
 1. **Activate virtual environment** (if not already activated)
+
    ```powershell
    .venv\Scripts\activate  # Windows
    ```
+
    ```bash
    source .venv/bin/activate  # Linux/Mac
    ```
 
 2. **Start the FastAPI server**
-   
+
    Option 1 - Using uvicorn directly:
+
    ```bash
    uvicorn main:app --reload
    ```
-   
+
    Option 2 - Using the start script:
+
    ```bash
    python start_server.py
    ```
@@ -341,11 +353,13 @@ OPENAI_TEMPERATURE=0.1
 ### Running Frontend Application
 
 1. **Navigate to frontend directory**
+
    ```bash
    cd frontend
    ```
 
 2. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -358,6 +372,7 @@ OPENAI_TEMPERATURE=0.1
 For a complete development environment:
 
 **Terminal 1 - Backend:**
+
 ```powershell
 # Windows
 .venv\Scripts\activate
@@ -365,6 +380,7 @@ uvicorn main:app --reload
 ```
 
 **Terminal 2 - Frontend:**
+
 ```powershell
 cd frontend
 npm run dev
@@ -373,11 +389,13 @@ npm run dev
 ### Production Build
 
 **Backend:**
+
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm run build
@@ -389,24 +407,30 @@ npm run start
 The application includes comprehensive testing scripts for the agentic AI functionality:
 
 ### Quick Demo
+
 Run the comprehensive demo to test all agent features:
+
 ```bash
 python full_demo.py
 ```
 
 This will:
+
 - Start the server automatically
 - Test all agent endpoints
 - Demonstrate inventory optimization and demand forecasting
 - Show agent capabilities and system status
 
 ### Individual Agent Testing
+
 Test specific agents with custom data:
+
 ```bash
 python demo_agents.py
 ```
 
 ### Manual Testing
+
 Use the interactive API documentation at `http://127.0.0.1:8000/docs` to manually test agent endpoints.
 
 ### Running Tests
@@ -436,11 +460,13 @@ An export of the Postman collection is available at `postman_scripts.json` in th
 ### Example Agent Requests
 
 **Get Agent Capabilities:**
+
 ```bash
 GET /agents/capabilities
 ```
 
 **Run Inventory Optimization:**
+
 ```bash
 POST /agents/analyze/inventory_optimization
 Content-Type: application/json
@@ -468,6 +494,7 @@ Content-Type: application/json
 The API provides both unversioned (current stable) and versioned (v1) endpoints for all resources.
 
 ### Categories
+
 - `POST /categories` | `POST /v1/categories` - Create a category
 - `GET /categories` | `GET /v1/categories` - List categories (with pagination)
 - `GET /categories/{id}` | `GET /v1/categories/{id}` - Get category by ID
@@ -475,6 +502,7 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - `DELETE /categories/{id}` | `DELETE /v1/categories/{id}` - Delete category
 
 ### Suppliers
+
 - `POST /suppliers` | `POST /v1/suppliers` - Create a supplier
 - `GET /suppliers` | `GET /v1/suppliers` - List suppliers (with pagination)
 - `GET /suppliers/{id}` | `GET /v1/suppliers/{id}` - Get supplier by ID
@@ -482,6 +510,7 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - `DELETE /suppliers/{id}` | `DELETE /v1/suppliers/{id}` - Delete supplier
 
 ### Products
+
 - `POST /products` | `POST /v1/products` - Create a product
 - `GET /products` | `GET /v1/products` - List products (with pagination)
 - `GET /products/{id}` | `GET /v1/products/{id}` - Get product by ID
@@ -489,6 +518,7 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - `DELETE /products/{id}` | `DELETE /v1/products/{id}` - Delete product
 
 ### Inventory
+
 - `POST /inventory` | `POST /v1/inventory` - Create inventory entry
 - `GET /inventory` | `GET /v1/inventory` - List inventory entries (with pagination)
 - `GET /inventory/{id}` | `GET /v1/inventory/{id}` - Get inventory entry by ID
@@ -496,6 +526,7 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - `DELETE /inventory/{id}` | `DELETE /v1/inventory/{id}` - Delete inventory entry
 
 ### Users
+
 - `POST /users/` | `POST /v1/users/` - Create a user (public)
 - `POST /users/login` | `POST /v1/users/login` - Authenticate user and get JWT token (public)
 - `GET /users/me` | `GET /v1/users/me` - Get current authenticated user info (protected)
@@ -505,6 +536,7 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - `DELETE /users/{id}` | `DELETE /v1/users/{id}` - Delete user (protected)
 
 ### 🤖 AI Agents
+
 - `GET /agents/capabilities` | `GET /v1/agents/capabilities` - List agent capabilities
 - `GET /agents/status` | `GET /v1/agents/status` - Get agent system status
 - `POST /agents/context` | `POST /v1/agents/context` - Gather context data
@@ -516,6 +548,7 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - `GET /agents/history` | `GET /v1/agents/history` - Get decision history
 
 ### Root
+
 - `GET /` | `GET /v1/` - API information
 
 ## 📊 Database
@@ -524,6 +557,155 @@ The API provides both unversioned (current stable) and versioned (v1) endpoints 
 - **File**: `inventory.db` (auto-created in project root)
 - **Driver**: aiosqlite for async operations
 - **Migration**: Tables created automatically on startup using SQLAlchemy metadata
+
+### 🗄️ Database Tables Schema
+
+#### 1. users
+
+System users for authentication and authorization.
+
+| Column            | Type     | Key    | attributes  | Description            |
+| ----------------- | -------- | ------ | ----------- | ---------------------- |
+| `id`              | Integer  | PK     |             | Unique identifier      |
+| `username`        | String   | Unique | Index       | Login username         |
+| `email`           | String   | Unique | Index       | User email address     |
+| `hashed_password` | String   |        |             | Bcrypt hashed password |
+| `full_name`       | String   |        | Nullable    | User's full name       |
+| `is_active`       | Integer  |        | Default 1   | Account status         |
+| `created_at`      | DateTime |        | Default Now | Creation timestamp     |
+| `updated_at`      | DateTime |        |             | Last update timestamp  |
+
+#### 2. categories
+
+Product categories hierarchy.
+
+| Column        | Type    | Key    | attributes | Description          |
+| ------------- | ------- | ------ | ---------- | -------------------- |
+| `id`          | Integer | PK     |            | Unique identifier    |
+| `name`        | String  | Unique | Index      | Category name        |
+| `description` | Text    |        | Nullable   | Category description |
+
+#### 3. suppliers
+
+Product vendors and suppliers.
+
+| Column          | Type    | Key    | attributes | Description             |
+| --------------- | ------- | ------ | ---------- | ----------------------- |
+| `id`            | Integer | PK     |            | Unique identifier       |
+| `name`          | String  | Unique | Index      | Supplier company name   |
+| `contact_info`  | Text    |        | Nullable   | General contact details |
+| `contact_email` | String  |        | Nullable   | Contact email address   |
+
+#### 4. products
+
+Master product catalog.
+
+| Column        | Type    | Key | attributes | Description            |
+| ------------- | ------- | --- | ---------- | ---------------------- |
+| `id`          | Integer | PK  |            | Unique identifier      |
+| `name`        | String  |     | Index      | Product Name           |
+| `description` | Text    |     | Nullable   | Product description    |
+| `price`       | Float   |     |            | Product unit price     |
+| `category_id` | Integer | FK  |            | Ref -> `categories.id` |
+| `supplier_id` | Integer | FK  |            | Ref -> `suppliers.id`  |
+
+#### 5. inventory
+
+Current stock levels for products.
+
+| Column       | Type    | Key | attributes | Description              |
+| ------------ | ------- | --- | ---------- | ------------------------ |
+| `id`         | Integer | PK  |            | Unique identifier        |
+| `product_id` | Integer | FK  |            | Ref -> `products.id`     |
+| `quantity`   | Float   |     |            | Current stock quantity   |
+| `location`   | String  |     | Nullable   | Warehouse/Shelf location |
+
+#### 6. intake_orders
+
+Incoming stock shipments (Purchase Orders).
+
+| Column          | Type     | Key    | attributes      | Description                   |
+| --------------- | -------- | ------ | --------------- | ----------------------------- |
+| `id`            | Integer  | PK     |                 | Unique identifier             |
+| `intake_number` | String   | Unique | Index           | PO Number (e.g., PO-2024-001) |
+| `intake_date`   | DateTime |        |                 | Date of intake                |
+| `supplier_id`   | Integer  | FK     |                 | Ref -> `suppliers.id`         |
+| `status`        | Enum     |        | Default 'draft' | draft, confirmed, cancelled   |
+| `total_cost`    | Numeric  |        |                 | Total order cost              |
+| `notes`         | String   |        | Nullable        | Notes                         |
+| `created_at`    | DateTime |        |                 | Creation timestamp            |
+| `updated_at`    | DateTime |        |                 | Last update timestamp         |
+
+#### 7. intake_items
+
+Line items for intake orders.
+
+| Column            | Type    | Key | attributes | Description               |
+| ----------------- | ------- | --- | ---------- | ------------------------- |
+| `id`              | Integer | PK  |            | Unique identifier         |
+| `intake_order_id` | Integer | FK  |            | Ref -> `intake_orders.id` |
+| `product_id`      | Integer | FK  |            | Ref -> `products.id`      |
+| `quantity`        | Integer |     |            | Quantity received         |
+| `unit_cost`       | Numeric |     |            | Cost per unit             |
+| `total_cost`      | Numeric |     |            | Line total (qty \* cost)  |
+
+#### 8. dispatch_orders
+
+Outgoing stock (Sales Orders).
+
+| Column            | Type     | Key    | attributes      | Description                      |
+| ----------------- | -------- | ------ | --------------- | -------------------------------- |
+| `id`              | Integer  | PK     |                 | Unique identifier                |
+| `dispatch_number` | String   | Unique | Index           | SO Number (e.g., DO-2024-001)    |
+| `dispatch_date`   | DateTime |        |                 | Date of dispatch                 |
+| `customer_name`   | String   |        | Nullable        | Customer name                    |
+| `status`          | Enum     |        | Default 'draft' | draft, completed, cancelled      |
+| `payment_method`  | Enum     |        | Nullable        | cash, credit_card, bank_transfer |
+| `subtotal`        | Numeric  |        |                 | Subtotal amount                  |
+| `tax_amount`      | Numeric  |        |                 | Tax amount                       |
+| `total_amount`    | Numeric  |        |                 | Grand total                      |
+| `created_at`      | DateTime |        |                 | Creation timestamp               |
+| `updated_at`      | DateTime |        |                 | Last update timestamp            |
+
+#### 9. dispatch_items
+
+Line items for dispatch orders.
+
+| Column              | Type    | Key | attributes | Description                 |
+| ------------------- | ------- | --- | ---------- | --------------------------- |
+| `id`                | Integer | PK  |            | Unique identifier           |
+| `dispatch_order_id` | Integer | FK  |            | Ref -> `dispatch_orders.id` |
+| `product_id`        | Integer | FK  |            | Ref -> `products.id`        |
+| `quantity`          | Integer |     |            | Quantity sold               |
+| `unit_price`        | Numeric |     |            | Price per unit              |
+| `total_price`       | Numeric |     |            | Line total (qty \* price)   |
+
+#### 10. app_settings
+
+Dynamic application configuration.
+
+| Column        | Type    | Key    | attributes        | Description                  |
+| ------------- | ------- | ------ | ----------------- | ---------------------------- |
+| `id`          | Integer | PK     |                   | Unique identifier            |
+| `key`         | String  | Unique | Index             | Setting key name             |
+| `value`       | String  |        | Nullable          | Setting value                |
+| `value_type`  | String  |        | Default 'string'  | Data type identifier         |
+| `category`    | String  |        | Default 'general' | Grouping category            |
+| `description` | String  |        | Nullable          | Description of functionality |
+
+### 🔗 Entity Relationships Diagram (Textual)
+
+```mermaid
+erDiagram
+    categories ||--o{ products : "contains"
+    suppliers ||--o{ products : "supplies"
+    suppliers ||--o{ intake_orders : "fulfills"
+    products ||--|| inventory : "has stock"
+    products ||--o{ intake_items : "listed in"
+    products ||--o{ dispatch_items : "listed in"
+    intake_orders ||--|{ intake_items : "contains"
+    dispatch_orders ||--|{ dispatch_items : "contains"
+```
 
 ## � Authentication
 
@@ -548,6 +730,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -566,6 +749,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### Protected Endpoints
 
 The following endpoints require authentication:
+
 - `GET /users/me` - Get current user info
 - `GET /users/` - List all users
 - `PUT /users/{id}` - Update user
@@ -587,14 +771,14 @@ The API supports versioning to ensure backward compatibility while allowing for 
 
 ### Endpoint Examples
 
-| Resource | Unversioned | Versioned (v1) |
-|----------|-------------|----------------|
+| Resource   | Unversioned   | Versioned (v1)   |
+| ---------- | ------------- | ---------------- |
 | Categories | `/categories` | `/v1/categories` |
-| Suppliers | `/suppliers` | `/v1/suppliers` |
-| Products | `/products` | `/v1/products` |
-| Inventory | `/inventory` | `/v1/inventory` |
-| Users | `/users` | `/v1/users` |
-| Root | `/` | `/v1/` |
+| Suppliers  | `/suppliers`  | `/v1/suppliers`  |
+| Products   | `/products`   | `/v1/products`   |
+| Inventory  | `/inventory`  | `/v1/inventory`  |
+| Users      | `/users`      | `/v1/users`      |
+| Root       | `/`           | `/v1/`           |
 
 ### Backward Compatibility
 
@@ -630,21 +814,22 @@ All errors return a standardized JSON response:
 
 ### Error Types
 
-| Error Code | Status Code | Description |
-|------------|-------------|-------------|
-| `VALIDATION_ERROR` | 400 | Input validation failed |
-| `NOT_FOUND` | 404 | Resource not found |
-| `CONFLICT` | 409 | Resource conflict (duplicate, etc.) |
-| `AUTHENTICATION_ERROR` | 401 | Invalid or missing credentials |
-| `AUTHORIZATION_ERROR` | 403 | Insufficient permissions |
-| `BUSINESS_LOGIC_ERROR` | 400 | Business rule violation |
-| `DATABASE_ERROR` | 500 | Database operation failed |
-| `EXTERNAL_SERVICE_ERROR` | 502 | External service error |
-| `INTERNAL_SERVER_ERROR` | 500 | Unexpected server error |
+| Error Code               | Status Code | Description                         |
+| ------------------------ | ----------- | ----------------------------------- |
+| `VALIDATION_ERROR`       | 400         | Input validation failed             |
+| `NOT_FOUND`              | 404         | Resource not found                  |
+| `CONFLICT`               | 409         | Resource conflict (duplicate, etc.) |
+| `AUTHENTICATION_ERROR`   | 401         | Invalid or missing credentials      |
+| `AUTHORIZATION_ERROR`    | 403         | Insufficient permissions            |
+| `BUSINESS_LOGIC_ERROR`   | 400         | Business rule violation             |
+| `DATABASE_ERROR`         | 500         | Database operation failed           |
+| `EXTERNAL_SERVICE_ERROR` | 502         | External service error              |
+| `INTERNAL_SERVER_ERROR`  | 500         | Unexpected server error             |
 
 ### Examples
 
 **Validation Error:**
+
 ```json
 {
   "success": false,
@@ -664,6 +849,7 @@ All errors return a standardized JSON response:
 ```
 
 **Not Found Error:**
+
 ```json
 {
   "success": false,
@@ -685,12 +871,14 @@ All errors return a standardized JSON response:
 ## 🧪 Testing
 
 ### Using Postman
+
 1. Import the provided Postman collection: `postman_scripts.json`
 2. Update the `base_url` variable to `http://127.0.0.1:8000`
 3. The collection includes both unversioned and v1 endpoints for testing
 4. Use the login endpoint to get a JWT token, which is automatically stored in the `jwt_token` variable
 
 ### Error Handling Testing
+
 Run the error handling test script to verify centralized error handling:
 
 ```bash
@@ -698,12 +886,14 @@ python test_error_handling.py
 ```
 
 This script tests:
+
 - Not Found errors (404)
 - Validation errors (400)
 - Authentication errors (401)
 - Both unversioned and v1 endpoints
 
 ### Manual Testing
+
 Use the interactive Swagger UI at `/docs` or curl commands:
 
 ```bash
@@ -759,6 +949,7 @@ curl -X GET http://127.0.0.1:8000/v1/users/me \
 ## 📝 Development
 
 ### Adding New Features
+
 1. Create ViewModel in `app/viewmodels/`
 2. Add mapper in `app/mappers/`
 3. Implement service in `app/services/`
@@ -767,6 +958,7 @@ curl -X GET http://127.0.0.1:8000/v1/users/me \
 6. Include router in `app/main.py`
 
 ### Code Style
+
 - Follow PEP 8 conventions
 - Use type hints
 - Write docstrings for functions and classes

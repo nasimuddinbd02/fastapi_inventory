@@ -1317,6 +1317,49 @@
           }
         }
       ]
+    },
+    {
+      "name": "Dispatch API",
+      "item": [
+        { "name": "Get All Dispatch Orders (Unversioned)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/dispatch/?page=1&page_size=10", "host": ["{{base_url}}"], "path": ["dispatch", ""], "query": [{"key": "page", "value": "1"}, {"key": "page_size", "value": "10"}] } } },
+        { "name": "Get All Dispatch Orders (v1)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/v1/dispatch/?page=1&page_size=10", "host": ["{{base_url}}"], "path": ["v1", "dispatch", ""], "query": [{"key": "page", "value": "1"}, {"key": "page_size", "value": "10"}] } } },
+        { "name": "Get Dispatch Order by ID (Unversioned)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/dispatch/1", "host": ["{{base_url}}"], "path": ["dispatch", "1"] } } },
+        { "name": "Get Dispatch Order by ID (v1)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/v1/dispatch/1", "host": ["{{base_url}}"], "path": ["v1", "dispatch", "1"] } } },
+        { "name": "Create Dispatch Order (Unversioned)", "request": { "method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"dispatch_number\": \"DO-2024-001\",\n  \"customer_name\": \"John Doe\",\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 5,\n      \"unit_price\": 19.99\n    }\n  ],\n  \"status\": \"draft\"\n}" }, "url": { "raw": "{{base_url}}/dispatch/", "host": ["{{base_url}}"], "path": ["dispatch", ""] } } },
+        { "name": "Create Dispatch Order (v1)", "request": { "method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"dispatch_number\": \"DO-2024-001\",\n  \"customer_name\": \"John Doe\",\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 5,\n      \"unit_price\": 19.99\n    }\n  ],\n  \"status\": \"draft\"\n}" }, "url": { "raw": "{{base_url}}/v1/dispatch/", "host": ["{{base_url}}"], "path": ["v1", "dispatch", ""] } } },
+        { "name": "Update Dispatch Order (Unversioned)", "request": { "method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"status\": \"completed\",\n  \"payment_method\": \"credit_card\"\n}" }, "url": { "raw": "{{base_url}}/dispatch/1", "host": ["{{base_url}}"], "path": ["dispatch", "1"] } } },
+        { "name": "Update Dispatch Order (v1)", "request": { "method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"status\": \"completed\",\n  \"payment_method\": \"credit_card\"\n}" }, "url": { "raw": "{{base_url}}/v1/dispatch/1", "host": ["{{base_url}}"], "path": ["v1", "dispatch", "1"] } } },
+        { "name": "Delete Dispatch Order (Unversioned)", "request": { "method": "DELETE", "url": { "raw": "{{base_url}}/dispatch/1", "host": ["{{base_url}}"], "path": ["dispatch", "1"] } } },
+        { "name": "Delete Dispatch Order (v1)", "request": { "method": "DELETE", "url": { "raw": "{{base_url}}/v1/dispatch/1", "host": ["{{base_url}}"], "path": ["v1", "dispatch", "1"] } } }
+      ]
+    },
+    {
+      "name": "Intake API",
+      "item": [
+        { "name": "Get All Intake Orders (Unversioned)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/intake/?page=1&page_size=10", "host": ["{{base_url}}"], "path": ["intake", ""], "query": [{"key": "page", "value": "1"}, {"key": "page_size", "value": "10"}] } } },
+        { "name": "Get All Intake Orders (v1)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/v1/intake/?page=1&page_size=10", "host": ["{{base_url}}"], "path": ["v1", "intake", ""], "query": [{"key": "page", "value": "1"}, {"key": "page_size", "value": "10"}] } } },
+        { "name": "Get Intake Order by ID (Unversioned)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/intake/1", "host": ["{{base_url}}"], "path": ["intake", "1"] } } },
+        { "name": "Get Intake Order by ID (v1)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/v1/intake/1", "host": ["{{base_url}}"], "path": ["v1", "intake", "1"] } } },
+        { "name": "Create Intake Order (Unversioned)", "request": { "method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"intake_number\": \"PO-2024-001\",\n  \"supplier_id\": 1,\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 100,\n      \"unit_cost\": 10.50\n    }\n  ],\n  \"status\": \"draft\"\n}" }, "url": { "raw": "{{base_url}}/intake/", "host": ["{{base_url}}"], "path": ["intake", ""] } } },
+        { "name": "Create Intake Order (v1)", "request": { "method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"intake_number\": \"PO-2024-001\",\n  \"supplier_id\": 1,\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 100,\n      \"unit_cost\": 10.50\n    }\n  ],\n  \"status\": \"draft\"\n}" }, "url": { "raw": "{{base_url}}/v1/intake/", "host": ["{{base_url}}"], "path": ["v1", "intake", ""] } } },
+        { "name": "Update Intake Order (Unversioned)", "request": { "method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"status\": \"confirmed\",\n  \"notes\": \"Received in good condition\"\n}" }, "url": { "raw": "{{base_url}}/intake/1", "host": ["{{base_url}}"], "path": ["intake", "1"] } } },
+        { "name": "Update Intake Order (v1)", "request": { "method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"status\": \"confirmed\",\n  \"notes\": \"Received in good condition\"\n}" }, "url": { "raw": "{{base_url}}/v1/intake/1", "host": ["{{base_url}}"], "path": ["v1", "intake", "1"] } } },
+        { "name": "Delete Intake Order (Unversioned)", "request": { "method": "DELETE", "url": { "raw": "{{base_url}}/intake/1", "host": ["{{base_url}}"], "path": ["intake", "1"] } } },
+        { "name": "Delete Intake Order (v1)", "request": { "method": "DELETE", "url": { "raw": "{{base_url}}/v1/intake/1", "host": ["{{base_url}}"], "path": ["v1", "intake", "1"] } } }
+      ]
+    },
+    {
+      "name": "Settings API",
+      "item": [
+        { "name": "Get All Settings (Unversioned)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/settings/", "host": ["{{base_url}}"], "path": ["settings", ""] } } },
+        { "name": "Get All Settings (v1)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/v1/settings/", "host": ["{{base_url}}"], "path": ["v1", "settings", ""] } } },
+        { "name": "Get Setting by Key (Unversioned)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/settings/site_title", "host": ["{{base_url}}"], "path": ["settings", "site_title"] } } },
+        { "name": "Get Setting by Key (v1)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/v1/settings/site_title", "host": ["{{base_url}}"], "path": ["v1", "settings", "site_title"] } } },
+        { "name": "Update Settings (Unversioned)", "request": { "method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"settings\": [\n    { \"key\": \"site_title\", \"value\": \"My Cosmetic Shop\", \"category\": \"general\" }\n  ]\n}" }, "url": { "raw": "{{base_url}}/settings/", "host": ["{{base_url}}"], "path": ["settings", ""] } } },
+        { "name": "Update Settings (v1)", "request": { "method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": { "mode": "raw", "raw": "{\n  \"settings\": [\n    { \"key\": \"site_title\", \"value\": \"My Cosmetic Shop\", \"category\": \"general\" }\n  ]\n}" }, "url": { "raw": "{{base_url}}/v1/settings/", "host": ["{{base_url}}"], "path": ["v1", "settings", ""] } } },
+        { "name": "Initialize Settings (Unversioned)", "request": { "method": "POST", "url": { "raw": "{{base_url}}/settings/initialize", "host": ["{{base_url}}"], "path": ["settings", "initialize"] } } },
+        { "name": "Initialize Settings (v1)", "request": { "method": "POST", "url": { "raw": "{{base_url}}/v1/settings/initialize", "host": ["{{base_url}}"], "path": ["v1", "settings", "initialize"] } } }
+      ]
     }
   ]
 }

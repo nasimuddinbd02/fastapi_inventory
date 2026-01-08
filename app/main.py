@@ -8,6 +8,7 @@ from app.logging_config import setup_logging
 from app.dbAccess.settings import initialize_default_settings
 from app.exceptions import AppException
 from app.error_responses import ErrorResponse
+from app.config import settings as app_settings
 import logging
 import uuid
 
@@ -17,7 +18,7 @@ logger = logging.getLogger("app")
 
 @asynccontextmanager
 async def app_lifespan(app: FastAPI):
-    logger.info("Starting Cosmetics Inventory API")
+    logger.info(f"Starting {app_settings.PROJECT_NAME}")
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables created/verified successfully")
@@ -30,13 +31,18 @@ async def app_lifespan(app: FastAPI):
     try:
         yield
     finally:
-        logger.info("Shutting down Cosmetics Inventory API")
+        logger.info(f"Shutting down {app_settings.PROJECT_NAME}")
 
-app = FastAPI(title="Cosmetics Inventory API", description="API for managing cosmetics inventory", version="1.0.0", lifespan=app_lifespan)
+app = FastAPI(
+    title=app_settings.PROJECT_NAME, 
+    description="API for managing cosmetics inventory", 
+    version=app_settings.VERSION, 
+    lifespan=app_lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=app_settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
