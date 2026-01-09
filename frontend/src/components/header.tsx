@@ -17,8 +17,15 @@ import {
   Building2,
   Box,
   Users,
-  Settings
+  Settings,
+  Slash,
+  User,
+  Command,
+  HelpCircle,
+  Brain
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import NotificationMenu from './NotificationMenu'
 
 const pageConfig: Record<ViewKey, { title: string; icon: React.ReactNode; parent?: string }> = {
   'dashboard': { title: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
@@ -31,7 +38,10 @@ const pageConfig: Record<ViewKey, { title: string; icon: React.ReactNode; parent
   'masterdata.suppliers': { title: 'Suppliers', icon: <Building2 className="w-4 h-4" />, parent: 'Master Data' },
   'masterdata.products': { title: 'Products', icon: <Box className="w-4 h-4" />, parent: 'Master Data' },
   'masterdata.users': { title: 'Users', icon: <Users className="w-4 h-4" />, parent: 'Master Data' },
-  'settings': { title: 'Settings', icon: <Settings className="w-4 h-4" /> }
+  'settings': { title: 'Settings', icon: <Settings className="w-4 h-4" /> },
+  'help': { title: 'Help & Tools', icon: <HelpCircle className="w-4 h-4" /> },
+  'ai.insights': { title: 'AI Intelligence', icon: <Brain className="w-4 h-4" /> },
+  'profile': { title: 'Account Settings', icon: <User className="w-4 h-4" /> }
 }
 
 type HeaderProps = {
@@ -45,86 +55,109 @@ export default function Header({ onOpenProduct, onToggleSidebar, activeView = 'd
   const config = pageConfig[activeView] || pageConfig.dashboard
   
   return (
-    <header className="bg-header border-b border-border h-14 flex items-center sticky top-0 z-40 shadow-sm backdrop-blur-sm bg-opacity-95">
-      <div className="w-full px-4 flex items-center justify-between">
-        {/* Left Section: Logo, Company & Breadcrumb */}
-        <div className="flex items-center gap-3">
-          {/* Mobile menu button */}
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      <div className="w-full px-6 flex h-16 items-center justify-between gap-4">
+        
+        {/* Left Section: Mobile Menu + Logo + Breadcrumbs */}
+        <div className="flex items-center gap-4 lg:gap-8">
+          
+          {/* Mobile Menu */}
           <button 
             onClick={() => onToggleSidebar?.()} 
-            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            className="lg:hidden p-2 -ml-2 rounded-md text-muted-foreground hover:bg-muted/50 transition-colors"
             aria-label="Toggle menu"
           >
-            <Menu className="w-5 h-5 text-header-foreground" />
+            <Menu className="w-5 h-5" />
           </button>
           
-          {/* Logo & Company Name */}
-          <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary">
-              <Package className="w-5 h-5" />
+          <div className="flex items-center gap-6">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-blue-600 shadow-sm text-primary-foreground transform transition-transform hover:scale-105">
+                <svg 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  className="text-primary-foreground"
+                >
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
+              <div className="hidden md:flex flex-col justify-center">
+                <span className="text-sm font-bold tracking-tight text-foreground leading-none">
+                  {companyName || 'Inventory Mastery'}
+                </span>
+                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-0.5">
+                  Workspace
+                </span>
+              </div>
             </div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-sm font-semibold text-header-foreground leading-tight">
-                {companyName || 'Inventory Pro'}
-              </span>
-              <span className="text-[10px] text-muted-foreground leading-tight">
-                Management System
-              </span>
-            </div>
+
+            {/* Separator / Breadcrumbs */}
+            <div className="hidden md:flex items-center h-5 w-px bg-border/60 mx-2" />
+
+            <nav className="hidden md:flex items-center text-sm font-medium">
+              {config.parent && (
+                <div className="flex items-center text-muted-foreground">
+                  <span className="hover:text-foreground transition-colors cursor-pointer">
+                    {config.parent}
+                  </span>
+                  <Slash className="w-[10px] h-[10px] mx-2 text-muted-foreground/40 -rotate-[15deg]" />
+                </div>
+              )}
+              <div className="flex items-center gap-2 text-foreground bg-muted/30 px-2 py-1 rounded-md border border-border/40">
+                <span className="text-primary/80">{config.icon}</span>
+                <span>{config.title}</span>
+              </div>
+            </nav>
           </div>
-          
-          {/* Divider */}
-          <div className="hidden md:block w-px h-8 bg-border mx-1" />
-          
-          {/* Breadcrumb Navigation */}
-          <nav className="hidden md:flex items-center gap-1.5 text-sm">
-            {config.parent && (
-              <>
-                <span className="text-muted-foreground">{config.parent}</span>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
-              </>
-            )}
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50">
-              <span className="text-primary">{config.icon}</span>
-              <span className="font-medium text-header-foreground">{config.title}</span>
-            </div>
-          </nav>
         </div>
         
-        {/* Right Section: Search, Notifications, Quick Actions */}
-        <div className="flex items-center gap-2">
-          {/* Search Button */}
+        {/* Right Section: Search + Actions */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          
+          {/* Search Bar */}
           <button 
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-muted/30 hover:bg-muted transition-colors text-sm text-muted-foreground"
+            className="group hidden sm:flex items-center gap-2 h-9 px-3 rounded-lg border border-input bg-muted/20 hover:bg-muted/40 hover:border-primary/20 transition-all duration-200 w-full sm:w-56 lg:w-72"
             aria-label="Search"
           >
-            <Search className="w-4 h-4" />
-            <span className="hidden lg:inline">Search...</span>
-            <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono bg-background rounded border border-border">
-              ⌘K
+            <Search className="w-4 h-4 text-muted-foreground group-hover:text-primary/70 transition-colors" />
+            <span className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors">Search...</span>
+            <kbd className="hidden lg:inline-flex ml-auto items-center gap-1 h-5 px-1.5 text-[10px] font-medium text-muted-foreground bg-background/50 border border-border/50 rounded shadow-sm font-mono">
+              <span className="text-xs">⌘</span>K
             </kbd>
           </button>
           
-          {/* Notifications */}
-          <button 
-            className="relative p-2 rounded-lg hover:bg-muted transition-colors"
-            aria-label="Notifications"
-          >
-            <Bell className="w-5 h-5 text-header-foreground" />
-            {/* Notification Badge */}
-            <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-            </span>
-          </button>
-          
-          {/* Mobile Page Title */}
-          <div className="md:hidden flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50">
-            <span className="text-primary">{config.icon}</span>
-            <span className="text-sm font-medium text-header-foreground truncate max-w-[100px]">
-              {config.title}
-            </span>
+          <div className="flex items-center gap-2 border-l border-border/60 pl-4">
+            {/* Notifications */}
+            {/* Notifications */}
+            <NotificationMenu />
+            
+            {/* Profile Avatar Trigger - Removed as per user request to use Sidebar for profile actions */}
+            {/* 
+            <button 
+              className="flex items-center justify-center p-0.5 rounded-full border border-border hover:border-primary/50 transition-colors ring-offset-background ml-1"
+              aria-label="User Profile"
+            >
+              <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 flex items-center justify-center overflow-hidden">
+                 <User className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </button> 
+            */}
           </div>
+          
+          {/* Mobile Page Title (Visible only on mobile) */}
+          <div className="md:hidden flex items-center gap-2 text-sm font-medium mr-2">
+             <span className="text-primary">{config.icon}</span>
+          </div>
+
         </div>
       </div>
     </header>

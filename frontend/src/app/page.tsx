@@ -14,6 +14,8 @@ import StockView from '@/components/views/StockView'
 import StockLedgerView from '@/components/views/StockLedgerView'
 import SettingsView from '@/components/views/SettingsView'
 import AiAgentsView from '@/components/views/AiAgentsView'
+import HelpView from '@/components/views/HelpView'
+import ProfileView from '@/components/views/ProfileView'
 import ProfileDialog from '@/components/ProfileDialog'
 import { clearSession } from '@/lib/auth'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -42,7 +44,9 @@ export default function Home(){
       'masterdata.products': 'Products',
       'masterdata.users': 'Users',
       'ai.insights': 'AI Insights',
-      'settings': 'Settings'
+      'settings': 'Settings',
+      'help': 'Help & Tools',
+      'profile': 'My Profile'
     }
 
     const pageTitle = titleMap[activeView] || 'Dashboard'
@@ -81,6 +85,10 @@ export default function Home(){
         return <AiAgentsView />
       case 'settings':
         return <SettingsView />
+      case 'help':
+        return <HelpView />
+      case 'profile':
+        return <ProfileView />
       default:
         return <DashboardView />
     }
@@ -101,13 +109,12 @@ export default function Home(){
       return
     }
     if (action === 'profile'){
-      setProfileDialogTab('profile')
-      setProfileDialogOpen(true)
+      dispatch(setActiveView('profile'))
       return
     }
     if (action === 'help'){
-      setProfileDialogTab('help')
-      setProfileDialogOpen(true)
+      // Redirect to the Help view instead of the dialog tab
+      dispatch(setActiveView('help'))
       return
     }
   }

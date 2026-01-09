@@ -8,6 +8,8 @@ from app.viewmodels.intake import (
 )
 from typing import List, Tuple
 from datetime import datetime, timezone
+from app.services.notification_service import NotificationService
+from app.viewmodels.notification import NotificationCreateViewModel
 
 
 class IntakeService:
@@ -54,6 +56,24 @@ class IntakeService:
             data.status
         )
         
+        # Notify
+        try:
+            notification_service = NotificationService(self.db)
+            await notification_service.create_and_broadcast(NotificationCreateViewModel(
+                type="info",
+                title="New Intake Order",
+                message=f"Intake order {order.intake_number} created.",
+                resource_type="intake",
+                resource_id=int(order.id)
+            ))
+        except Exception:
+            pass # Don't fail the request if notification fails
+
+        except Exception:
+            pass # Don't fail the request if notification fails
+
+        # Refresh to handle expire caused by notification service commit
+        await self.db.refresh(order)
         return map_intake_order_to_viewmodel(order)
     
     async def update_intake_order(
@@ -83,6 +103,25 @@ class IntakeService:
             data.notes
         )
         
+        if order and data.status == 'confirmed':
+             try:
+                notification_service = NotificationService(self.db)
+                await notification_service.create_and_broadcast(NotificationCreateViewModel(
+                    type="success",
+                    title="Intake Confirmed",
+                    message=f"Intake order {order.intake_number} has been confirmed.",
+                    resource_type="intake",
+                    resource_id=int(order.id)
+                ))
+             except Exception:
+                pass
+
+             except Exception:
+                pass
+
+        if order:
+            await self.db.refresh(order)
+
         return map_intake_order_to_viewmodel(order) if order else None
     
     async def delete_intake_order(self, order_id: int) -> bool:

@@ -13,6 +13,8 @@ type ViewKey =
   | 'masterdata.users'
   | 'ai.insights'
   | 'settings'
+  | 'help'
+  | 'profile'
 
 type UiState = {
   activeView: ViewKey

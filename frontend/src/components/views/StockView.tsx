@@ -70,35 +70,61 @@ export default function StockView() {
   }
 
   return (
-    <div className="space-y-4 pt-4">
-      <p className="text-sm text-muted-foreground">View real-time inventory levels across all products. Monitor stock status, identify low inventory items, and analyze stock distribution by category.</p>
+    <div className="space-y-6 pt-4">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight">Stock Balance</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Real-time inventory levels, stock status monitoring, and categorical analysis.
+          </p>
+        </div>
+      </div>
+
+      {/* Metrics Header */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-muted/30 p-4 rounded-lg border flex items-center gap-4">
+          <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg">
+             <TableIcon className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">Total Products</p>
+            <h3 className="text-2xl font-bold">{total}</h3>
+          </div>
+        </div>
+        {/* Placeholder for future global stats if available */}
+      </div>
       
       <Tabs defaultValue="table" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
-          <TabsTrigger value="table">
-            <TableIcon className="h-4 w-4 mr-2" />
-            Table View
-          </TabsTrigger>
-          <TabsTrigger value="charts">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Charts
-          </TabsTrigger>
-        </TabsList>
+        <div className="flex items-center justify-between mb-4">
+          <TabsList className="grid w-[400px] grid-cols-2">
+            <TabsTrigger value="table">
+              <TableIcon className="h-4 w-4 mr-2" />
+              Table View
+            </TabsTrigger>
+            <TabsTrigger value="charts">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Charts & Analysis
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
             {/* Table View */}
             <TabsContent value="table" className="space-y-4">
-              <div className="flex items-center space-x-2">
+              {/* Toolbar */}
+              <div className="flex items-center gap-3 bg-card p-2 rounded-lg border shadow-sm">
                 <div className="relative flex-1">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search by product name, category, supplier..."
+                    placeholder="Search products by name, category, supplier..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="pl-8"
+                    className="pl-9 bg-background border-none shadow-none focus-visible:ring-0"
                   />
                 </div>
-                <Button onClick={handleSearch}>Search</Button>
+                <div className="h-6 w-px bg-border mx-2" />
+                <Button variant="ghost" size="sm" onClick={handleSearch}>Refresh</Button>
               </div>
 
               {loading ? (

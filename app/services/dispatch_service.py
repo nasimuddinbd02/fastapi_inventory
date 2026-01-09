@@ -8,6 +8,8 @@ from app.viewmodels.dispatch import (
 )
 from typing import List, Tuple
 from datetime import datetime, timezone
+from app.services.notification_service import NotificationService
+from app.viewmodels.notification import NotificationCreateViewModel
 
 
 class DispatchService:
@@ -56,6 +58,21 @@ class DispatchService:
             data.status
         )
         
+        # Notify
+        try:
+            notification_service = NotificationService(self.db)
+            await notification_service.create_and_broadcast(NotificationCreateViewModel(
+                type="info",
+                title="New Dispatch Order",
+                message=f"Dispatch order {order.dispatch_number} created for {order.customer_name}.",
+                resource_type="dispatch",
+                resource_id=int(order.id)
+            ))
+        except Exception:
+            pass
+
+        # Refresh order to handle expire_on_commit from notification service
+        await self.db.refresh(order)
         return map_dispatch_order_to_viewmodel(order)
     
     async def update_dispatch_order(
@@ -87,6 +104,23 @@ class DispatchService:
             data.tax_rate
         )
         
+        if order and data.status == 'completed':
+            try:
+                notification_service = NotificationService(self.db)
+                await notification_service.create_and_broadcast(NotificationCreateViewModel(
+                    type="success",
+                    title="Dispatch Completed",
+                    message=f"Dispatch order {order.dispatch_number} has been completed.",
+                    resource_type="dispatch",
+                    resource_id=int(order.id)
+                ))
+            except Exception:
+                pass
+        
+        # Refresh order to handle expire_on_commit from notification service
+        if order: 
+            await self.db.refresh(order)
+            
         return map_dispatch_order_to_viewmodel(order) if order else None
     
     async def delete_dispatch_order(self, order_id: int) -> bool:

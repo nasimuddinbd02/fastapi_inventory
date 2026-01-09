@@ -150,27 +150,65 @@ export default function IntakeView() {
 
   return (
     <div className="space-y-4 pt-4">
-      <p className="text-sm text-muted-foreground">Record incoming inventory from suppliers. Create intake orders to track received goods and update stock levels automatically.</p>
-      
-      <div className="flex flex-row items-center justify-start mb-4">
-        <Button onClick={handleCreate}>
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight">Intake Orders</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Manage incoming inventory, track shipments, and update stock levels.
+          </p>
+        </div>
+        <Button onClick={handleCreate} className="shadow-sm">
           <Plus className="mr-2 h-4 w-4" />
-          New Intake
+          Create Intake
         </Button>
       </div>
 
-      <div className="flex items-center space-x-2 mb-4">
+      {/* Metrics Strip */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-muted/30 p-4 rounded-lg border flex items-center gap-4">
+          <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg">
+             <Pencil className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">Draft Orders</p>
+            <h3 className="text-2xl font-bold">{items.filter(i => i.status === 'draft').length}</h3>
+          </div>
+        </div>
+        <div className="bg-muted/30 p-4 rounded-lg border flex items-center gap-4">
+          <div className="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-lg">
+             <Eye className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">Confirmed</p>
+            <h3 className="text-2xl font-bold">{items.filter(i => i.status === 'confirmed').length}</h3>
+          </div>
+        </div>
+        <div className="bg-muted/30 p-4 rounded-lg border flex items-center gap-4">
+          <div className="p-2 bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-lg">
+             <Search className="w-5 h-5" />
+          </div>
+          <div>
+             <p className="text-sm font-medium text-muted-foreground">Total Records</p>
+             <h3 className="text-2xl font-bold">{total}</h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Toolbar */}
+      <div className="flex items-center gap-3 bg-card p-2 rounded-lg border shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by intake number, supplier..."
+            placeholder="Search intakes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            className="pl-8"
+            className="pl-9 bg-background border-none shadow-none focus-visible:ring-0"
           />
         </div>
-        <Button onClick={handleSearch}>Search</Button>
+        <div className="h-6 w-px bg-border mx-2" />
+        <Button variant="ghost" size="sm" onClick={handleSearch}>Refresh</Button>
       </div>
 
       {loading ? (

@@ -8,6 +8,7 @@ import usersReducer from './usersSlice'
 import intakeReducer from './intakeSlice'
 import dispatchReducer from './dispatchSlice'
 import settingsReducer from './settingsSlice'
+import notificationReducer from './notificationSlice'
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     intake: intakeReducer,
     dispatch: dispatchReducer,
     settings: settingsReducer,
+    notifications: notificationReducer,
   }
 })
 

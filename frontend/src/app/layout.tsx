@@ -8,6 +8,9 @@ import { GlobalLoading } from '@/components/ui/global-loading'
 import { AuthGuard } from '@/components/auth/AuthGuard'
 import { AuthExpiryHandler } from '@/components/auth/AuthExpiryHandler'
 import '@/lib/axiosInterceptor' // Initialize axios interceptor
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Inventory UI',
@@ -17,7 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }){
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+      <body className={`${inter.className} bg-background text-foreground`}>
         <StoreProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
             <SettingsProvider>

@@ -16,6 +16,8 @@ from app.auth import (
 from datetime import timedelta
 from pydantic import BaseModel
 from typing import Optional
+from app.services.notification_service import NotificationService
+from app.viewmodels.notification import NotificationCreateViewModel
 
 class Token(BaseModel):
     access_token: str
@@ -104,6 +106,25 @@ class UserService:
         updated_user = await crud_update_user(self.db, user_id, user_dto)
         if not updated_user:
             return None
+
+        # Notify
+        try:
+            notification_service = NotificationService(self.db)
+            await notification_service.create_and_broadcast(NotificationCreateViewModel(
+                user_id=updated_user.id,
+                type="info",
+                title="Profile Updated",
+                message="Your profile details have been updated.",
+                resource_type="user",
+                resource_id=int(updated_user.id)
+            ))
+        except Exception:
+            pass
+
+        # Refresh to handle expire caused by notification service commit
+        # Need to be careful here if updated_user was not attached (it is though, from crud_update)
+        if updated_user:
+             await self.db.refresh(updated_user)
 
         return map_user_to_viewmodel(updated_user)
 

@@ -183,21 +183,30 @@ export default function StockLedgerView() {
   }
 
   return (
-    <div className="space-y-4 pt-4">
-      <div className="flex flex-row items-center justify-between mb-4">
-        <p className="text-sm text-muted-foreground">Track all inventory movements in chronological order. Review intake and dispatch transactions to maintain accurate audit trails.</p>
-        <Select value={filterPeriod} onValueChange={(value) => setFilterPeriod(value as FilterPeriod)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select period" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="today">Today</SelectItem>
-            <SelectItem value="week">This Week</SelectItem>
-            <SelectItem value="month">This Month</SelectItem>
-            <SelectItem value="year">This Year</SelectItem>
-            <SelectItem value="all">All Time</SelectItem>
-          </SelectContent>
-        </Select>
+    <div className="space-y-6 pt-4">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight">Stock Ledger</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Chronological audit trail of all inventory movements (intake & dispatch).
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+           <span className="text-sm text-muted-foreground mr-1">Filter Period:</span>
+           <Select value={filterPeriod} onValueChange={(value) => setFilterPeriod(value as FilterPeriod)}>
+            <SelectTrigger className="w-[180px] bg-background">
+              <SelectValue placeholder="Select period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="today">Today</SelectItem>
+              <SelectItem value="week">This Week</SelectItem>
+              <SelectItem value="month">This Month</SelectItem>
+              <SelectItem value="year">This Year</SelectItem>
+              <SelectItem value="all">All Time</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Summary Cards */}

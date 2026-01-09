@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
 from app.database import engine, Base, SessionLocal
-from app.routers import categories, suppliers, products, inventory, users, agents, intake, dispatch, settings
+from app.routers import categories, suppliers, products, inventory, users, agents, intake, dispatch, settings, notifications
 from app.logging_config import setup_logging
 from app.dbAccess.settings import initialize_default_settings
 from app.exceptions import AppException
@@ -120,6 +120,7 @@ app.include_router(agents.router)
 app.include_router(intake.router)
 app.include_router(dispatch.router)
 app.include_router(settings.router)
+app.include_router(notifications.router)
 
 # API Versioning - v1 endpoints using APIRouter
 v1_router = APIRouter(prefix="/v1")
@@ -139,6 +140,7 @@ v1_router.include_router(agents.router, tags=["v1/agents"])
 v1_router.include_router(intake.router, tags=["v1/intake"])
 v1_router.include_router(dispatch.router, tags=["v1/dispatch"])
 v1_router.include_router(settings.router, tags=["v1/settings"])
+v1_router.include_router(notifications.router, tags=["v1/notifications"])
 
 # Attach v1 router to main app
 app.include_router(v1_router)
