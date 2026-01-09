@@ -17029,3 +17029,726 @@ product_title
 2026-01-07 13:35:18 - app.dbAccess.settings - INFO - initialize_default_settings:49 - Default settings initialized
 2026-01-07 13:35:18 - app - INFO - app_lifespan:28 - Default application settings initialized
 2026-01-07 13:35:24 - app - INFO - app_lifespan:33 - Shutting down Cosmetics Inventory API
+2026-01-07 13:36:48 - app - INFO - app_lifespan:21 - Starting Cosmetics Inventory API
+2026-01-07 13:36:48 - app - INFO - app_lifespan:24 - Database tables created/verified successfully
+2026-01-07 13:36:48 - app.dbAccess.settings - INFO - initialize_default_settings:41 - Initializing default settings
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: company_name
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: admin_email
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: currency
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: date_format
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: low_stock_threshold
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_low_stock_alerts
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: auto_generate_intake_number
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: auto_generate_dispatch_number
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: items_per_page
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: show_stock_value_in_dashboard
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_dark_mode
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_email_notifications
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_browser_notifications
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: notify_on_low_stock
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: notify_on_new_intake
+2026-01-07 13:36:48 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: notify_on_new_dispatch
+2026-01-07 13:36:48 - app.dbAccess.settings - INFO - initialize_default_settings:49 - Default settings initialized
+2026-01-07 13:36:48 - app - INFO - app_lifespan:29 - Default application settings initialized
+2026-01-07 13:36:54 - app - INFO - app_lifespan:21 - Starting Cosmetics Inventory API
+2026-01-07 13:36:54 - app - INFO - app_lifespan:24 - Database tables created/verified successfully
+2026-01-07 13:36:54 - app.dbAccess.settings - INFO - initialize_default_settings:41 - Initializing default settings
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: company_name
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: admin_email
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: currency
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: date_format
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: low_stock_threshold
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_low_stock_alerts
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: auto_generate_intake_number
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: auto_generate_dispatch_number
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: items_per_page
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: show_stock_value_in_dashboard
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_dark_mode
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_email_notifications
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: enable_browser_notifications
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: notify_on_low_stock
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: notify_on_new_intake
+2026-01-07 13:36:54 - app.dbAccess.settings - DEBUG - get_setting_by_key:54 - Querying setting by key: notify_on_new_dispatch
+2026-01-07 13:36:54 - app.dbAccess.settings - INFO - initialize_default_settings:49 - Default settings initialized
+2026-01-07 13:36:54 - app - INFO - app_lifespan:29 - Default application settings initialized
+2026-01-07 13:37:07 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=10, search=None
+2026-01-07 13:37:07 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=10, search=None
+2026-01-07 13:37:07 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=10, search=None
+2026-01-07 13:37:07 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:37:07 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:37:07 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:07 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:07 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:07 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:37:07 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:37:07 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:37:53 - app.routers.settings - INFO - get_settings:15 - Fetching application settings
+2026-01-07 13:37:53 - app.dbAccess.settings - DEBUG - get_all_settings:62 - Querying all settings
+2026-01-07 13:37:53 - app.dbAccess.settings - DEBUG - get_all_settings:65 - Retrieved 16 settings
+2026-01-07 13:37:53 - app.routers.settings - INFO - get_settings:18 - Application settings retrieved successfully
+2026-01-07 13:37:53 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=100, search=None
+2026-01-07 13:37:53 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:37:53 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=100, search=None
+2026-01-07 13:37:53 - app.routers.settings - INFO - get_settings:15 - Fetching application settings
+2026-01-07 13:37:53 - app.dbAccess.settings - DEBUG - get_all_settings:62 - Querying all settings
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:37:53 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:37:53 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:37:53 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=100, search=None
+2026-01-07 13:37:53 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:37:53 - app.dbAccess.settings - DEBUG - get_all_settings:65 - Retrieved 16 settings
+2026-01-07 13:37:53 - app.routers.settings - INFO - get_settings:18 - Application settings retrieved successfully
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 13:37:53 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:53 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:37:53 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:37:53 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:37:53 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=100, search=None
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 13:37:53 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:53 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:53 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 13:37:57 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=10, search=None
+2026-01-07 13:37:57 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=10, search=None
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=10, search=None
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:37:57 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:37:57 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:37:57 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=10, search=None
+2026-01-07 13:37:57 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=10, search=None
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=10, search=None
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:37:57 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:57 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:37:57 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:37:57 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:37:57 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:37:59 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=10, search=None
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=10, search=None
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:59 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 13:37:59 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=10, search=None
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=10, search=None
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 13:37:59 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:37:59 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:37:59 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 13:38:00 - app.routers.suppliers - INFO - read_suppliers:40 - Fetching suppliers with page=1, page_size=10, search=None
+2026-01-07 13:38:00 - app.services.supplier_service - INFO - get_suppliers:61 - Retrieving suppliers with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - get_suppliers:31 - Querying suppliers with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - get_suppliers:38 - Retrieved 6 suppliers
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - count_suppliers:43 - Counting suppliers with search=None
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - count_suppliers:50 - Supplier count result: 6
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: LuxuryBrands
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: LuxuryBrands
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: Mouth Wash
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: Mouth Wash
+2026-01-07 13:38:00 - app.services.supplier_service - INFO - get_suppliers:65 - Retrieved 6 suppliers out of total 6
+2026-01-07 13:38:00 - app.routers.suppliers - INFO - read_suppliers:43 - Retrieved 6 suppliers out of total 6
+2026-01-07 13:38:00 - app.routers.suppliers - INFO - read_suppliers:40 - Fetching suppliers with page=1, page_size=10, search=None
+2026-01-07 13:38:00 - app.services.supplier_service - INFO - get_suppliers:61 - Retrieving suppliers with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - get_suppliers:31 - Querying suppliers with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - get_suppliers:38 - Retrieved 6 suppliers
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - count_suppliers:43 - Counting suppliers with search=None
+2026-01-07 13:38:00 - app.dbAccess.supplier - DEBUG - count_suppliers:50 - Supplier count result: 6
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: LuxuryBrands
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: LuxuryBrands
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: Mouth Wash
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: Mouth Wash
+2026-01-07 13:38:00 - app.services.supplier_service - INFO - get_suppliers:65 - Retrieved 6 suppliers out of total 6
+2026-01-07 13:38:00 - app.routers.suppliers - INFO - read_suppliers:43 - Retrieved 6 suppliers out of total 6
+2026-01-07 13:38:00 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=10, search=None
+2026-01-07 13:38:00 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:38:00 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:38:00 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:38:00 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=10, search=None
+2026-01-07 13:38:00 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=10, search=None
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 13:38:00 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 13:38:00 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 13:38:00 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 13:38:01 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 13:38:01 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 13:38:01 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 13:38:01 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 13:38:01 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 13:38:01 - app.services.agent_service - INFO - _initialize_agents:39 - Initialized 3 AI agents
+2026-01-07 13:38:02 - app.routers.settings - INFO - get_settings:15 - Fetching application settings
+2026-01-07 13:38:02 - app.dbAccess.settings - DEBUG - get_all_settings:62 - Querying all settings
+2026-01-07 13:38:02 - app.dbAccess.settings - DEBUG - get_all_settings:65 - Retrieved 16 settings
+2026-01-07 13:38:02 - app.routers.settings - INFO - get_settings:18 - Application settings retrieved successfully
+2026-01-07 13:38:02 - app.routers.settings - INFO - get_settings:15 - Fetching application settings
+2026-01-07 13:38:02 - app.dbAccess.settings - DEBUG - get_all_settings:62 - Querying all settings
+2026-01-07 13:38:02 - app.dbAccess.settings - DEBUG - get_all_settings:65 - Retrieved 16 settings
+2026-01-07 13:38:02 - app.routers.settings - INFO - get_settings:18 - Application settings retrieved successfully
+2026-01-07 14:22:20 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=100, search=None
+2026-01-07 14:22:20 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 14:22:20 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 14:22:20 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 14:22:20 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 14:22:20 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=100, search=None
+2026-01-07 14:22:20 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 14:22:20 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:20 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 14:22:20 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 14:22:20 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 14:22:20 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=100, search=None
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 14:22:20 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:20 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:20 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 14:22:29 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=100, search=None
+2026-01-07 14:22:29 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 14:22:29 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 14:22:29 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 14:22:29 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 14:22:29 - app.routers.products - INFO - read_products:40 - Fetching products with page=1, page_size=100, search=None
+2026-01-07 14:22:29 - app.services.product_service - INFO - get_products:62 - Retrieving products with skip=0, limit=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - get_products:44 - Querying products with skip=0, limit=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
+2026-01-07 14:22:29 - app.routers.categories - INFO - read_categories:40 - Fetching categories with page=1, page_size=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - get_categories:28 - Querying categories with skip=0, limit=100, search=None
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - get_products:58 - Retrieved 7 products
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - count_products:63 - Counting products with search=None
+2026-01-07 14:22:29 - app.dbAccess.product - DEBUG - count_products:70 - Product count result: 7
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Matte Lipstick
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Matte Lipstick (stock: 403.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Foundation
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: BeautyCorp
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: BeautyCorp
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Foundation (stock: 81.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Volume Shampoo
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Volume Shampoo (stock: 449.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Repair Conditioner
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Repair Conditioner (stock: 220.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Hair Mask
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: CosmeticPlus
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Hair Mask (stock: 90.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Polish Set
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: TrendyCosmetics
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Polish Set (stock: 180.0)
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:76 - Mapping product to viewmodel: Nail Strengthener
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:45 - Mapping supplier to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.supplier_mapper - DEBUG - map_supplier_to_viewmodel:53 - Supplier mapped to viewmodel: NaturalGlow
+2026-01-07 14:22:29 - app.mappers.product_mapper - DEBUG - map_product_to_viewmodel:92 - Product mapped to viewmodel: Nail Strengthener (stock: 350.0)
+2026-01-07 14:22:29 - app.services.product_service - INFO - get_products:66 - Retrieved 7 products out of total 7
+2026-01-07 14:22:29 - app.routers.products - INFO - read_products:43 - Retrieved 7 products out of total 7
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - get_categories:35 - Categories query returned 3 results
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - count_categories:40 - Counting categories with search=None
+2026-01-07 14:22:29 - app.dbAccess.category - DEBUG - count_categories:47 - Category count result: 3
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Skincare
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Skincare
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Makeup
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:32 - Mapping Category DTO to ViewModel: Hair Care
+2026-01-07 14:22:29 - app.mappers.category - DEBUG - map_category_to_viewmodel:39 - Mapping result: category_name=Hair Care
+2026-01-07 14:22:29 - app.routers.categories - INFO - read_categories:43 - Retrieved 3 categories out of total 3
