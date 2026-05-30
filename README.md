@@ -171,56 +171,157 @@ fastapi_inventory/
     └── 📄 run_tests.ps1                # PowerShell test runner
 ```
 
-### Architecture Layers
+## 🏗️ System Architecture & Data Flow
 
-The backend follows a clean **N-tier architecture** with clear separation of concerns:
+This application is built as a decoupled system featuring a **FastAPI backend** adhering to clean architecture patterns, and a **Next.js frontend** powered by Redux Toolkit and shadcn/ui. 
 
-1. **API Layer** (`routers/`): HTTP endpoint handlers, request/response handling
-2. **Service Layer** (`services/`): Business logic and orchestration
-3. **Mapper Layer** (`mappers/`): Transform ViewModels ↔ DTOs
-4. **Data Access Layer** (`dbAccess/`): Database operations and queries
-5. **Model Layer** (`models/`): SQLAlchemy ORM entities
-6. **Schema Layer** (`schemas/`): Internal DTOs for database operations
-7. **ViewModel Layer** (`viewmodels/`): External API contracts with validation
+### 1. Unified Architecture Map
 
-### Frontend Structure
+The diagram below represents how the frontend app, backend service layers, and the LangGraph AI Agent system interact:
 
-The frontend is built with **Next.js 14** and follows modern React patterns:
+```mermaid
+graph TB
+    subgraph Frontend Application [Next.js Client]
+        Browser[Browser UI]
+        RTK[Redux Toolkit Store]
+        Axios[Axios HTTP Client]
+    end
 
-- **App Directory**: Next.js 14 app router for routing
-- **Components**: Reusable UI components (shadcn/ui)
-- **State Management**: Redux Toolkit for global state
-- **Styling**: Tailwind CSS for utility-first styling
-- **Type Safety**: TypeScript for type checking
-- **dbAccess**: Data access layer with async database operations
-- **Models**: SQLAlchemy ORM entities
-- **Schemas**: Internal DTOs for database operations
+    subgraph API Gateway Layer [FastAPI]
+        Router[API Routers app/routers/]
+        Auth[JWT Authentication]
+    end
+
+    subgraph Presentation & Input Validation
+        VM[ViewModels app/viewmodels/]
+    end
+
+    subgraph Core Business Logic
+        Service[Service Layer app/services/]
+        AgentSys[Agent System app/agents.py]
+    end
+
+    subgraph Data Transformation Layer
+        Mapper[Mappers app/mappers/]
+        DTO[Schemas / DTOs app/schemas/]
+    end
+
+    subgraph Data Access Layer
+        DBAccess[DB Access app/dbAccess/]
+        ORM[SQLAlchemy Models app/models/]
+    end
+
+    subgraph Storage Layer
+        DB[(SQLite Database)]
+    end
+
+    %% Interactions
+    Browser <-->|User Interactions| RTK
+    RTK <-->|Dispatches Actions| Axios
+    Axios <-->|HTTP REST / JWT Bearer| Router
+    Router -->|Validates Requests| VM
+    Router -->|Invokes| Service
+    Service -->|Uses / Coordinates| AgentSys
+    Service -->|Transforms data| Mapper
+    Mapper <-->|Converts ViewModels ↔ DTOs| DTO
+    Service -->|Database Queries| DBAccess
+    DBAccess -->|Interacts with| ORM
+    ORM <-->|Executes Async SQL| DB
+```
+
+---
+
+### 2. Backend Layer Breakdown (N-Tier Architecture)
+
+The backend maintains strict isolation of concerns across several distinct layers:
+
+| Layer | Directory | Description & Responsibility |
+| :--- | :--- | :--- |
+| **API / Routing** | [`app/routers/`](file:///d:/Projects/fastapi_inventory/app/routers) | Exposes HTTP REST endpoints. Handles requests, performs authentication checks, parses queries, and serializes responses. |
+| **ViewModels** | [`app/viewmodels/`](file:///d:/Projects/fastapi_inventory/app/viewmodels) | Pydantic validation models defining external input/output contracts. Validates shape, type, and basic business rules (e.g., negative values). |
+| **Services** | [`app/services/`](file:///d:/Projects/fastapi_inventory/app/services) | The core business logic layer. Implements business algorithms, orchestrates database actions, and triggers the AI agent runs. |
+| **Mappers** | [`app/mappers/`](file:///d:/Projects/fastapi_inventory/app/mappers) | Decouples internal data structures from external APIs by mapping `Models`/`DTOs` to `ViewModels` and vice versa. |
+| **Schemas (DTOs)** | [`app/schemas/`](file:///d:/Projects/fastapi_inventory/app/schemas) | Internal data transfer structures used primarily for database inserts, updates, and ORM operations. |
+| **Data Access (DAL)** | [`app/dbAccess/`](file:///d:/Projects/fastapi_inventory/app/dbAccess) | Encapsulates all SQLAlchemy queries and operations, keeping the SQL/ORM code isolated from business services. |
+| **Models (ORM)** | [`app/models/`](file:///d:/Projects/fastapi_inventory/app/models) | SQLAlchemy class definitions mapping directly to SQLite database tables. |
+
+---
+
+### 3. Frontend Architecture
+
+The frontend is a modern **Next.js 14** application located in the [`frontend/`](file:///d:/Projects/fastapi_inventory/frontend) folder:
+
+- **App Router** (`src/app/`): Next.js 14 filesystem-based routing. Supports server-side layout composition and client-side page rendering.
+- **State Management** (`src/store/`): Redux Toolkit is utilized for global state hydration, tracking authenticated session state, notifications, and UI panel views.
+- **Component System** (`src/components/`): Structured into reusable `ui/` components (wrapped from shadcn/ui) and feature-specific business components (like `views/AiAgentsView.tsx`).
+- **HTTP Client Configuration** (`src/config/api.ts`): Intercepts requests to automatically attach JWT authorization headers retrieved from localStorage.
+- **Hooks & Utilities** (`src/hooks/`, `src/lib/`): Reusable react hooks for responsive design and helper methods.
 
 ## 🤖 Agentic AI System with LangGraph
 
-The application includes an intelligent agentic AI system built with **LangGraph** and **OpenAI GPT models** for autonomous inventory management. The system uses advanced AI workflows to analyze data, make decisions, and generate actionable recommendations.
+The application features an autonomous agentic AI system powered by **LangGraph** and **OpenAI GPT models**. It operates via structured workflow nodes that inspect, decide, and generate actionable changes for the cosmetics inventory database.
 
-### AI Framework
+### 1. Agentic AI Pipeline (LangGraph Workflow)
 
-- **LangGraph**: Advanced graph-based workflow orchestration for complex AI decision-making
-- **OpenAI GPT**: Latest GPT models for intelligent analysis and reasoning
-- **Structured Outputs**: JSON-based responses for consistent, parseable results
-- **Multi-step Reasoning**: Sophisticated analysis workflows with context awareness
+Every AI agent in this application implements a custom graph workflow compiled with **LangGraph**. The workflow guides the LLM through a structured reasoning sequence:
 
-### AI Agents Available
+```mermaid
+graph TD
+    Start([Start Agent Analysis]) --> Node1[1. Context Analysis Node]
+    Node1 -->|JSON Insights, Risks, Opportunities| Node2[2. Strategic Decision Node]
+    Node2 -->|JSON Decision Statement & Confidence| Node3[3. Action Generation Node]
+    Node3 -->|JSON List of Actionable Tasks| Node4[4. Validation Node]
+    Node4 -->|Verified Actions & Confidence Score| End([End Analysis / Return Decision])
 
-- **Inventory Optimization Agent**: Uses AI to monitor stock levels, predict stockouts, calculate optimal reorder points, and suggest inventory adjustments
-- **Demand Forecasting Agent**: Leverages AI to analyze sales patterns, forecast future demand, identify seasonal trends, and detect demand anomalies
-- **Pricing Optimization Agent**: Applies AI to analyze pricing strategies, monitor competitors, optimize profit margins, and implement dynamic pricing
+    subgraph LangGraph State (AgentState)
+        state_ctx[context: Dict]
+        state_analysis[analysis: Dict]
+        state_decision[decision: str]
+        state_actions[actions: List]
+        state_reason[reasoning: str]
+        state_conf[confidence_score: float]
+    end
 
-### Agent Features
+    Node1 -.->|Populates| state_analysis
+    Node2 -.->|Populates| state_decision
+    Node2 -.->|Populates| state_reason
+    Node2 -.->|Populates| state_conf
+    Node3 -.->|Populates| state_actions
+```
 
-- **Advanced AI Analysis**: GPT-powered context analysis and pattern recognition
-- **Intelligent Decision Making**: Multi-step reasoning workflows for complex decisions
-- **Actionable Recommendations**: AI-generated specific actions with parameters and priorities
-- **Confidence Scoring**: AI-assessed reliability scores for decisions
-- **Context-Aware Processing**: Comprehensive analysis of inventory, sales, and market data
-- **Structured Workflows**: LangGraph orchestrates complex analysis pipelines
+---
+
+### 2. AI Framework & Features
+
+- **LangGraph Workflows**: Rather than single-shot prompts, agents execute structured multi-stage pipelines where data passes from node to node.
+- **Stateful Execution**: The `AgentState` captures analysis, parameters, and results, allowing subsequent nodes to build upon earlier reasoning stages.
+- **Structured JSON Outputs**: Employs `JsonOutputParser` and schema instructions to ensure the LLM returns parseable JSON structures for backend logic execution.
+- **Fail-safe Mock Execution**: Dynamically falls back to a custom `MockLLM` if the `OPENAI_API_KEY` is not present, allowing offline testing and full local demos without credentials.
+
+---
+
+### 3. Available Agents & Core Capabilities
+
+#### 📊 Inventory Optimization Agent (`inventory_optimization`)
+- **Focus**: Stock health, stockout risks, safety thresholds, and turnover rate.
+- **Key Capabilities**:
+  - Calculates dynamically adjusted reorder points.
+  - Predicts impending stockouts based on recent sales velocity.
+  - Suggests exact replenishment actions (e.g., `update_stock_quantity`).
+
+#### 📈 Demand Forecasting Agent (`demand_forecasting`)
+- **Focus**: Seasonal trends, sales patterns, demand fluctuations, and history logs.
+- **Key Capabilities**:
+  - Detects anomalies in customer buying behaviors.
+  - Forecasts product demand trajectories over customizable timelines.
+  - Recommends stock adjustments ahead of peak purchasing cycles.
+
+#### 🏷️ Pricing Optimization Agent (`pricing_optimization`)
+- **Focus**: Elasticity of demand, competitor indices, and margin yield.
+- **Key Capabilities**:
+  - Optimizes gross margins by proposing dynamic price changes.
+  - Detects slow-selling inventory and targets promotional pricing triggers.
+  - Dispatches automated pricing updates (e.g., `update_product_price`).
 
 ### Environment Configuration
 

@@ -70,9 +70,12 @@ async def run_demo():
             if response.status_code == 200:
                 context = response.json()
                 print("✅ Context Data Retrieved:")
-                print(f"   Products: {context['products_count']}")
-                print(f"   Sales Records: {context['sales_records']}")
-                print(f"   Competitor Data: {context['competitor_data']}")
+                products_count = context.get('products_count') if 'products_count' in context else len(context.get('products', []))
+                sales_records = context.get('sales_records') if 'sales_records' in context else len(context.get('sales_history', []))
+                competitor_data = context.get('competitor_data') if 'competitor_data' in context else len(context.get('competitor_prices', {}))
+                print(f"   Products: {products_count}")
+                print(f"   Sales Records: {sales_records}")
+                print(f"   Competitor Data: {competitor_data}")
             else:
                 print(f"❌ Failed: {response.status_code}")
 

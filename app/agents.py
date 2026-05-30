@@ -50,6 +50,81 @@ class AgentDecision:
     timestamp: datetime
     context_data: Dict[str, Any]
 
+class MockLLMResponse:
+    def __init__(self, content: str):
+        self.content = content
+
+class MockLLM:
+    """Mock LLM to simulate OpenAI responses when API key is not provided"""
+    def invoke(self, messages: List[Any]) -> MockLLMResponse:
+        prompt_content = ""
+        if messages and len(messages) > 0:
+            prompt_content = getattr(messages[-1], "content", "")
+        
+        import json
+        
+        if "key_insights" in prompt_content:
+            # Context analysis
+            mock_data = {
+                "key_insights": [
+                    "Inventory levels for several core products are nearing or have dropped below their designated reorder points.",
+                    "Recent sales velocity shows consistent customer demand, indicating high turnover capability.",
+                    "Pricing strategy has remained static despite changes in supplier costs and competitor rates."
+                ],
+                "patterns": [
+                    "Sales volume spike during weekends and promotional cycles.",
+                    "High correlation between lower pricing tiers and accelerated inventory depletion."
+                ],
+                "risks": [
+                    "Imminent stockout of top-selling items leading to lost revenue opportunity.",
+                    "Potential overstocking of low-velocity seasonal products if reorder parameters are not dynamically adjusted."
+                ],
+                "opportunities": [
+                    "Increase sales revenue by running seasonal promotions on high-stock categories.",
+                    "Optimize margins through selective dynamic pricing adjustments on low-stock, high-demand items."
+                ]
+            }
+        elif "decision" in prompt_content and "reasoning" in prompt_content:
+            # Decision making
+            mock_data = {
+                "decision": "Approve proactive replenishment and coordinate minor dynamic pricing adjustment.",
+                "reasoning": "Analysis of the current inventory vs sales velocity reveals that low-stock items require replenishment to prevent stockouts, while pricing optimization can capture higher margins during high demand peaks.",
+                "confidence_score": 0.92
+            }
+        elif "action_type" in prompt_content:
+            # Action generation
+            # Return appropriate list of action objects
+            mock_data = [
+                {
+                    "action_type": "update_stock_quantity",
+                    "description": "Replenish low stock cosmetics inventory to prevent stockouts.",
+                    "parameters": {"product_id": 1, "quantity_change": 25.0},
+                    "priority": "HIGH",
+                    "requires_approval": True,
+                    "estimated_impact": "Stabilize inventory levels and prevent stockouts for the next 15 days."
+                },
+                {
+                    "action_type": "update_product_price",
+                    "description": "Optimize pricing for high-demand cosmetics items.",
+                    "parameters": {"product_id": 1, "new_price": 18.99},
+                    "priority": "MEDIUM",
+                    "requires_approval": True,
+                    "estimated_impact": "Improve profit margins by 12% on high-velocity sales."
+                },
+                {
+                    "action_type": "create_alert",
+                    "description": "System alert for low inventory levels.",
+                    "parameters": {"message": "Critical low inventory threshold reached for top products."},
+                    "priority": "HIGH",
+                    "requires_approval": False,
+                    "estimated_impact": "Notify warehouse managers for urgent review."
+                }
+            ]
+        else:
+            mock_data = {}
+            
+        return MockLLMResponse(json.dumps(mock_data))
+
 # LangGraph State Definitions
 class AgentState(TypedDict):
     context: Dict[str, Any]
